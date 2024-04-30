@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import IniciarSesion from './pages/IniciarSesion/IniciarSesion';
+import { Helmet } from 'react-helmet';
+import favicon from './images/faviconTD.ico';
+import Fondo from './components/Fondo';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Helmet>
+        <link rel = "shortcut icon" href = {favicon} type = "image/x-ico"/>
+      </Helmet>
+      
+      <BrowserRouter>
+        <Routes>
+          <Route path="/iniciarsesion" element={<IniciarSesion/>} />
+        </Routes>
+      </BrowserRouter>
+      <Fondo/>
+    </>
   );
 }
 
