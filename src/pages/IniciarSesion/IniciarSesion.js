@@ -5,13 +5,13 @@ import "./IniciarSesion.css"
 import {Form, InputGroup, FormControl, Button} from "react-bootstrap";
 import fotoP from "../../images/fotoP.png";
 import Alerta from "../../components/Alerta";
-import { auth } from "../../firebase/firebase";
 import { useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { useAuth } from "../../contexts/auth";
 
 
 
 const IniciarSesion = () => {
+    const { login, register } = useAuth();
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -46,13 +46,11 @@ const IniciarSesion = () => {
             return;
         }
 
-
         try {
-            await signInWithEmailAndPassword(auth, email, password);
-            navigate("/")
+            login(email, password);
+            navigate("/");
         } catch (error) {
             setestadoAlerta(true);
-
             let mensaje;
             switch(error.code){
                 case 'auth/wrong-password':
@@ -68,7 +66,6 @@ const IniciarSesion = () => {
                     mensaje = 'Hubo un error al intentar ingresar';
                     break;
             }
-
             setMensaje({tipo: 'error', mensaje: mensaje});
         }
     }

@@ -4,6 +4,8 @@ import IniciarSesion from './pages/IniciarSesion/IniciarSesion';
 import { Helmet } from 'react-helmet';
 import favicon from './images/faviconTD.ico';
 import Fondo from './components/Fondo';
+import { AuthProvider } from './contexts/auth';
+
 
 function App() {
   return (
@@ -11,13 +13,14 @@ function App() {
       <Helmet>
         <link rel = "shortcut icon" href = {favicon} type = "image/x-ico"/>
       </Helmet>
-      
-      <BrowserRouter>
-        <Routes>
-          <Route path="/iniciarsesion" element={<IniciarSesion/>} />
-        </Routes>
-      </BrowserRouter>
-      <Fondo/>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/iniciarsesion" element={<IniciarSesion/>} />
+          </Routes>
+        </BrowserRouter>
+        <Fondo/>
+      </AuthProvider>
     </>
   );
 }
