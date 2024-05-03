@@ -19,6 +19,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/iniciarsesion" element={<IniciarSesion/>} />
+            {/* <Route path="/inicio" element={<Inicio/>} /> */}
             <Route  element={<ProtectedRoute/>}>
               <Route path="/" element={<Inicio/>} />
             </Route>

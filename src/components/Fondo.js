@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Fondo = styled.div`
-    background-color: #518CFF; // Color de fondo azul
+    background-color: #B7D0FF; // Color de fondo azul
     height: 100vh; // Altura completa de la vista
     width: 100vw; // Ancho completo de la vista
     position: fixed; // Posicionamiento fijo respecto a la ventana del navegador
