@@ -8,6 +8,8 @@ import userP from "../../images/userPhoto.jpg";
 import './Historial.css';
 
 const Historial = () => {
+    // const { user } = useAuth();
+    // console.log(user);
     const [searchTerm, setSearchTerm] = useState("");
     // Mock data array for users
     const users = [

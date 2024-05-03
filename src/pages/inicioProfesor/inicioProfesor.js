@@ -4,9 +4,9 @@ import { Helmet } from 'react-helmet';
 import NavBar from "../../components/navBar/navBar";
 import fotoP from "../../images/tec.png";
 import logotec from "../../images/logotec.png";
-import './Inicio.css';
+import './inicioProfesor.css';
 
-const Inicio = () => {
+const InicioProfesor = () => {
     // const { user } = useAuth();
     // console.log(user);
 
@@ -28,10 +28,8 @@ const Inicio = () => {
                  <h1> Que desea realizar? </h1>
             </div>
             <div className="button-container">
-                <button className="menu-button">Información Profesores</button>
-                <button className="menu-button">Historial Profesores</button>
-                <button className="menu-button">Información Estudiantes</button>
-                <button className="menu-button">Detalle Actividades</button>
+                <button className="menu-button">Equipo Guia</button>
+                <button className="menu-button">Lista Estudiantes</button>
                 <button className="menu-button">Plan de Trabajo</button>
             </div>
         </div>
@@ -39,4 +37,4 @@ const Inicio = () => {
     );
 }
 
-export default Inicio;
+export default InicioProfesor;

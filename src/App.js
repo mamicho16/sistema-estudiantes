@@ -6,6 +6,8 @@ import favicon from './images/faviconTD.ico';
 import Fondo from './components/Fondo';
 import { AuthProvider } from './contexts/auth';
 import Inicio from './pages/inicio/inicio';
+import InicioProfesor from './pages/inicioProfesor/inicioProfesor';
+import Historial from './pages/historial/Historial';
 import { ProtectedRoute } from './ProtectedRoute';
 
 
@@ -19,7 +21,10 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/iniciarsesion" element={<IniciarSesion/>} />
-            {/* <Route path="/inicio" element={<Inicio/>} /> */}
+            <Route path="/iniciarsesion" element={<IniciarSesion/>} />
+            <Route path="/historial" element={<Historial/>} />
+            <Route path="/inicioProfesor" element={<InicioProfesor/>} /> 
+            <Route path="/inicio" element={<Inicio/>} /> 
             <Route  element={<ProtectedRoute/>}>
               <Route path="/" element={<Inicio/>} />
             </Route>
