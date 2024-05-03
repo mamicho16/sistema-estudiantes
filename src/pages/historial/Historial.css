@@ -1,6 +1,6 @@
 .card-container {
     margin-top: 2%;
-    margin-bottom: 20%;
+    margin-bottom: 2%;
     margin-left: 5%;
     margin-right: 5%;
     display: flex;
@@ -36,9 +36,34 @@
     flex-direction: column;
     justify-content: space-around;
 }
-.subtituloH h1{
+ h1{
     margin-top: 5%;
     margin-left: 5%;
     color: white;
 
+}
+.search-bar-container {
+    margin-left: 3%;
+    display: flex;
+    /* justify-content: center; */
+    padding: 20px;
+}
+
+.search-bar-container input {
+    padding: 10px;
+    margin-left: 10%;
+    width: 20%; 
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.groupBtn{
+    margin-left: 1%;
+    font-size: 16px;
+    color: white;
+    background-color: #007BFF; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center; 
 }
