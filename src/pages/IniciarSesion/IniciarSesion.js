@@ -15,7 +15,7 @@ const IniciarSesion = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [estadoAlerta, setestadoAlerta] = useState(false);
+    const [estadoAlerta, setEstadoAlerta] = useState(false);
     const [mensaje, setMensaje] = useState({});
 
     const handleChange = (e) => {
@@ -28,48 +28,39 @@ const IniciarSesion = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setestadoAlerta(false);
+        setEstadoAlerta(false);
         setMensaje({});
 
         const expresion = /[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+/;
         const emailValido = expresion.test(email);
 
         if(password === ""|| email === ""){
-            setestadoAlerta(true);
+            setEstadoAlerta(true);
             setMensaje({tipo: 'error', mensaje: 'Todos los campos son obligatorios'});
             return;
         }
 
         if(!emailValido){
-            setestadoAlerta(true);
+            setEstadoAlerta(true);
             setMensaje({tipo: 'error', mensaje: 'Correo no válido'});
             return;
         }
 
         try {
-            login(email, password);
-            navigate("/");
-        } catch (error) {
-            setestadoAlerta(true);
-            let mensaje;
-            switch(error.code){
-                case 'auth/wrong-password':
-                    mensaje = 'Contraseña incorrecta';
-                    break;
-                case 'auth/user-not-found':
-                    mensaje = 'Usuario no encontrado';
-                    break;
-                case 'auth/invalid-email':
-                    mensaje = 'Correo no válido';
-                    break;
-                default:
-                    mensaje = 'Hubo un error al intentar ingresar';
-                    break;
+            const success = await login(email, password);
+            if (success) {
+                 navigate("/"); // Navegar a la página de inicio solo si el login es exitoso
+             } else {
+                setEstadoAlerta(true);
+                setMensaje({ tipo: 'error', mensaje: 'No se pudo iniciar sesión' });
             }
-            setMensaje({tipo: 'error', mensaje: mensaje});
+        }
+        catch (error) {
+            console.error("Error en login:", error);
+            setEstadoAlerta(true);
+            setMensaje({ tipo: 'error', mensaje: 'No se pudo iniciar sesión' });
         }
     }
-
     return (
         <>
             <Helmet>
@@ -126,7 +117,7 @@ const IniciarSesion = () => {
                 tipo={mensaje.tipo}
                 mensaje={mensaje.mensaje} 
                 estadoAlerta={estadoAlerta}
-                setestadoAlerta={setestadoAlerta}  
+                setestadoAlerta={setEstadoAlerta}  
             />
         </>
     );

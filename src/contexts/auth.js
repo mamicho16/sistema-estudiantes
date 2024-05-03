@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, createContext } from "react";
 import { auth, db } from "../firebase/firebase";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 const AuthContext = createContext();
 
@@ -16,29 +16,81 @@ export const useAuth = () => {
 export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setUser(user);
+                
+            } else {
+                setUser(null);
+            }
+            setLoading(false);
+        });
+
+        return unsubscribe; 
+    }, []);
 
     const login = async (email, password) => {
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            const infouser = await signInWithEmailAndPassword(auth, email, password).then
+            ((userCredential) => {
+                return userCredential;
+            });
+            const userinfo = infouser.user;
+            const docuSnap = loginProfesores(userinfo.uid);
+
+            const usuariofirebase = {
+                uid: user.uid,
+                email: user.email,
+                nombre: docuSnap.nombre,
+                nombre2: docuSnap.nombre2,
+                apellido1: docuSnap.apellido1,
+                apellido2: docuSnap.apellido2,
+                codigo: docuSnap.codigo,
+                celular: docuSnap.celular,
+                numOficina: docuSnap.numOficina,
+                foto: docuSnap.foto,
+                coordinador: docuSnap.coordinador,
+                estado: docuSnap.estado                
+            }
+
+            setUser(usuariofirebase);
+
+            return true; 
         } catch (error) {
             console.log(error);
+            return false;
         }
     };
+
+    const loginProfesores = async (uid) => {
+        const docuRef = doc(db, `Profesores/${uid}`);
+        const docuSnap = await getDoc(docuRef);
+        console.log(docuSnap.data());
+        return docuSnap.data();
+    }
 
     const register = async (email, password) => {
         try {
             const infouser = await createUserWithEmailAndPassword(auth, email, password).
             then((userCredential) => {
-                const user = userCredential.user;
-                console.log(user.uid);
+                return userCredential;
             });
-
+            const user = infouser.user;
             const docuRef = doc(db, `Profesores/${user.uid}`);
             setDoc(docuRef, {
                 email: email,
-                password: password,
-                role: "coordinador"
+                nombre: "Ericka",
+                nombre2: "",
+                apellido1: "Solano",
+                apellido2: "Fernández",
+                codigo: "SA-01",
+                celular: "88888888",
+                numOficina: "1",
+                foto : "",
+                coordindor: true,
+                estado: "activo"
             });
 
         } catch (error) {
@@ -49,25 +101,21 @@ export const AuthProvider = ({children}) => {
     const logout = async () => {
         try {
             await signOut(auth);
+            setUser(null);
+            console.log(user);
         } catch (error) {
             console.log(error);
         }
-    }
-
-    useEffect(() => {
-        auth.onAuthStateChanged((user) => {
-            setUser(user);
-        });
-    }, []);
+    };
 
     return (
         <AuthContext.Provider value={{
             user,
             login,
             register,
-            logout
+            logout,
         }}>
-            {children}
+            {!loading && children}
         </AuthContext.Provider>
     )
 }

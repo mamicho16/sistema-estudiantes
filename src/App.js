@@ -5,6 +5,8 @@ import { Helmet } from 'react-helmet';
 import favicon from './images/faviconTD.ico';
 import Fondo from './components/Fondo';
 import { AuthProvider } from './contexts/auth';
+import Inicio from './pages/inicio/inicio';
+import { ProtectedRoute } from './ProtectedRoute';
 
 
 function App() {
@@ -17,6 +19,9 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/iniciarsesion" element={<IniciarSesion/>} />
+            <Route  element={<ProtectedRoute/>}>
+              <Route path="/" element={<Inicio/>} />
+            </Route>
           </Routes>
         </BrowserRouter>
         <Fondo/>
