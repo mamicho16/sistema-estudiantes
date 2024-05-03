@@ -33,13 +33,19 @@ export const AuthProvider = ({children}) => {
 
     const login = async (email, password) => {
         try {
-            const infouser = await signInWithEmailAndPassword(auth, email, password).then
-            ((userCredential) => {
-                return userCredential;
-            });
-            const userinfo = infouser.user;
-            const docuSnap = loginProfesores(userinfo.uid);
-
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const userinfo = userCredential.user;
+    
+            if (!userinfo.uid) {
+                throw new Error("UID del usuario no está disponible");
+            }
+    
+            const docuSnap = await loginProfesores(userinfo.uid);
+    
+            if (!docuSnap) {
+                throw new Error("No se pudieron obtener los datos del profesor");
+            }
+    
             const usuariofirebase = {
                 uid: userinfo.uid,
                 email: userinfo.email,
@@ -54,21 +60,26 @@ export const AuthProvider = ({children}) => {
                 coordinador: docuSnap.coordinador,
                 estado: docuSnap.estado                
             }
-
+    
             setUser(usuariofirebase);
-
+    
             return true; 
         } catch (error) {
-            console.log(error);
+            console.error("Error en el login:", error);
             return false;
         }
     };
-
+    
     const loginProfesores = async (uid) => {
         const docuRef = doc(db, `Profesores/${uid}`);
         const docuSnap = await getDoc(docuRef);
-        console.log(docuSnap.data());
-        return docuSnap.data();
+        if (docuSnap.exists()) {
+            console.log("Datos del profesor:", docuSnap.data());
+            return docuSnap.data();
+        } else {
+            console.log("No se encontró el documento del profesor");
+            return null;
+        }
     }
 
     const register = async (email, password) => {
