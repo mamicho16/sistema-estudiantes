@@ -41,8 +41,8 @@ export const AuthProvider = ({children}) => {
             const docuSnap = loginProfesores(userinfo.uid);
 
             const usuariofirebase = {
-                uid: user.uid,
-                email: user.email,
+                uid: userinfo.uid,
+                email: userinfo.email,
                 nombre: docuSnap.nombre,
                 nombre2: docuSnap.nombre2,
                 apellido1: docuSnap.apellido1,
