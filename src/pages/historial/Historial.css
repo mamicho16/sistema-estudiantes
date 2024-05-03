@@ -1,0 +1,44 @@
+.card-container {
+    margin-top: 2%;
+    margin-bottom: 20%;
+    margin-left: 5%;
+    margin-right: 5%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Ensures spacing between two columns */
+}
+
+.user-card {
+    flex-basis: 48%; /* Roughly half the container width, adjust as needed */
+}
+
+.user-info, .user-details {
+    padding: 20px;
+}
+
+.user-info {
+    flex: 0 0 auto; /* Adjust sizing as needed */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.user-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.subtituloH h1{
+    margin-top: 5%;
+    margin-left: 5%;
+    color: white;
+
+}
