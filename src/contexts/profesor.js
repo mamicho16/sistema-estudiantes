@@ -1,3 +1,7 @@
+
+
+import {db } from "../firebase/firebase";
+
 function isValidProfessor(professor) {
     const validSedes = ['San Jose', 'Cartago', 'Limon', 'Alajuela', 'San Carlos'];
     
@@ -49,8 +53,34 @@ function formatProf(professor){
 
 }
 
+const incrementProfessorCounter = async () => {
+    const counterRef = db.collection('counters').doc('professorCounter');
+
+    try {
+        const newCount = await db.runTransaction(async (transaction) => {
+            const counterDoc = await transaction.get(counterRef);
+            if (!counterDoc.exists) {
+                throw new Error("Counter document does not exist!");
+            }
+            const currentValue = counterDoc.data().count;
+            const nextValue = currentValue + 1;
+            transaction.update(counterRef, { count: nextValue });
+            return nextValue;
+        });
+        return newCount;
+    } catch (error) {
+        console.error("Transaction failed: ", error);
+        throw error;  // It's a good practice to re-throw the error so the caller knows it failed.
+    }
+};
+
+
+
 const addProfessorToFirestore = async (professor) => {
     if (isValidProfessor(professor)) {
+        const professorCode = await incrementProfessorCounter(); // This ensures the code is incremented
+        if (professorCode) {
+            professor.code = professorCode; 
         try {
             let formatProfessor = formatProf(professor);
             const docRef = await db.collection('professors').add(formatProfessor);
@@ -58,13 +88,13 @@ const addProfessorToFirestore = async (professor) => {
         } catch (error) {
             console.error("Error adding document: ", error);
         }
+    }
     } else {
         console.error("Invalid professor data");
     }
 };
 
 // Llamar a la función con datos de ejemplo
-addProfessorToFirestore(professor);
 // Ejemplo de uso
 const professor = {
     Name: "Juan Pérez",
@@ -75,4 +105,23 @@ const professor = {
     TelefonoCelular: "87654321"
 };
 
-console.log(isValidProfessor(professor), formatProf(professor));
+
+
+// Function to initialize the counter
+const initializeCounter = async () => {
+    const counterRef = db.collection('countersSanJose').doc('professorCounter');
+
+    // Check if the counter already exists
+    const doc = await counterRef.get();
+    if (!doc.exists) {
+        // Set the counter to 1 if it does not exist
+        counterRef.set({ count: 1 })
+            .then(() => console.log("Counter initialized"))
+            .catch(error => console.error("Error initializing counter:", error));
+    } else {
+        console.log("Counter already initialized");
+    }
+};
+
+console.log(initializeCounter());
+console.log(addProfessorToFirestore(professor));
