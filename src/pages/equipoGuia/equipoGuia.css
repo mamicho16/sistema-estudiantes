@@ -1,0 +1,69 @@
+.card-container {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: 5%;
+    margin-right: 5%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Ensures spacing between two columns */
+}
+
+.user-card {
+    flex-basis: 48%; /* Roughly half the container width, adjust as needed */
+}
+
+.user-info, .user-details {
+    padding: 20px;
+}
+
+.user-info {
+    flex: 0 0 auto; /* Adjust sizing as needed */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.user-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+ h1{
+    margin-top: 5%;
+    margin-left: 5%;
+    color: white;
+
+}
+.search-bar-container {
+    margin-left: 3%;
+    display: flex;
+    /* justify-content: center; */
+    padding: 20px;
+}
+
+.search-bar-container input {
+    padding: 10px;
+    margin-left: 10%;
+    width: 20%; 
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.groupBtn{
+    margin-left: 1%;
+    font-size: 16px;
+    color: white;
+    background-color: #007BFF; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center; 
+}
