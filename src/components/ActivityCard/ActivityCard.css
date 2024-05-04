@@ -1,0 +1,36 @@
+.activity-card {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin-bottom: 20px; /* Adds spacing between cards */
+}
+
+.activity-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.activity-image {
+    width: 60px; /* Adjust size as needed */
+    height: 60px;
+    border-radius: 50%;
+}
+
+.activity-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.activity-name {
+    font-size: 14px; /* Adjust font size as needed */
+}
+
+.activity-type {
+    font-size: 11px; /* Adjust font size as needed */
+}

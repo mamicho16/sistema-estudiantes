@@ -10,6 +10,8 @@ import InicioProfesor from './pages/inicioProfesor/inicioProfesor';
 import Historial from './pages/historial/Historial';
 import { ProtectedRoute } from './ProtectedRoute';
 import EquipoGuia from './pages/equipoGuia/equipoGuia';
+import EdicionGuia from './pages/EdicionGuia/EdicionGuia';
+import PlanTrabajoGuia from './pages/PlanTrabajoGuia/PlanTrabajoGuia';
 
 
 function App() {
@@ -27,6 +29,9 @@ function App() {
             <Route path="/inicioProfesor" element={<InicioProfesor/>} /> 
             <Route path="/inicio" element={<Inicio/>} /> 
             <Route path="/equipoGuia" element={<EquipoGuia/>} /> 
+            <Route path="/edicionGuia" element={<EdicionGuia/>} />
+            <Route path="/planTrabajoGuia" element={<PlanTrabajoGuia/>} />
+            
             <Route  element={<ProtectedRoute/>}>
               <Route path="/" element={<Inicio/>} />
             </Route>
