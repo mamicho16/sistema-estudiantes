@@ -5,11 +5,15 @@ import NavBar from "../../components/navBar/navBar";
 import fotoP from "../../images/tec.png";
 import logotec from "../../images/logotec.png";
 import './Inicio.css';
+import { useNavigate } from "react-router-dom";
 
 const Inicio = () => {
     // const { user } = useAuth();
     // console.log(user);
-
+    const navigate = useNavigate();
+    const handlePlanTrabajo = () => {
+        navigate("/planTrabajoGuia");
+    }
     return (
         <>
         <Helmet>
@@ -32,7 +36,7 @@ const Inicio = () => {
                 <button className="menu-button">Historial Profesores</button>
                 <button className="menu-button">Información Estudiantes</button>
                 <button className="menu-button">Detalle Actividades</button>
-                <button className="menu-button">Plan de Trabajo</button>
+                <button className="menu-button" onClick={handlePlanTrabajo}>Plan de Trabajo</button>
             </div>
         </div>
         </>

@@ -5,8 +5,10 @@ import ActivityCard from "../../components/ActivityCard/ActivityCard";
 import "./PlanTrabajoGuia.css";
 import "../../components/ActivityCard/ActivityCard";
 import userP from "../../images/userPhoto.jpg";
+import { useAuth } from "../../contexts/auth";
 
 const PlanTrabajoGuia = () => {
+    const { user } = useAuth();
     const activities = [
         {
             week: 3,
@@ -74,7 +76,9 @@ const PlanTrabajoGuia = () => {
             </Helmet>
             <div className="subtituloH">
                 <h1>Lista de trabajos existentes</h1>
-                <button className="add-button">+</button>
+                {user.coordinador && (
+                    <button className="add-button">+</button>
+                )}   
             </div>
                 
             <div className="PlanTrabajoGuia">
@@ -82,9 +86,14 @@ const PlanTrabajoGuia = () => {
                     <div key={index} className="activity-full-container">
                         <ActivityCard activity={activity} />
                         <div className="activity-buttons">
-                            <button type="button">Registrar</button>
+                            {user.coordinador &&(
+                            <>
+                                <button type="button">Registrar</button>
+                                
+                                <button type="button">Editar</button>
+                            </>
+                            )}
                             <button type="button">Comentarios</button>
-                            <button type="button">Editar</button>
                         </div>
                     </div>
                 ))}
