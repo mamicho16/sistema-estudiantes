@@ -24,7 +24,6 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/iniciarsesion" element={<IniciarSesion/>} />
-            <Route path="/iniciarsesion" element={<IniciarSesion/>} />
             <Route path="/historial" element={<Historial/>} />
             <Route path="/inicioProfesor" element={<InicioProfesor/>} /> 
             <Route path="/inicio" element={<Inicio/>} /> 

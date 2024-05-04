@@ -9,6 +9,7 @@ import { useAuth } from "../../contexts/auth";
 
 const PlanTrabajoGuia = () => {
     const { user } = useAuth();
+
     const activities = [
         {
             week: 3,

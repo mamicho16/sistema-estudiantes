@@ -92,15 +92,15 @@ export const AuthProvider = ({children}) => {
             const docuRef = doc(db, `Profesores/${user.uid}`);
             setDoc(docuRef, {
                 email: email,
-                nombre: "Ericka",
-                nombre2: "",
-                apellido1: "Solano",
-                apellido2: "Fernández",
-                codigo: "SA-01",
+                nombre: "Rafael",
+                nombre2: "Mauricio",
+                apellido1: "Arroyo",
+                apellido2: "Herrera",
+                codigo: "CA-01",
                 celular: "88888888",
                 numOficina: "1",
                 foto : "",
-                coordindor: true,
+                coordindor: false,
                 estado: "activo"
             });
 
