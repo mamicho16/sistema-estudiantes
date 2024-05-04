@@ -84,8 +84,7 @@ export const AuthProvider = ({children}) => {
 
     const register = async (email, password) => {
         try {
-            const infouser = await createUserWithEmailAndPassword(auth, email, password).
-            then((userCredential) => {
+            const infouser = await createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
                 return userCredential;
             });
             const user = infouser.user;

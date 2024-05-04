@@ -43,7 +43,7 @@
 
 .activity-full-container {
     display: flex;
-    align-items: start; /* Alinea los elementos al inicio verticalmente */
+    align-items: flex-start;
     width: 100%; /* Ocupa todo el ancho disponible */
     max-width: 960px; /* Máximo ancho permitido */
     margin-bottom: 20px; /* Espacio entre cada conjunto de tarjeta y botones */

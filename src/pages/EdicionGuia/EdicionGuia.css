@@ -6,3 +6,49 @@
     background-color: #fff;
 }
 
+.subtituloH {
+    display: flex;
+    margin: 20px;
+    width: 100%; /* Ajusta esto según tus necesidades */
+    padding: 0 20px; /* Agrega un poco de padding si es necesario */
+}
+
+.pag-buttons {
+    display: flex;
+}
+
+.pag-buttons button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    background-color: #518CFF;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.pag-buttons button:hover {
+    background-color: #007bff;
+}
+
+.add-button {
+    display: flex; /* Utiliza flex para alinear el contenido del botón */
+    align-items: center; /* Centra el contenido del botón verticalmente */
+    justify-content: center; /* Centra el contenido del botón horizontalmente */
+    width: 40px; /* Ancho del botón, ajusta según tus necesidades */
+    height: 40px; /* Altura del botón, ajusta según tus necesidades */
+    margin: 0 10px; /* Espacio alrededor del botón */
+    background-color: #518CFF; /* Color de fondo del botón */
+    color: white; /* Color del texto del botón */
+    border: none;
+    border-radius: 50%; /* Redondea las esquinas para hacerlo circular */
+    cursor: pointer; /* Cursor en forma de mano al pasar el ratón sobre el botón */
+    font-size: 24px; /* Ajusta el tamaño del ícono o texto dentro del botón */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra opcional para el botón */
+}
+
+
+.add-button:hover {
+    background-color: #007bff;
+}
