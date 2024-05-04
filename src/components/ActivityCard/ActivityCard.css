@@ -6,6 +6,7 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     overflow: hidden;
     margin-bottom: 20px; /* Adds spacing between cards */
+    width: 85%; /* Adjust width as needed */
 }
 
 .activity-info {
@@ -13,6 +14,7 @@
     flex-direction: column;
     align-items: center;
     margin-right: 20px;
+    width: 250px;
 }
 
 .activity-image {

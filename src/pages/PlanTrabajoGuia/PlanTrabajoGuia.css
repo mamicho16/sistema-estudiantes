@@ -1,38 +1,94 @@
-.header-container {
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    overflow: hidden;
-    margin-bottom: 20px; /* Adds spacing between cards */
-}
-
-.PlanTrabajoGuiaa {
+.PlanTrabajoGuia {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+
+    width: 100%; /* Asegura que tome todo el ancho disponible */
+    padding: 0 20px; /* Agrega un poco de relleno a los lados */
 }
 
-.navigation-buttons, .page-buttons {
+.subtituloH {
     display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+    margin: 20px;
+    width: 100%; /* Ajusta esto según tus necesidades */
+    padding: 0 20px; /* Agrega un poco de padding si es necesario */
+}
+
+.subtituloH h1 {
+    padding: 10px;
+    margin: 0; /* Elimina los márgenes predeterminados del h1 si es necesario */
+    font-size: 24px; /* Ajusta el tamaño de fuente según sea necesario */
 }
 
 .add-button {
-    font-size: 24px;
+    display: flex; /* Utiliza flex para alinear el contenido del botón */
+    align-items: center; /* Centra el contenido del botón verticalmente */
+    justify-content: center; /* Centra el contenido del botón horizontalmente */
+    width: 40px; /* Ancho del botón, ajusta según tus necesidades */
+    height: 40px; /* Altura del botón, ajusta según tus necesidades */
+    margin: 0 10px; /* Espacio alrededor del botón */
+    background-color: #518CFF; /* Color de fondo del botón */
+    color: white; /* Color del texto del botón */
+    border: none;
+    border-radius: 50%; /* Redondea las esquinas para hacerlo circular */
+    cursor: pointer; /* Cursor en forma de mano al pasar el ratón sobre el botón */
+    font-size: 24px; /* Ajusta el tamaño del ícono o texto dentro del botón */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra opcional para el botón */
 }
 
-.header-container {
+
+.add-button:hover {
+    background-color: #007bff;
+}
+
+
+.activity-full-container {
+    display: flex;
+    align-items: start; /* Alinea los elementos al inicio verticalmente */
+    width: 100%; /* Ocupa todo el ancho disponible */
+    max-width: 960px; /* Máximo ancho permitido */
+    margin-bottom: 20px; /* Espacio entre cada conjunto de tarjeta y botones */
+}
+
+.activity-buttons {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: 125px; /* Ajusta según el ancho deseado para los botones */
+
+}
+
+.activity-buttons button {
+    margin-bottom: 10px; /* Espacio entre botones */
+    padding: 8px 16px;
+    background-color: #518CFF;
+    border: none;
+    color: white;
+    font-size: 14px;
+    border-radius: 15px;
+}
+
+.activity-buttons button:hover {
+    background-color: #007bff;
+}
+
+.page-buttons {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 10px;
+    width: 80%;
+    max-width: 960px;
+    margin: 20px auto;
 }
-.row {
-    display: flex;
-    justify-content: stretch;
-    align-items: center;
-    padding: 10px;
+
+.page-buttons button {
+    padding: 10px 20px;
+    background-color: #518CFF;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.page-buttons button:hover {
+    background-color: #007bff;
 }

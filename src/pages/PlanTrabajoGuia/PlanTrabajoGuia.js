@@ -5,7 +5,6 @@ import ActivityCard from "../../components/ActivityCard/ActivityCard";
 import "./PlanTrabajoGuia.css";
 import "../../components/ActivityCard/ActivityCard";
 import userP from "../../images/userPhoto.jpg";
-import {row, col} from "react-bootstrap";
 
 const PlanTrabajoGuia = () => {
     const activities = [
@@ -68,34 +67,35 @@ const PlanTrabajoGuia = () => {
     ];
 
     return (
-            <>
-                <NavBar titulo="Plan de Trabajo" id="navBar" />
-                <Helmet>
-                    <title>Plan de Trabajo - Tecnológico de Costa Rica</title>
-                </Helmet>
-                <div className="subtituloH">
-                    <h1>Lista de trabajos existentes</h1>
-                    <button className="add-button">+</button>
-                </div>
-                    
-                <div className="PlanTrabajoGuia">
-                    {activities.map((activity, index) => (
-                        
-                        <div key={index}>
-                            <ActivityCard activity={activity} />
-                            <div className="navigation-buttons">
-                                <button type="button">Anterior</button>
-                                <button type="button">Siguiente</button>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+        <>
+            <NavBar titulo="Plan de Trabajo" id="navBar" />
+            <Helmet>
+                <title>Plan de Trabajo - Tecnológico de Costa Rica</title>
+            </Helmet>
+            <div className="subtituloH">
+                <h1>Lista de trabajos existentes</h1>
+                <button className="add-button">+</button>
+            </div>
                 
-                <div className="page-buttons">
-                    <button type="button">Regresar</button>
-                    <button type="button">Finalizar</button>
-                </div>
-            </>
-        );
-    };
+            <div className="PlanTrabajoGuia">
+                {activities.map((activity, index) => (
+                    <div key={index} className="activity-full-container">
+                        <ActivityCard activity={activity} />
+                        <div className="activity-buttons">
+                            <button type="button">Registrar</button>
+                            <button type="button">Comentarios</button>
+                            <button type="button">Editar</button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+                
+            <div className="page-buttons">
+                <button type="button">Regresar</button>
+                <button type="button">Finalizar</button>
+            </div>
+        </>
+    );
+};
+
 export default PlanTrabajoGuia;
