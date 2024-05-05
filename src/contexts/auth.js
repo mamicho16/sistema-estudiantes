@@ -32,21 +32,29 @@ export const AuthProvider = ({children}) => {
     }, []);
 
     const login = async (email, password) => {
-        try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            const userinfo = userCredential.user;
-    
-            if (!userinfo.uid) {
-                throw new Error("UID del usuario no está disponible");
-            }
-    
-            const docuSnap = await loginProfesores(userinfo.uid);
-    
-            if (!docuSnap) {
-                throw new Error("No se pudieron obtener los datos del profesor");
-            }
-    
-            const usuariofirebase = {
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const userinfo = userCredential.user;
+
+        if (!userinfo.uid) {
+            throw new Error("UID del usuario no está disponible");
+        }
+
+        let docuSnap = await loginProfesores(userinfo.uid);  // Intenta obtener datos como profesor
+
+        if (!docuSnap) {
+            docuSnap = await loginAdmins(userinfo.uid);  // Si no es profesor, intenta como administrador
+        }
+
+        if (!docuSnap) {
+            throw new Error("No se pudieron obtener los datos del usuario");
+        }
+
+        let usuariofirebase;
+
+        // Verifica si el documento contiene el campo 'coordinador'
+        if (docuSnap.hasOwnProperty("coordinador")) {
+            usuariofirebase = {
                 uid: userinfo.uid,
                 email: userinfo.email,
                 nombre: docuSnap.nombre,
@@ -58,17 +66,30 @@ export const AuthProvider = ({children}) => {
                 numOficina: docuSnap.numOficina,
                 foto: docuSnap.foto,
                 coordinador: docuSnap.coordinador,
-                estado: docuSnap.estado                
-            }
-    
-            setUser(usuariofirebase);
-    
-            return true; 
-        } catch (error) {
-            console.error("Error en el login:", error);
-            return false;
+                estado: docuSnap.estado,
+                campus: docuSnap.campus                
+            };
+        } else {
+            usuariofirebase = {
+                uid: userinfo.uid,
+                email: userinfo.email,
+                nombre: docuSnap.nombre,
+                nombre2: docuSnap.nombre2,
+                apellido1: docuSnap.apellido1,
+                apellido2: docuSnap.apellido2,
+                celular: docuSnap.celular,
+                campus: docuSnap.campus
+            };
         }
-    };
+
+        setUser(usuariofirebase);  // Establece los datos del usuario en la sesión o donde corresponda
+
+        return true;
+    } catch (error) {
+        console.error("Error en el login:", error);
+        return false;
+    }
+};
     
     const loginProfesores = async (uid) => {
         const docuRef = doc(db, `Profesores/${uid}`);
@@ -78,6 +99,18 @@ export const AuthProvider = ({children}) => {
             return docuSnap.data();
         } else {
             console.log("No se encontró el documento del profesor");
+            return null;
+        }
+    }
+
+    const loginAdmins = async (uid) => {
+        const docuRef = doc(db, `Admins/${uid}`);
+        const docuSnap = await getDoc(docuRef);
+        if (docuSnap.exists()) {
+            console.log("Datos del administrador:", docuSnap.data());
+            return docuSnap.data();
+        } else {
+            console.log("No se encontró el documento del administrador");
             return null;
         }
     }
@@ -108,6 +141,28 @@ export const AuthProvider = ({children}) => {
         }
     };
 
+    const registerAdmin = async (email, password) => {
+        try {
+            const infouser = await createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
+                return userCredential;
+            });
+            const user = infouser.user;
+            const docuRef = doc(db, `Admins/${user.uid}`);
+            setDoc(docuRef, {
+                email: email,
+                nombre : "Bryan",
+                nombre2 : "Josue",
+                apellido1 : "Hernandez",
+                apellido2 : "Cubero",
+                celular : "12345678",
+                campus : "Cartago"
+            });
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const logout = async () => {
         try {
             await signOut(auth);
@@ -124,6 +179,7 @@ export const AuthProvider = ({children}) => {
             login,
             register,
             logout,
+            registerAdmin
         }}>
             {!loading && children}
         </AuthContext.Provider>

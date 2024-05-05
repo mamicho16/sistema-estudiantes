@@ -11,7 +11,7 @@ import { useAuth } from "../../contexts/auth";
 
 
 const IniciarSesion = () => {
-    const { login, register } = useAuth();
+    const { login, register, registerAdmin } = useAuth();
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

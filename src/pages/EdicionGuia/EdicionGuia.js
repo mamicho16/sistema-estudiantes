@@ -29,7 +29,7 @@ const EdicionGuia = () => {
             </Helmet>
             <div className="subtituloH">
                 <h1>Docentes Asignados</h1>
-                <button className="add-button" onClick={handleClick}>+</button>
+                <button className="add-button">+</button>
             </div>
             <div className="card-container">
                 {users.map(user => (

@@ -8,12 +8,25 @@ import './Inicio.css';
 import { useNavigate } from "react-router-dom";
 
 const Inicio = () => {
-    // const { user } = useAuth();
-    // console.log(user);
+    const { user } = useAuth();
     const navigate = useNavigate();
     const handlePlanTrabajo = () => {
         navigate("/planTrabajoGuia");
     }
+    let admin = false;
+    let coordinador = false;
+
+    if (user.coordinador === undefined) {
+        admin = true;
+    }
+   else if (user.coordinador) {
+        coordinador = true;
+    }
+    else {
+        coordinador = false;
+    }
+
+
     return (
         <>
         <Helmet>
@@ -32,10 +45,19 @@ const Inicio = () => {
                  <h1> Que desea realizar? </h1>
             </div>
             <div className="button-container">
-                <button className="menu-button">Información Profesores</button>
-                <button className="menu-button">Historial Profesores</button>
-                <button className="menu-button">Información Estudiantes</button>
-                <button className="menu-button">Detalle Actividades</button>
+                { admin &&(
+                <>
+                    <button className="menu-button">Información Profesores</button>
+                    <button className="menu-button">Historial Profesores</button>
+                    <button className="menu-button">Información Estudiantes</button>
+                    <button className="menu-button">Detalle Actividades</button>
+                </>)}
+                {!coordinador && !admin &&(
+                    <>
+                        <button className="menu-button">Equipo Guia</button>
+                        <button className="menu-button">Lista Estudiantes</button> 
+                    </>
+                )}
                 <button className="menu-button" onClick={handlePlanTrabajo}>Plan de Trabajo</button>
             </div>
         </div>

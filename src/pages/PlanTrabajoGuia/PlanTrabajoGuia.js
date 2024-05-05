@@ -9,6 +9,9 @@ import { useAuth } from "../../contexts/auth";
 
 const PlanTrabajoGuia = () => {
     const { user } = useAuth();
+    const handleOnClick = () => {
+        window.history.back();
+    };
 
     const activities = [
         {
@@ -101,8 +104,7 @@ const PlanTrabajoGuia = () => {
             </div>
                 
             <div className="page-buttons">
-                <button type="button">Regresar</button>
-                <button type="button">Finalizar</button>
+                <button type="button" onClick={handleOnClick}>Regresar</button>
             </div>
         </>
     );
