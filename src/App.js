@@ -11,6 +11,7 @@ import { ProtectedRoute } from './ProtectedRoute';
 import EquipoGuia from './pages/equipoGuia/equipoGuia';
 import EdicionGuia from './pages/EdicionGuia/EdicionGuia';
 import PlanTrabajoGuia from './pages/PlanTrabajoGuia/PlanTrabajoGuia';
+import AgregarActividad from './pages/AgregarActividad/AgregarActividad';
 
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
             <Route path="/equipoGuia" element={<EquipoGuia/>} /> 
             <Route path="/edicionGuia" element={<EdicionGuia/>} />
             <Route path="/planTrabajoGuia" element={<PlanTrabajoGuia/>} />
-            
+            <Route path="/agregarActividad" element={<AgregarActividad/>} />
             <Route  element={<ProtectedRoute/>}>
               <Route path="/" element={<Inicio/>} />
             </Route>
