@@ -6,7 +6,7 @@ import NavBar from "../../components/navBar/navBar";
 import UserCard from "../../components/UserCard/UserCard"; // Update this path as necessary
 import userP from "../../images/userPhoto.jpg";
 import './Historial.css';
-import { getProfessors, addProfessorToFirestore } from "../../contexts/profesor";
+import { getProfessors} from "../../contexts/profesor";
 
 
 
@@ -16,19 +16,20 @@ const Historial = () => {
     const [searchTerm, setSearchTerm] = useState("");
     // Mock data array for users
     const [users, setUsers] = useState([]);
+    
 
     React.useEffect(() => {
         const fetchAndConvertProfessors = async () => {
             try {
                 const professors = await getProfessors();
                 const usersData = professors.map(professor => ({
-                    name: professor.Name,
-                    imageUrl: professor.Photo,
-                    location: professor.Sede,
-                    code: professor.Codigo, // Adjust if professor data structure has a Codigo property
-                    email: professor.CorreoElectronico,
-                    officeNumber: professor.NumeroOficina,
-                    cellNumber: professor.TelefonoCelular
+                    name: professor.nombre +" "+ professor.nombre2 +" "+ professor.apellido1 +" "+ professor.apellido2,
+                    imageUrl: professor.foto,
+                    location: professor.campus + " ",
+                    code: professor.codigo, // Adjust if professor data structure has a Codigo property
+                    email: professor.email,
+                    officeNumber: professor.numOficina,
+                    cellNumber: professor.celular
                 }));
                 setUsers(usersData);
             } catch (error) {
@@ -61,8 +62,8 @@ const Historial = () => {
         <div> 
             
             <div className="search-bar-container">
-            <button className = "groupBtn" onClick={() => console.log('Regresar')}>Regresar</button>
-                <button className = "groupBtn" onClick={() => console.log('Finalizar')}>Finalizar</button>
+            {/* <button className = "groupBtn" onClick={() => console.log('Regresar')}>Regresar</button>
+                <button className = "groupBtn" onClick={() => console.log('Finalizar')}>Finalizar</button> */}
             
                 <input
                     type="text"
@@ -70,16 +71,10 @@ const Historial = () => {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <button className = "groupBtn" onClick={() => console.log('Buscar')}>Buscar</button>
+                {/* <button className = "groupBtn" onClick={() => console.log('Buscar')}>Buscar</button> */}
                 </div>
 
         </div>
-        <div> <button id = "testbtn" class = "groupBtn" onClick={() =>
-            
-            addProfessorToFirestore("Juan Pérez", "http://example.com/photo.jpg","San Jose","juan.perez@example.com", "12345678","87654321")
-            
-            }>Test</button> </div>
-            
         </>
     );
 };
