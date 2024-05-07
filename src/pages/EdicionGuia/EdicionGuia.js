@@ -5,13 +5,13 @@ import NavBar from "../../components/navBar/navBar";
 import UserCard from "../../components/UserCard/UserCard";
 import userP from "../../images/userPhoto.jpg";
 import "./EdicionGuia.css";
-import { test } from "../../contexts/profesor";
+// import { test } from "../../contexts/profesor";
 
 
 const EdicionGuia = () => {
-    const handleClick = () => {
-        test();
-    }
+    // const handleClick = () => {
+    //     test();
+    // }
 
     const users = [
         { name: "Nombre Apellido", imageUrl: userP, location: "San Jose", code: "SJ-04", email: "correo@estudiantec.cr", officeNumber: "NNNN-NNNN", cellNumber: "XXXX-XXXX" },
