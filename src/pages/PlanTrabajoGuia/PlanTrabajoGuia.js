@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import NavBar from "../../components/navBar/navBar";
 import ActivityCard from "../../components/ActivityCard/ActivityCard";
@@ -6,12 +6,24 @@ import "./PlanTrabajoGuia.css";
 import "../../components/ActivityCard/ActivityCard";
 import userP from "../../images/userPhoto.jpg";
 import { useAuth } from "../../contexts/auth";
+import { Modal } from "react-bootstrap";
 
 const PlanTrabajoGuia = () => {
     const { user } = useAuth();
+    const [showModal, setShowModal] = useState(false);
     const handleOnClick = () => {
         window.history.back();
     };
+
+    const handleShowModal = () => {
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
+    const comentarios = ["Comentario 1", "Comentario 2", "Comentario 3"];
 
     const activities = [
         {
@@ -97,11 +109,32 @@ const PlanTrabajoGuia = () => {
                                 <button type="button">Editar</button>
                             </>
                             )}
-                            <button type="button">Comentarios</button>
+                            <button type="button" onClick={handleShowModal}>Comentarios</button>
                         </div>
                     </div>
                 ))}
             </div>
+
+            <Modal show={showModal} onHide={handleCloseModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Comentarios</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {comentarios.map((comentario, index) => (
+                        <div key={index} className="comentario">
+                            <img src={comentario.fotoPerfil} alt="Foto de perfil" className="fotoPerfil" />
+                            <div className="infoUsuario">
+                                <p>{comentario.nombreUsuario}</p>
+                                <p>{comentario.texto}</p>
+                            </div>
+                        </div>
+                    ))}
+                </Modal.Body>
+                <Modal.Footer>
+                    <button type="button" onClick={handleCloseModal}>Cerrar</button>
+                </Modal.Footer>
+            </Modal>
+
                 
             <div className="page-buttons">
                 <button type="button" onClick={handleOnClick}>Regresar</button>
