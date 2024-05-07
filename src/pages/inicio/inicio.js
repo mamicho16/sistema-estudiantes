@@ -13,6 +13,9 @@ const Inicio = () => {
     const handlePlanTrabajo = () => {
         navigate("/planTrabajoGuia");
     }
+    const handleListaDeEstudiantes = () => {
+        navigate("/ListaDeEstudiantes");
+    }
     let admin = false;
     let coordinador = false;
 
@@ -51,11 +54,13 @@ const Inicio = () => {
                     <button className="menu-button">Historial Profesores</button>
                     <button className="menu-button">Información Estudiantes</button>
                     <button className="menu-button">Detalle Actividades</button>
+                    <button className="menu-button" onClick={handleListaDeEstudiantes}>Lista Estudiantes</button> 
                 </>)}
                 {!coordinador && !admin &&(
                     <>
                         <button className="menu-button">Equipo Guia</button>
-                        <button className="menu-button">Lista Estudiantes</button> 
+                        <button className="menu-button" onClick={handleListaDeEstudiantes}>Lista Estudiantes</button> 
+
                     </>
                 )}
                 <button className="menu-button" onClick={handlePlanTrabajo}>Plan de Trabajo</button>
