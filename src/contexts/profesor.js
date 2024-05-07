@@ -1,13 +1,13 @@
 
  import {db } from "../firebase/firebase";
- import { addDoc, setDoc, getDoc,collection } from "firebase/firestore";
+ import { addDoc, setDoc, getDoc,collection, getDocs } from "firebase/firestore";
 
  //addProfessorToFirestore(name, photo, sede, correo, numeroOficina, telefono);
 
-export const createprofesor = (name, photo, sede, correo, numeroOficina, telefono) => {
-     //addProfessorToFirestore(name, photo, sede, correo, numeroOficina, telefono);
-    //console.log("XD");
-}
+// export const createprofesor = (name, photo, sede, correo, numeroOficina, telefono) => {
+//      addProfessorToFirestore(name, photo, sede, correo, numeroOficina, telefono);
+//     console.log("XD");
+// }
 
 
 
@@ -34,11 +34,11 @@ function formatProf(name, photo, sede, correo, numeroOficina, telefono){
     let codigo
     let numOficina = numeroOficina.substring(0, 4) + '-' +numeroOficina.substring(4);
     let teleCelular = telefono.substring(0, 4) + '-' +telefono.substring(4);
-    if(sede === "San Jose"){ codigo = "SJ-1"}
-    else if(sede === "Cartago"){ codigo = "CA-1"}
-    else if(sede === "San Carlos"){ codigo = "SC-1"}
-    else if(sede === "Alajuela"){ codigo = "AL-1"}
-    else if(sede === "Limon"){ codigo = "LI-1"}
+    if(sede === "San Jose"){ codigo = "SJ-2"}
+    else if(sede === "Cartago"){ codigo = "CA-2"}
+    else if(sede === "San Carlos"){ codigo = "SC-2"}
+    else if(sede === "Alajuela"){ codigo = "AL-2"}
+    else if(sede === "Limon"){ codigo = "LI-2"}
     let prof = {
         Name: name,
         Photo: photo,
@@ -54,18 +54,17 @@ function formatProf(name, photo, sede, correo, numeroOficina, telefono){
 
 }
 
-const addProfessorToFirestore = async (name, photo, sede, correo, numeroOficina, telefono) => {
+export const addProfessorToFirestore = async (name, photo, sede, correo, numeroOficina, telefono) => {
     if (isValidProfessor(name, photo, sede, correo, numeroOficina, telefono)) {
         //const professorCode = await incrementProfessorCounter(); // This ensures the code is incremented
         try {
             let formatProfessor = formatProf(name, photo, sede, correo, numeroOficina, telefono);
-            addDoc(collection (db,'Profesor'),{Name: formatProfessor.Name , Photo: formatProfessor.Photo ,Sede: formatProfessor.Sede,
-            CorreoElectronico: formatProfessor.CorreoElectronico, NumeroOficina: formatProfessor.NumeroOficina,
-             TelefonoCelular: formatProfessor.TelefonoCelular});
+           const docRef =  addDoc(collection (db,'Profesor'),formatProfessor);
+
 
 
             //const docRef = await db.collection('professors').add(formatProfessor);
-            console.log("Professor added with ID: ");
+            console.log("Professor added with ID: ", (await docRef).id);
         } catch (error) {
             console.error("Error adding document: ", error);
         }
@@ -75,4 +74,13 @@ const addProfessorToFirestore = async (name, photo, sede, correo, numeroOficina,
 };
 
 
-export const getProfessors = () => {console.log(":C")};
+export const getProfessors = async () => {
+    try {
+      const snapshot = await getDocs(collection(db, 'Profesor'));
+      const professorsList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      return professorsList; // Returns an array of professors
+    } catch (error) {
+      console.error("Error fetching documents: ", error);
+      return []; // Returns an empty array in case of error
+    }
+  };

@@ -6,16 +6,8 @@ import NavBar from "../../components/navBar/navBar";
 import UserCard from "../../components/UserCard/UserCard"; // Update this path as necessary
 import userP from "../../images/userPhoto.jpg";
 import './Historial.css';
-import { createprofesor, getProfessors } from "../../contexts/profesor";
+import { getProfessors, addProfessorToFirestore } from "../../contexts/profesor";
 
-const professor = {
-    Name: "Juan Pérez",
-    Photo: "http://example.com/photo.jpg",
-    Sede: "San Jose",
-    CorreoElectronico: "juan.perez@example.com",
-    NumeroOficina: "12345678",
-    TelefonoCelular: "87654321"
-};
 
 
 const Historial = () => {
@@ -23,19 +15,30 @@ const Historial = () => {
     // console.log(user);
     const [searchTerm, setSearchTerm] = useState("");
     // Mock data array for users
+    const [users, setUsers] = useState([]);
 
-    getProfessors();
+    React.useEffect(() => {
+        const fetchAndConvertProfessors = async () => {
+            try {
+                const professors = await getProfessors();
+                const usersData = professors.map(professor => ({
+                    name: professor.Name,
+                    imageUrl: professor.Photo,
+                    location: professor.Sede,
+                    code: professor.Codigo, // Adjust if professor data structure has a Codigo property
+                    email: professor.CorreoElectronico,
+                    officeNumber: professor.NumeroOficina,
+                    cellNumber: professor.TelefonoCelular
+                }));
+                setUsers(usersData);
+            } catch (error) {
+                console.error("Error fetching professors: ", error);
+            }
+        };
 
-    const users = [
-        { name: "Nombre Apellido", imageUrl: userP, location: "San Jose", code: "SJ-04", email: "correo@estudiantec.cr", officeNumber: "NNNN-NNNN", cellNumber: "XXXX-XXXX" },
-        { name: "Nombre Apellido", imageUrl: userP, location: "San Jose", code: "SJ-04", email: "correo@estudiantec.cr", officeNumber: "NNNN-NNNN", cellNumber: "XXXX-XXXX" },
-        { name: "Nombre Apellido", imageUrl: userP, location: "San Jose", code: "SJ-04", email: "correo@estudiantec.cr", officeNumber: "NNNN-NNNN", cellNumber: "XXXX-XXXX" },
-        { name: "Nombre Apellido", imageUrl: userP, location: "San Jose", code: "SJ-04", email: "correo@estudiantec.cr", officeNumber: "NNNN-NNNN", cellNumber: "XXXX-XXXX" },
-        { name: "Nombre Apellido", imageUrl: userP, location: "San Jose", code: "SJ-04", email: "correo@estudiantec.cr", officeNumber: "NNNN-NNNN", cellNumber: "XXXX-XXXX" },
-        { name: "Nombre Apellido", imageUrl: userP, location: "San Jose", code: "SJ-04", email: "correo@estudiantec.cr", officeNumber: "NNNN-NNNN", cellNumber: "XXXX-XXXX" },
-    
-        // Repeat for each user, total 6 users or more
-    ];
+        fetchAndConvertProfessors();
+    }, []); // Empty dependency array to run only once on component mount
+
 
     // Filter users based on search term
     const filteredUsers = users.filter(user => 
@@ -55,7 +58,7 @@ const Historial = () => {
         <div className="card-container">
                 {filteredUsers.map(user => <UserCard key={user.email} user={user} />)}
         </div>
-        <div>
+        <div> 
             
             <div className="search-bar-container">
             <button className = "groupBtn" onClick={() => console.log('Regresar')}>Regresar</button>
@@ -71,10 +74,12 @@ const Historial = () => {
                 </div>
 
         </div>
-        {/* <div> <button id = "testbtn" class = "groupBtn" onClick={() =>
+        <div> <button id = "testbtn" class = "groupBtn" onClick={() =>
             
-            createprofesor("Juan Pérez", "http://example.com/photo.jpg","San Jose","juan.perez@example.com", "12345678","87654321")}>Test</button> </div>
-             */}
+            addProfessorToFirestore("Juan Pérez", "http://example.com/photo.jpg","San Jose","juan.perez@example.com", "12345678","87654321")
+            
+            }>Test</button> </div>
+            
         </>
     );
 };
