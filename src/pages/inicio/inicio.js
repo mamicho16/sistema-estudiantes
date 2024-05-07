@@ -29,6 +29,13 @@ const Inicio = () => {
         coordinador = false;
     }
 
+    const handleInfoProfes = () => {
+        navigate("/edicionGuia");
+    }
+    
+    const handleHistoProfes = () => {
+        navigate("/historial");
+    }
 
     return (
         <>
@@ -50,8 +57,8 @@ const Inicio = () => {
             <div className="button-container">
                 { admin &&(
                 <>
-                    <button className="menu-button">Información Profesores</button>
-                    <button className="menu-button">Historial Profesores</button>
+                    <button className="menu-button" onClick={handleInfoProfes}>Información Profesores</button>
+                    <button className="menu-button" onClick={handleHistoProfes}>Historial Profesores</button>
                     <button className="menu-button">Información Estudiantes</button>
                     <button className="menu-button">Detalle Actividades</button>
                     <button className="menu-button" onClick={handleListaDeEstudiantes}>Lista Estudiantes</button> 

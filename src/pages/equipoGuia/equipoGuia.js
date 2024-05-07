@@ -23,7 +23,7 @@ const EquipoGuia = () => {
                 const usersData = coordinators.map(professor => ({
                     name: professor.nombre + " " + (professor.nombre2 || '') + " " + professor.apellido1 + " " + professor.apellido2,
                     imageUrl: professor.foto,
-                    location: professor.campus + " ",
+                    location: professor.sede + " ",
                     code: professor.codigo, // Adjust if professor data structure has a Codigo property
                     email: professor.email,
                     officeNumber: professor.numOficina,

@@ -1,7 +1,7 @@
 
- import {db } from "../firebase/firebase";
+ import { db,storage } from "../firebase/firebase";
  import { addDoc, setDoc, getDoc,collection, getDocs, updateDoc, doc, deleteDoc } from "firebase/firestore";
-
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
  //addProfessorToFirestore(name, photo, sede, correo, numeroOficina, telefono);
 
 // export const createprofesor = (name, photo, sede, correo, numeroOficina, telefono) => {
@@ -18,10 +18,11 @@ function isValidProfessor(name, photo, sede, correo, numeroOficina, telefono, no
     const hasValidPhoto = typeof photo === 'string' || photo === null || photo === undefined;
     const hasValidSede = validSedes.includes(sede);
     const hasValidEmail = typeof correo === 'string' && correo.trim() !== '';
-    const hasValidOfficeNumber = isValidPhoneNumber(numeroOficina);
+    const hasValidOfficeNumber = typeof numeroOficina === "string";
     const hasValidCellNumber = isValidPhoneNumber(telefono);
     const hasValidCoordinador = typeof coordinador === "boolean";
-    const hasValidestado = typeof estado === 'string' && estado.trim() !== '' 
+    const hasValidestado = typeof estado === "boolean";
+    console.log(hasValidName, hasValidPhoto, hasValidSede, hasValidEmail, hasValidOfficeNumber, hasValidCellNumber, hasValidCoordinador, hasValidestado);
 
     return hasValidName && hasValidPhoto && hasValidSede && hasValidEmail && hasValidOfficeNumber && hasValidCellNumber && hasValidestado && hasValidCoordinador;
     //return hasValidName && hasValidPhoto && hasValidSede && hasValidEmail && hasValidOfficeNumber && hasValidCellNumber && hasValidCoordinador && hasValidestado ;
@@ -32,11 +33,11 @@ function isValidPhoneNumber(phone) {
 }
 
 
-async function formatProf(name, photo, sede, correo, numeroOficina, telefono, nombre2, apellido1, apellido2, coordinador, estado){
+async function formatProf(name, photo, campus, correo, numeroOficina, telefono, nombre2, apellido1, apellido2, coordinador, estado){
     let codigo
     let numOficina = numeroOficina.substring(0, 4) + '-' +numeroOficina.substring(4);
     let teleCelular = telefono.substring(0, 4) + '-' +telefono.substring(4);
-    if(sede === "San Jose"){ 
+    if(campus === "San Jose"){ 
 
         const counterData = await getContador('SJ'); // Adjusted to always fetch 'SJ' for demonstration
         const newCount = 1;
@@ -48,23 +49,23 @@ async function formatProf(name, photo, sede, correo, numeroOficina, telefono, no
         // await editContador(counterData.id, { cont: newCount }); // Pass the document ID and new count
         // codigo = `SJ-${counterData.count}`;}
         
-    else if(sede === "Cartago"){ 
+    else if(campus === "Cartago"){ 
         const counterData = await getContador('CA'); // Adjusted to always fetch 'SJ' for demonstration
         const newCount = counterData.count + 1;
         await editContador(counterData.id, { cont: newCount }); // Pass the document ID and new count
         codigo = `CA-${counterData.count}`;
     }
-    else if(sede === "San Carlos"){
+    else if(campus === "San Carlos"){
         const counterData = await getContador('SC'); // Adjusted to always fetch 'SJ' for demonstration
         const newCount = counterData.count + 1;
         await editContador(counterData.id, { cont: newCount }); // Pass the document ID and new count
         codigo = `SC-${counterData.count}`;}
-    else if(sede === "Alajuela"){
+    else if(campus === "Alajuela"){
         const counterData = await getContador('AL'); // Adjusted to always fetch 'SJ' for demonstration
         const newCount = counterData.count + 1;
         await editContador(counterData.id, { cont: newCount }); // Pass the document ID and new count
         codigo = `AL-${counterData.count}`;}
-    else if(sede === "Limon"){
+    else if(campus === "Limon"){
         const counterData = await getContador('LI'); // Adjusted to always fetch 'SJ' for demonstration
         const newCount = counterData.count + 1;
         await editContador(counterData.id, { cont: newCount }); // Pass the document ID and new count
@@ -75,7 +76,7 @@ async function formatProf(name, photo, sede, correo, numeroOficina, telefono, no
         apellido1: apellido1,
         apellido2: apellido2,
         foto: photo,
-        campus: sede,
+        sede: campus,
         email: correo,
         numOficina: numOficina,
         celular: teleCelular,
