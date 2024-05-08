@@ -67,7 +67,7 @@ export const AuthProvider = ({children}) => {
                 foto: docuSnap.foto,
                 coordinador: docuSnap.coordinador,
                 estado: docuSnap.estado,
-                campus: docuSnap.campus                
+                sede: docuSnap.sede                
             };
         } else {
             usuariofirebase = {
@@ -78,7 +78,7 @@ export const AuthProvider = ({children}) => {
                 apellido1: docuSnap.apellido1,
                 apellido2: docuSnap.apellido2,
                 celular: docuSnap.celular,
-                campus: docuSnap.campus
+                sede: docuSnap.sede
             };
         }
 
