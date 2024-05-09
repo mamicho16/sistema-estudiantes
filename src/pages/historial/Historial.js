@@ -6,22 +6,40 @@ import NavBar from "../../components/navBar/navBar";
 import UserCard from "../../components/UserCard/UserCard"; // Update this path as necessary
 import userP from "../../images/userPhoto.jpg";
 import './Historial.css';
+import { getProfessors} from "../../contexts/profesor";
+
+
 
 const Historial = () => {
     // const { user } = useAuth();
     // console.log(user);
     const [searchTerm, setSearchTerm] = useState("");
     // Mock data array for users
-    const users = [
-        { name: "Nombre Apellido", imageUrl: userP, location: "San Jose", code: "SJ-04", email: "correo@estudiantec.cr", officeNumber: "NNNN-NNNN", cellNumber: "XXXX-XXXX" },
-        { name: "Nombre Apellido", imageUrl: userP, location: "San Jose", code: "SJ-04", email: "correo@estudiantec.cr", officeNumber: "NNNN-NNNN", cellNumber: "XXXX-XXXX" },
-        { name: "Nombre Apellido", imageUrl: userP, location: "San Jose", code: "SJ-04", email: "correo@estudiantec.cr", officeNumber: "NNNN-NNNN", cellNumber: "XXXX-XXXX" },
-        { name: "Nombre Apellido", imageUrl: userP, location: "San Jose", code: "SJ-04", email: "correo@estudiantec.cr", officeNumber: "NNNN-NNNN", cellNumber: "XXXX-XXXX" },
-        { name: "Nombre Apellido", imageUrl: userP, location: "San Jose", code: "SJ-04", email: "correo@estudiantec.cr", officeNumber: "NNNN-NNNN", cellNumber: "XXXX-XXXX" },
-        { name: "Nombre Apellido", imageUrl: userP, location: "San Jose", code: "SJ-04", email: "correo@estudiantec.cr", officeNumber: "NNNN-NNNN", cellNumber: "XXXX-XXXX" },
+    const [users, setUsers] = useState([]);
     
-        // Repeat for each user, total 6 users or more
-    ];
+
+    React.useEffect(() => {
+        const fetchAndConvertProfessors = async () => {
+            try {
+                const professors = await getProfessors();
+                const usersData = professors.map(professor => ({
+                    name: professor.nombre +" "+ professor.nombre2 +" "+ professor.apellido1 +" "+ professor.apellido2,
+                    imageUrl: professor.foto,
+                    location: professor.sede + " ",
+                    code: professor.codigo, // Adjust if professor data structure has a Codigo property
+                    email: professor.email,
+                    officeNumber: professor.numOficina,
+                    cellNumber: professor.celular
+                }));
+                setUsers(usersData);
+            } catch (error) {
+                console.error("Error fetching professors: ", error);
+            }
+        };
+
+        fetchAndConvertProfessors();
+    }, []); // Empty dependency array to run only once on component mount
+
 
     // Filter users based on search term
     const filteredUsers = users.filter(user => 
@@ -41,11 +59,11 @@ const Historial = () => {
         <div className="card-container">
                 {filteredUsers.map(user => <UserCard key={user.email} user={user} />)}
         </div>
-        <div>
+        <div> 
             
             <div className="search-bar-container">
-            <button class = "groupBtn" onClick={() => console.log('Regresar')}>Regresar</button>
-                <button class = "groupBtn" onClick={() => console.log('Finalizar')}>Finalizar</button>
+            {/* <button className = "groupBtn" onClick={() => console.log('Regresar')}>Regresar</button>
+                <button className = "groupBtn" onClick={() => console.log('Finalizar')}>Finalizar</button> */}
             
                 <input
                     type="text"
@@ -53,7 +71,7 @@ const Historial = () => {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <button class = "groupBtn" onClick={() => console.log('Buscar')}>Buscar</button>
+                {/* <button className = "groupBtn" onClick={() => console.log('Buscar')}>Buscar</button> */}
                 </div>
 
         </div>

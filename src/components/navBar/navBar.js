@@ -13,9 +13,13 @@ const NavBar = ({titulo}) => {
         navigate("/iniciarsesion");
     }
 
+    const handleInicio = () => {
+        navigate("/inicio");
+    }
+
     return (
         <Navbar bg="light" variant="light" className="navbar">
-            <Navbar.Brand className="brand" href="">{titulo}</Navbar.Brand >
+            <Navbar.Brand className="brand" onClick={handleInicio}>{titulo}</Navbar.Brand >
             <Nav className="nav">
                 <Nav.Link onClick={cerrarSesion} style={{color: '#2A67C3'}}> Cerrar sesión</Nav.Link>
             </Nav>

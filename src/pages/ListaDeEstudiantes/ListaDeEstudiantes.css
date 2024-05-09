@@ -1,0 +1,178 @@
+.card-container {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: 5%;
+    margin-right: 5%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Ensures spacing between two columns */
+}
+
+.user-card {
+    flex-basis: 48%; /* Roughly half the container width, adjust as needed */
+}
+
+.user-info, .user-details {
+    padding: 20px;
+}
+
+.user-info {
+    flex: 0 0 auto; /* Adjust sizing as needed */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.user-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+ h1{
+    margin-top: 5%;
+    margin-left: 5%;
+    color: white;
+
+}
+.search-bar-container {
+    margin-left: 3%;
+    display: flex;
+    /* justify-content: center; */
+    padding: 20px;
+}
+
+.search-bar-container input {
+    padding: 10px;
+    margin-left: 10%;
+    width: 20%; 
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.file {
+    margin-top: 1%;
+    margin-left: 5%;
+    background-color: #007bff; /* Color azul */
+}
+/* Estilo para el input de tipo archivo */
+#excelFileInput {
+    display: none; /* Oculta el input de tipo archivo */
+}
+
+/* Estilo para el label del botón de carga de archivos */
+.file-label {
+    margin-top: 1%;
+    margin-left: 5%;
+    font-family: Arial, sans-serif;
+    color: white;
+    background-color: #007bff; /* Color azul */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    flex-wrap: wrap;
+    flex: 1 1 auto;
+}
+
+.file-label:disabled {
+    /* Your disabled button styles here */
+    opacity: 0.5; /* Example: reducing opacity */
+    cursor: not-allowed; /* Example: changing cursor */
+}
+
+/* Cambio de color al pasar el cursor sobre el botón */
+
+
+
+.groupBtn{
+    margin-left: 1%;
+    font-size: 16px;
+    color: white;
+    background-color: #007BFF; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center; 
+}
+.excelDataContainer {
+    margin-top: 1%;
+    margin-left: 5%;
+    width: 80%; /* Ancho deseado del contenedor */
+    
+    /* Alineación a la izquierda */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* Puedes agregar más estilos según tus necesidades */
+}
+
+.tableWrapper {
+    overflow-x: auto; /* Agregar desplazamiento horizontal si la tabla es demasiado ancha */
+    max-height: 400px; /* Altura máxima deseada de la tabla */
+    /* Puedes ajustar estos valores según tus necesidades */
+}
+.excelTable {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.excelTable td, .excelTable th {
+    border: 1px solid #007BFF;
+    padding: 8px;
+    background-color: #ffffff; /* Establecer el color de fondo a blanco */
+}
+
+.excelTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #f2f2f2;
+}
+.excel-button {
+    position: fixed;
+    bottom: 20px; /* Adjust the distance from the bottom as needed */
+    right: 20px; /* Adjust the distance from the right as needed */
+    flex: 1 1 auto;
+    min-width: 15%;
+    max-width: 15%;
+    padding: 20px 20px;
+    font-size: 30px;
+    color: white;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    flex-wrap: wrap;
+}
+.excel-button:disabled {
+    /* Your disabled button styles here */
+    opacity: 0.5; /* Example: reducing opacity */
+    cursor: not-allowed; /* Example: changing cursor */
+}
+.excel-button2 {
+    position: fixed;
+    bottom: 20px; /* Adjust the distance from the bottom as needed */
+    right: 330px; /* Adjust the distance from the right as needed */
+    flex: 1 1 auto;
+    min-width: 15%;
+    max-width: 15%;
+    padding: 20px 20px;
+    font-size: 30px;
+    color: white;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    flex-wrap: wrap;
+}
