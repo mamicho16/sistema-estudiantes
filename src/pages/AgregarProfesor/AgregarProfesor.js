@@ -19,6 +19,7 @@ const AgregarProfesor = () => {
     const [celular, setCelular] = useState("");
     const [coordinador, setCoordinador] = useState(false);
     const [file, setFile] = useState(null);
+    const [password, setPassword] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -42,13 +43,15 @@ const AgregarProfesor = () => {
                     const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
                     console.log('File available at', downloadURL);
                     // Llamar a la función para agregar el profesor con todos los datos incluyendo la URL de la imagen
-                    await addProfessorToFirestore(nombre1, downloadURL, sede, email, numOficina, celular, nombre2, apellido1, apellido2, coordinador, true);
+                    await addProfessorToFirestore(nombre1, downloadURL, sede, email, numOficina, celular, nombre2, apellido1, apellido2, coordinador, true, password);
+                    navigate("/edicionGuia");
                 }
             );
         } catch (error) {
             console.error("Error during the image upload: ", error);
             alert("Error al subir la imagen. Por favor, intenta de nuevo.");
         }
+        
     }
 
     const handleFileChange = (e) => {
@@ -143,6 +146,17 @@ const AgregarProfesor = () => {
                             placeholder="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </InputGroup>
+                    </Form.Group>
+                    <Form.Group className="input-control">
+                        <Form.Label htmlFor="password"></Form.Label>
+                        <InputGroup>
+                            <FormControl
+                                type="password"
+                                value={password}
+                                placeholder="Password"
+                                onChange={(e) => setPassword(e.target.value)}     
                             />
                         </InputGroup>
                     </Form.Group>
