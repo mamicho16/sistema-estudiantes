@@ -4,8 +4,10 @@ import NavBar from "../../components/navBar/navBar";
 import './ListaDeEstudiantes.css';
 import * as XLSX from 'xlsx';
 import {uploadFileAndSaveReference} from "../../contexts/excel";
+import { useAuth } from "../../contexts/auth";
 
 const ListaDeEstudiantes = () => {
+    const { user } = useAuth();
     const [excelData, setExcelData] = useState([[]]); // Inicializar con una hoja de Excel vacía
     const [excelButton2Text, setExcelButton2Text] = useState('Cambiar Excel');
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -16,27 +18,41 @@ const ListaDeEstudiantes = () => {
     const boton4Ref = useRef(null);
 
     const [isButton2Active, setIsButton2Active] = useState(false);
-    
-    const upload = async ()  => {
+    console.log(user);
+    const upload = async () => {
         try {
-            
             const fileInput = document.getElementById('excelFileInput');
             if (fileInput.files.length === 0) {
                 console.log("No se ha seleccionado ningún archivo.");
                 return; // Salir de la función si no hay ningún archivo seleccionado
             }
             const file = fileInput.files[0]; // Obtener el primer archivo seleccionado
-            console.log(file.name);
-            await uploadFileAndSaveReference(file);
-        }
-        catch (error) {
+            console.log(user.campus);
+            await uploadFileAndSaveReference(file, user.campus);
+    
+            // Mostrar mensaje de éxito
+            const successMessage = document.createElement('div');
+            successMessage.innerHTML = `
+                <div class="alert alert-success" role="alert">
+                    El archivo se ha cargado correctamente.
+                </div>
+            `;
+            
+            // Insertar el mensaje de éxito como primer hijo del cuerpo
+            if (document.body.firstChild) {
+                document.body.insertBefore(successMessage, document.body.firstChild);
+            } else {
+                document.body.appendChild(successMessage);
+            }
+    
+            toggleButton2();
+        } catch (error) {
             console.error("Error en subir archivo:", error);
             setEstadoAlerta(true);
             setMensaje({ tipo: 'error', mensaje: 'No se pudo iniciar sesión' });
         }
-        
-
     }
+    
 
     const toggleButton2 = () => {
         setIsButtonDisabled(!isButtonDisabled);
