@@ -62,7 +62,7 @@ const AgregarActividad = () => {
                             <FormControl
                             type="text"
                             placeholder="Semana"
-                            value={semana}
+                            value={week}
                             />
                         </InputGroup>
                     </Form.Group>
@@ -72,7 +72,7 @@ const AgregarActividad = () => {
                             <FormControl 
                             type="text" 
                             placeholder="Nombre de la actividad" 
-                            value={nombreActividad}/>
+                            value={activityName}/>
                         </InputGroup>
                     </Form.Group>
                     <Form.Group className="input-control">
@@ -81,7 +81,7 @@ const AgregarActividad = () => {
                             <FormControl
                             type="datetime-local"
                             placeholder="Fecha programada"
-                            value={fecha}
+                            value={date}
                             />
                         </InputGroup>
                     </Form.Group>
