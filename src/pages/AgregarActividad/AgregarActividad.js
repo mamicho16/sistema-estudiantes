@@ -4,7 +4,7 @@ import NavBar from "../../components/navBar/navBar";
 import { Form, InputGroup, FormControl, Button, FormLabel } from "react-bootstrap";
 import "./AgregarActividad.css";
 import { Alerta } from "../../components/Alerta";
-import { getWeek } from 'date-fns';
+// import { getWeek } from 'date-fns';
 import { v4 as uuidv4 } from 'uuid';
 import { db, storage } from "../../firebase/firebase";
 
@@ -38,12 +38,12 @@ const AgregarActividad = () => {
         }
     };
 
-    const handleDateChange = (e) => {
-        const newDate = e.target.value;
-        setDate(newDate);
-        const dateObject = new Date(newDate);
-        setWeek(getWeek(dateObject));
-    };
+    // const handleDateChange = (e) => {
+    //     const newDate = e.target.value;
+    //     setDate(newDate);
+    //     const dateObject = new Date(newDate);
+    //     setWeek(getWeek(dateObject));
+    // };
 
 
 
