@@ -150,12 +150,12 @@ export const AuthProvider = ({children}) => {
             const docuRef = doc(db, `Admins/${user.uid}`);
             setDoc(docuRef, {
                 email: email,
-                nombre : "Bryan",
-                nombre2 : "Josue",
-                apellido1 : "Hernandez",
-                apellido2 : "Cubero",
+                nombre : "Ariana",
+                nombre2 : "",
+                apellido1 : "Guillen",
+                apellido2 : "Masis",
                 celular : "12345678",
-                campus : "Cartago"
+                sede : "San Jose",
             });
 
         } catch (error) {
