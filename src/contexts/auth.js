@@ -18,18 +18,47 @@ export const AuthProvider = ({children}) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                setUser(user);
-                
+        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+            if (firebaseUser) {
+                fetchUserDetails(firebaseUser.uid);
             } else {
                 setUser(null);
+                setLoading(false);
             }
-            setLoading(false);
         });
 
         return unsubscribe; 
     }, []);
+
+    async function fetchUserDetails(uid) {
+        setLoading(true);
+        const userDetails = await getUserDetailsCacheOrFirebase(uid);
+        setUser(userDetails);
+        setLoading(false);
+    }
+
+    async function getUserDetailsCacheOrFirebase(uid) {
+        // Obtener el usuario de la caché si está disponible
+        let userDetails = localStorage.getItem("userDetails");
+        // Si no hay usuario en la caché, obtenerlo de Firebase
+        if (!userDetails) {
+            let docSnap = await loginProfesores(uid);
+            if (!docSnap) {
+                docSnap = await loginAdmins(uid);
+            }
+            // Si se encontró el documento, almacenarlo en la caché
+            if (docSnap) {
+                localStorage.setItem("userDetails", JSON.stringify(docSnap));
+                return docSnap;
+            // Si no se encontró el documento, devolver nulo
+            } else {
+                return null;
+            }
+        // Si hay usuario en la caché, devolverlo
+        } else {
+            return JSON.parse(userDetails);
+        }
+    }
 
     const login = async (email, password) => {
     try {
@@ -81,6 +110,7 @@ export const AuthProvider = ({children}) => {
                 sede: docuSnap.sede
             };
         }
+        console.log(usuariofirebase);
 
         setUser(usuariofirebase);  // Establece los datos del usuario en la sesión o donde corresponda
 
@@ -167,6 +197,7 @@ export const AuthProvider = ({children}) => {
         try {
             await signOut(auth);
             setUser(null);
+            localStorage.removeItem("userDetails");
             console.log(user);
         } catch (error) {
             console.log(error);

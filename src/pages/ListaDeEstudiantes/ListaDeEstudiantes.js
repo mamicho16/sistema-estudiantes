@@ -4,7 +4,9 @@ import NavBar from "../../components/navBar/navBar";
 import './ListaDeEstudiantes.css';
 import * as XLSX from 'xlsx';
 import {uploadFileAndSaveReference} from "../../contexts/excel";
-import { useAuth } from "../../contexts/auth";
+import { useAuth} from "../../contexts/auth";
+
+
 
 const ListaDeEstudiantes = () => {
     const { user } = useAuth();
@@ -18,7 +20,9 @@ const ListaDeEstudiantes = () => {
     const boton4Ref = useRef(null);
 
     const [isButton2Active, setIsButton2Active] = useState(false);
-    console.log(user);
+    console.log("Usuario: " , user);
+
+
     const upload = async () => {
         try {
             const fileInput = document.getElementById('excelFileInput');
@@ -28,7 +32,7 @@ const ListaDeEstudiantes = () => {
             }
             const file = fileInput.files[0]; // Obtener el primer archivo seleccionado
             console.log(user.campus);
-            await uploadFileAndSaveReference(file, user.campus);
+            await uploadFileAndSaveReference(file, user.sede);
     
             // Mostrar mensaje de éxito
             const successMessage = document.createElement('div');
