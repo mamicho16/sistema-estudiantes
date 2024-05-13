@@ -14,6 +14,7 @@ import PlanTrabajoGuia from './pages/PlanTrabajoGuia/PlanTrabajoGuia';
 import ListaDeEstudiantes from './pages/ListaDeEstudiantes/ListaDeEstudiantes';
 import AgregarActividad from './pages/AgregarActividad/AgregarActividad';
 import AgregarProfesor from './pages/AgregarProfesor/AgregarProfesor';
+import ListaDeEstudiantesProfesores from './pages/ListaEstudiantesProfesores/ListaEstudiantesProfesores';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
             <Route path="/planTrabajoGuia" element={<PlanTrabajoGuia/>} />
             <Route path="/agregarActividad" element={<AgregarActividad/>} />
             <Route path="/ListaDeEstudiantes" element={<ListaDeEstudiantes/>} />
+            <Route path="/ListaDeEstudiantesProfesores" element={<ListaDeEstudiantesProfesores/>} />
             <Route path="/agregarProfesor" element={<AgregarProfesor/>} />
             <Route  element={<ProtectedRoute/>}>
               <Route path="/" element={<Inicio/>} />

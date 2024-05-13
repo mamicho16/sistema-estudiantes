@@ -1,12 +1,10 @@
-import React, { useState , useRef} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Helmet } from 'react-helmet';
 import NavBar from "../../components/navBar/navBar";
 import './ListaDeEstudiantes.css';
 import * as XLSX from 'xlsx';
-import {uploadFileAndSaveReference} from "../../contexts/excel";
-import { useAuth} from "../../contexts/auth";
-
-
+import { uploadFileAndSaveReference, obtenerExcel, obtenerTodosLosExcels } from "../../contexts/excel";
+import { useAuth } from "../../contexts/auth";
 
 const ListaDeEstudiantes = () => {
     const { user } = useAuth();
@@ -18,10 +16,46 @@ const ListaDeEstudiantes = () => {
     const boton2Ref = useRef(null);
     const boton3Ref = useRef(null);
     const boton4Ref = useRef(null);
-
     const [isButton2Active, setIsButton2Active] = useState(false);
-    console.log("Usuario: " , user);
+    
+    useEffect(() => {
+        obtenerExcel(user.sede)
+            .then(archivos => {
+                console.log(archivos);
+                cargarArchivoPredeterminado(archivos);
+            })
+            .catch(error => {
+                console.error("Error al cargar los archivos:", error);
+                setEstadoAlerta(true);
+                setMensaje({ tipo: 'error', mensaje: 'No se pudo cargar los archivos' });
+            });
+    }, [user.sede]);
 
+    const cargarArchivoPredeterminado = (archivo) => {
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+            const data = new Uint8Array(event.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+
+            // Obtener la primera hoja de cálculo
+            const sheetName = workbook.SheetNames[0];
+            const sheet = workbook.Sheets[sheetName];
+
+            // Convertir la hoja de cálculo a JSON
+            const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+            // Almacena los datos del Excel en el estado
+            setExcelData(jsonData);
+        };
+
+        reader.readAsArrayBuffer(archivo);
+    }
+
+    const handleFileSelect = (event) => {
+        const file = event.target.files[0];
+        cargarArchivoPredeterminado(file);
+    }
 
     const upload = async () => {
         try {
@@ -31,9 +65,9 @@ const ListaDeEstudiantes = () => {
                 return; // Salir de la función si no hay ningún archivo seleccionado
             }
             const file = fileInput.files[0]; // Obtener el primer archivo seleccionado
-            console.log(user.campus);
+            console.log(user.sede);
             await uploadFileAndSaveReference(file, user.sede);
-    
+
             // Mostrar mensaje de éxito
             const successMessage = document.createElement('div');
             successMessage.innerHTML = `
@@ -41,14 +75,14 @@ const ListaDeEstudiantes = () => {
                     El archivo se ha cargado correctamente.
                 </div>
             `;
-            
+
             // Insertar el mensaje de éxito como primer hijo del cuerpo
             if (document.body.firstChild) {
                 document.body.insertBefore(successMessage, document.body.firstChild);
             } else {
                 document.body.appendChild(successMessage);
             }
-    
+
             toggleButton2();
         } catch (error) {
             console.error("Error en subir archivo:", error);
@@ -56,7 +90,7 @@ const ListaDeEstudiantes = () => {
             setMensaje({ tipo: 'error', mensaje: 'No se pudo iniciar sesión' });
         }
     }
-    
+
 
     const toggleButton2 = () => {
         setIsButtonDisabled(!isButtonDisabled);
@@ -75,28 +109,6 @@ const ListaDeEstudiantes = () => {
         setIsButton2Active(!isButton2Active);
     };
 
-    const handleFileSelect = (event) => {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function(event) {
-            const data = new Uint8Array(event.target.result);
-            const workbook = XLSX.read(data, {type: 'array'});
-
-            // Obtener la primera hoja de cálculo
-            const sheetName = workbook.SheetNames[0];
-            const sheet = workbook.Sheets[sheetName];
-
-            // Convertir la hoja de cálculo a JSON
-            const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-
-            // Almacena los datos del Excel en el estado
-            setExcelData(jsonData);
-        };
-
-        reader.readAsArrayBuffer(file);
-    }
-
     const generateAlphabet = () => {
         const alphabet = [];
         for (let i = 65; i <= 90; i++) {
@@ -107,7 +119,7 @@ const ListaDeEstudiantes = () => {
 
     return (
         <>
-            <NavBar titulo="Lista De Estudiantes"/>
+            <NavBar titulo="Lista De Estudiantes" />
             <Helmet>
                 <title>Lista De Estudiantes - Tecnológico de Costa Rica</title>
             </Helmet>
@@ -115,7 +127,7 @@ const ListaDeEstudiantes = () => {
                 <h1>Lista de Estudiantes de la sede del TEC</h1>
             </div>
             <label className="file-label" ref={boton4Ref} htmlFor="excelFileInput" disabled>Subir archivo</label>
-            <input className="file" type="file" id="excelFileInput" ref={boton3Ref} accept=".xlsx, .xls" onChange={handleFileSelect} disabled/>
+            <input className="file" type="file" id="excelFileInput" ref={boton3Ref} accept=".xlsx, .xls" onChange={handleFileSelect} disabled />
 
             <div className="excelDataContainer">
                 <div className="tableWrapper">
@@ -141,8 +153,8 @@ const ListaDeEstudiantes = () => {
                     </table>
                 </div>
             </div>
-            <button ref={boton2Ref} className="excel-button" onClick={upload} disabled={isButtonDisabled}>Guardar Excel</button> 
-            <button className="excel-button2" onClick={toggleButton2}>{excelButton2Text}</button> 
+            <button ref={boton2Ref} className="excel-button" onClick={upload} disabled={isButtonDisabled}>Guardar Excel</button>
+            <button className="excel-button2" onClick={toggleButton2}>{excelButton2Text}</button>
         </>
     );
 };

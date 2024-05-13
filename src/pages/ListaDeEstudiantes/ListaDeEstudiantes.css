@@ -117,6 +117,7 @@
 
 .tableWrapper {
     overflow-x: auto; /* Agregar desplazamiento horizontal si la tabla es demasiado ancha */
+    overflow-Y: auto;
     max-height: 400px; /* Altura máxima deseada de la tabla */
     /* Puedes ajustar estos valores según tus necesidades */
 }

@@ -117,7 +117,9 @@
 
 .tableWrapper {
     overflow-x: auto; /* Agregar desplazamiento horizontal si la tabla es demasiado ancha */
+    overflow-Y: auto;
     max-height: 400px; /* Altura máxima deseada de la tabla */
+    max-width: 1000px; /* Altura máxima deseada de la tabla */
     /* Puedes ajustar estos valores según tus necesidades */
 }
 .excelTable {
@@ -175,4 +177,54 @@
     cursor: pointer;
     text-align: center;
     flex-wrap: wrap;
+}
+.tabs {
+    display: flex;
+    justify-content: center; /* Centra los botones horizontalmente */
+    margin-top: 20px; /* Espacio superior */
+  }
+  
+.tabs button {
+    margin: 0 10px; /* Espacio horizontal entre los botones */
+    padding: 10px 20px; /* Espacio interno del botón */
+    font-size: 20px;
+    color: white;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+.tabs button.active {
+    font-weight: bold; /* Texto en negrita para la pestaña activa */
+  }
+
+.menuContainer {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+.menu {
+    width: 200px;
+    padding: 10px;
+    border: 5px solid #f1f1f1;
+    display: flex;
+    flex-direction: column; /* Apila los botones verticalmente */
+}
+
+.menuButton {
+    margin-bottom: 10px; /* Espacio entre los botones */
+    border: none;
+    font-size: 16px;
+    color: white;
+    background-color: #007BFF;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.menuButton:hover {
+    background-color: #0056b3; /* Cambio de color al pasar el ratón */
 }
