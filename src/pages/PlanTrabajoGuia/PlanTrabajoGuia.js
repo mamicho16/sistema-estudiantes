@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import NavBar from "../../components/navBar/navBar";
 import ActivityCard from "../../components/ActivityCard/ActivityCard";
@@ -7,10 +8,15 @@ import "../../components/ActivityCard/ActivityCard";
 import userP from "../../images/userPhoto.jpg";
 import { useAuth } from "../../contexts/auth";
 import { Modal } from "react-bootstrap";
+import { db } from "../../firebase/firebase";
+import { getDocs } from "firebase/firestore";
 
 const PlanTrabajoGuia = () => {
     const { user } = useAuth();
     const [showModal, setShowModal] = useState(false);
+    const [activity, setActivities] = useState([]); 
+    const navigate = useNavigate();
+
     const handleOnClick = () => {
         window.history.back();
     };
@@ -22,6 +28,33 @@ const PlanTrabajoGuia = () => {
     const handleCloseModal = () => {
         setShowModal(false);
     };
+
+    const addActivity = () => {
+        navigate("/agregarActividad");
+    };
+
+    const editActivity = () => {
+        navigate("/editarActividad");
+    };
+
+    const registerEvidence = () => {
+        navigate("/registrarEvidencia");
+    };
+
+
+    // useEffect(() => {
+    //     const fetchActivities = async () => {
+    //         try { 
+    //             const snapshot = await getDocs(db.collection("activities"));
+    //             const activitiesData = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data()}));
+    //             setActivities(activitiesData);
+    //         } catch (error) {
+    //             console.error("Error fetching activities:", error);
+    //         }
+    //     };
+
+    //     fetchActivities();
+    // }, []);
 
     const comentarios = ["Comentario 1", "Comentario 2", "Comentario 3"];
 
@@ -93,7 +126,7 @@ const PlanTrabajoGuia = () => {
             <div className="subtituloH">
                 <h1>Lista de trabajos existentes</h1>
                 {user.coordinador && (
-                    <button className="add-button">+</button>
+                    <button className="add-button" onClick={addActivity}>+</button>
                 )}   
             </div>
                 
@@ -104,9 +137,9 @@ const PlanTrabajoGuia = () => {
                         <div className="activity-buttons">
                             {user.coordinador &&(
                             <>
-                                <button type="button">Registrar</button>
+                                <button type="button">Registrar Evidencia</button>
                                 
-                                <button type="button">Editar</button>
+                                <button type="button">Editar Actividad</button>
                             </>
                             )}
                             <button type="button" onClick={handleShowModal}>Comentarios</button>

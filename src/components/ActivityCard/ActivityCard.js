@@ -23,7 +23,7 @@ const ActivityCard = ({ activity }) => {
                 <div><strong>Dias previos:</strong> {activity.daysBeforeAnnounce}</div>
                 <div><strong>Dias requeridos:</strong> {activity.reminderDays}</div>
                 <div><strong>Modalidad:</strong> {activity.modality}</div>
-                <div><strong>Enlace:</strong> {activity.modality === "Remota" ? <a href={activity.link}>Link</a> : "N/A"}</div>
+                <div><strong>Enlace:</strong> {activity.modality === "Remota" ? <a href={activity.link} target="_blank">Link</a> : "N/A"}</div>
                 <div><strong>Estado:</strong> {activity.state}</div>
             </div>
         </div>
