@@ -62,7 +62,7 @@ const Inicio = () => {
                 <>
                     <button className="menu-button" onClick={handleInfoProfes}>Información Profesores</button>
                     <button className="menu-button" onClick={handleHistoProfes}>Historial Profesores</button>
-                    <button className="menu-button">Información Estudiantes</button>
+                    <button className="menu-button" onClick={handleListaDeEstudiantesProfesores}>Información Estudiantes</button>
                     <button className="menu-button">Detalle Actividades</button>
                     <button className="menu-button" onClick={handleListaDeEstudiantes}>Lista Estudiantes</button> 
                 </>)}
