@@ -93,7 +93,8 @@ const AgregarActividad = () => {
                 modality,
                 link,
                 poster: posterURL,
-                state: "PLANEADA"
+                state: "PLANEADA",
+                justification: ""
             });
 
             setAlertState(true);

@@ -11,6 +11,7 @@ import { useAuth } from "../../contexts/auth";
 import { db } from "../../firebase/firebase";
 import { getDocs } from "firebase/firestore";
 import { Modal , Button } from "react-bootstrap";
+import EditActivityModal from "../../components/EditActivity/EditActivity";
 import {guardarComentario, obtenerComentariosPorActividad} from "../../contexts/comentario";
 
 const PlanTrabajoGuia = () => {
@@ -41,10 +42,6 @@ const PlanTrabajoGuia = () => {
 
     const addActivity = () => {
         navigate("/agregarActividad");
-    };
-
-    const editActivity = () => {
-        navigate("/editarActividad");
     };
 
     const registerEvidence = () => {
@@ -208,6 +205,7 @@ const PlanTrabajoGuia = () => {
                 </div>
             )}
 
+            
                 
             <div className="page-buttons">
                 <button type="button" onClick={handleOnClick}>Regresar</button>

@@ -20,8 +20,8 @@ const ActivityCard = ({ activity }) => {
                 <div><strong>Hora:</strong> {new Date(activity.dateTime).toLocaleTimeString()}</div>
                 <div><strong>Semana:</strong> {activity.week}</div>
                 <div><strong>Docente responsable:</strong> {displayResponsibles(activity.responsibles)}</div>
-                <div><strong>Dias previos:</strong> {activity.daysBeforeAnnounce}</div>
-                <div><strong>Dias requeridos:</strong> {activity.reminderDays}</div>
+                <div><strong>Dias antes de anunciar:</strong> {activity.daysBeforeAnnounce}</div>
+                <div><strong>Dias recordatorio:</strong> {activity.reminderDays}</div>
                 <div><strong>Modalidad:</strong> {activity.modality}</div>
                 <div><strong>Enlace:</strong> {activity.modality === "Remota" ? <a href={activity.link} target="_blank">Link</a> : "N/A"}</div>
                 <div><strong>Estado:</strong> {activity.state}</div>
