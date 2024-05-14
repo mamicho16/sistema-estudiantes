@@ -6,8 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { addProfessorToFirestore } from "../../contexts/profesor";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase/firebase";
+import { useAuth } from "../../contexts/auth";
 
 const AgregarProfesor = () => {
+    const { user } = useAuth();
     const navigate = useNavigate();
     const [nombre1, setNombre1] = useState("");
     const [nombre2, setNombre2] = useState("");
@@ -20,6 +22,9 @@ const AgregarProfesor = () => {
     const [coordinador, setCoordinador] = useState(false);
     const [file, setFile] = useState(null);
     const [password, setPassword] = useState("");
+
+    const admin = user.coordinador === undefined;
+    const cartago = user.sede === "Cartago";
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -150,7 +155,7 @@ const AgregarProfesor = () => {
                         </InputGroup>
                     </Form.Group>
                     <Form.Group className="input-control">
-                        <Form.Label htmlFor="password"></Form.Label>
+                        <Form.Label htmlFor="password">Password</Form.Label>
                         <InputGroup>
                             <FormControl
                                 type="password"
@@ -182,18 +187,21 @@ const AgregarProfesor = () => {
                             />
                         </InputGroup>
                     </Form.Group>
-                    <Form.Group className="input-control">
-                        <Form.Label></Form.Label>
-                        <InputGroup>
-                            <Form.Check
-                                type="checkbox"
-                                label="Coordinador"
-                                value={coordinador}
-                                onChange={(e) => setCoordinador(e.target.checked)}
-                            />
-                        </InputGroup>
-                    </Form.Group>
-                    
+                    {admin && cartago &&( 
+                        <>
+                        <Form.Group className="input-control">
+                            <Form.Label></Form.Label>
+                            <InputGroup>
+                                <Form.Check
+                                    type="checkbox"
+                                    label="Coordinador"
+                                    value={coordinador}
+                                    onChange={(e) => setCoordinador(e.target.checked)}
+                                />
+                            </InputGroup>
+                        </Form.Group>
+                        </>
+                    )}
                     <Button className="Button" variant="primary" type="submit">
                         Agregar
                     </Button>

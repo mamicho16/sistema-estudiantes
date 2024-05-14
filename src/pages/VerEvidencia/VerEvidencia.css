@@ -1,0 +1,29 @@
+.container-evidencias {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.evidencia {
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.evidencia:hover {
+    transform: scale(1.05);
+}
+
+.evidencia img {
+    width: 300px;
+    object-fit: cover;  /* Esto hará que la imagen cubra completamente el espacio, cortando el exceso */
+    transition: transform 0.2s;
+}
+
+.evidencia:hover img {
+    transform: scale(1.1);
+}

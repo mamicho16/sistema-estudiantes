@@ -13,12 +13,15 @@ import { collection, getDocs } from "firebase/firestore";
 import { Modal , Button } from "react-bootstrap";
 import EditActivityModal from "../../components/EditActivity/EditActivity";
 import {guardarComentario, obtenerComentariosPorActividad} from "../../contexts/comentario";
+import UploadActivityImagesModal from "../../components/RegisterActivity/RegisterActivity";
 
 const PlanTrabajoGuia = () => {
     const { user } = useAuth();
     const [showModal, setShowModal] = useState(false);
     const [activities, setActivities] = useState([]); 
     const navigate = useNavigate();
+    const [editingActivity, setEditingActivity] = useState(null);
+    const [showUploadModal, setShowUploadModal] = useState(false);
 
     const handleOnClick = () => {
         window.history.back();
@@ -42,10 +45,6 @@ const PlanTrabajoGuia = () => {
 
     const addActivity = () => {
         navigate("/agregarActividad");
-    };
-
-    const registerEvidence = () => {
-        navigate("/registrarEvidencia");
     };
 
 
@@ -90,6 +89,19 @@ const PlanTrabajoGuia = () => {
         }
     };
 
+    const handleEdit = (activity) => {
+        console.log("Editing activity:", activity);
+        setEditingActivity(activity);
+        setShowUploadModal(true);
+    };
+
+    const handleCloseUploadModal = () => {
+        setShowUploadModal(false);
+    };
+
+    const handleVerEvi = (activityId) => {
+        navigate(`/verEvidencia/${activityId}`);
+    }
 
 
     return (
@@ -107,12 +119,12 @@ const PlanTrabajoGuia = () => {
                 
             <div className="PlanTrabajoGuia">
                 {activities.map((activity, index) => (
-                    <div key={index} className="activity-full-container">
+                    <div key={index} className="activity-full-container" onClick={()=>handleVerEvi(activity.id)}>
                         <ActivityCard activity={activity} />
                         <div className="activity-buttons">
                             {user.coordinador &&(
                             <>
-                                <button type="button">Registrar Evidencia</button>
+                                <button type="button" onClick={() => handleEdit(activity)}>Registrar Evidencia</button>
                                 
                                 <button type="button">Editar Actividad</button>
                             </>
@@ -145,6 +157,10 @@ const PlanTrabajoGuia = () => {
                     </div>
                 </div>
             )}
+
+            {showUploadModal && (
+                <UploadActivityImagesModal activity={editingActivity} onClose={handleCloseUploadModal}/>
+            )}                
 
 
                 
