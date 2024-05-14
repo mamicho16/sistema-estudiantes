@@ -67,3 +67,18 @@
     cursor: pointer;
     text-align: center; 
 }
+
+
+.dropdown-container {
+    margin-left: 85%;
+    right: 10px; /* Adjust based on your layout */
+    top: 10px; /* Adjust based on your layout */
+
+    }
+    
+    .location-dropdown {
+        color: white;
+        background-color: #4fa0f7; 
+        padding: 8px;
+        border-radius: 5px;
+    }
