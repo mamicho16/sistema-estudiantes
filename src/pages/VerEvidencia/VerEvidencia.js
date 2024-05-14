@@ -39,6 +39,16 @@ const VerEvidencia = () => {
                     <p>Actividad no finalizada</p> // Mensaje alternativo si no hay imágenes
                 )}
             </div>
+            <h1>Link</h1>
+            <div className="container-link">
+                {activity.link ? (
+                    <a href={activity.link} target="_blank" rel="noreferrer">
+                        {activity.link}
+                    </a>
+                ) : (
+                    <p>No hay link</p> // Mensaje alternativo si no hay link
+                )}
+            </div>
         </div>
     );
 }
