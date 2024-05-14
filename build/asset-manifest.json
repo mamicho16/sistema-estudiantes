@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/static/css/main.444f7d87.chunk.css",
+    "main.js": "/static/js/main.4dbe5531.chunk.js",
+    "main.js.map": "/static/js/main.4dbe5531.chunk.js.map",
+    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
+    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
+    "static/css/2.98036eff.chunk.css": "/static/css/2.98036eff.chunk.css",
+    "static/js/2.6f91d811.chunk.js": "/static/js/2.6f91d811.chunk.js",
+    "static/js/2.6f91d811.chunk.js.map": "/static/js/2.6f91d811.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.66f99ccfd15fd7e80e58a16caf477529.js": "/precache-manifest.66f99ccfd15fd7e80e58a16caf477529.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.98036eff.chunk.css.map": "/static/css/2.98036eff.chunk.css.map",
+    "static/css/main.444f7d87.chunk.css.map": "/static/css/main.444f7d87.chunk.css.map",
+    "static/media/faviconTD.ico": "/static/media/faviconTD.19086bdd.ico",
+    "static/media/fotoP.png": "/static/media/fotoP.e647a224.png",
+    "static/media/logotec.png": "/static/media/logotec.c3695aa9.png",
+    "static/media/tec.png": "/static/media/tec.421bf85a.png",
+    "static/media/userPhoto.jpg": "/static/media/userPhoto.453b4547.jpg"
+  }
+}

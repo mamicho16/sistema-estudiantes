@@ -66,12 +66,13 @@ const Inicio = () => {
                 <>
                     <button className="menu-button" onClick={handleInfoProfes}>Información Profesores</button>
                     <button className="menu-button" onClick={handleHistoProfes}>Historial Profesores</button>
-                    <button className="menu-button">Detalle Actividades</button>
                     <button className="menu-button" onClick={handleListaDeEstudiantes}>Lista Estudiantes</button> 
                 </>)}
                 <button className="menu-button" onClick={handleEquipoGuia}>Equipo Guia</button>
                 <button className="menu-button" onClick={handlePlanTrabajo}>Plan de Trabajo</button>
-                <button className="menu-button" onClick={handleListaDeEstudiantesProfesores}>Lista Estudiantes</button> 
+                { !admin &&(
+                    <button className="menu-button" onClick={handleListaDeEstudiantesProfesores}>Lista Estudiantes</button> 
+                )}
             </div>
         </div>
         </>
