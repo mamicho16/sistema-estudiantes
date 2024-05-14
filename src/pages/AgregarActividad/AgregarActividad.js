@@ -7,6 +7,7 @@ import "./AgregarActividad.css";
 import Alerta  from "../../components/Alerta";
 import { v4 as uuidv4 } from 'uuid';
 import { db, storage } from "../../firebase/firebase";
+import { uploadBytes, ref, getDownloadURL} from "firebase/storage";
 
 
 
@@ -69,10 +70,9 @@ const AgregarActividad = () => {
         }
 
         try {
-            const storageRef = storage.ref();
-            const posterRef = storageRef.child(`posters/${posterName}`);
-            await posterRef.put(poster);
-            const posterURL = await posterRef.getDownloadURL();
+            const posterRef = ref(storage, `posters/${posterName}`);
+            await uploadBytes(posterRef, poster)
+            const posterURL = await getDownloadURL(posterRef);
 
             // Combine the date and time into a firebase datetime object
             const dateTime = new Date(`${date}T${time}:00`);
@@ -103,7 +103,7 @@ const AgregarActividad = () => {
         } catch (error) {
             console.error("Error adding activity:", error);
             setAlertState(true);
-            setAlertMessage({tipo: "exito", mensaje: "Ocurrió un error al agregar la actividad"});
+            setAlertMessage({tipo: "error", mensaje: "Ocurrió un error al agregar la actividad"});
         }
     };
 
@@ -277,7 +277,7 @@ const AgregarActividad = () => {
             tipo={alertMessage.tipo}
             mensaje={alertMessage.mensaje}
             estadoAlerta={alertState}
-            setEstadoAlerta={setAlertState}
+            setestadoAlerta={setAlertState}
         />
         </>
     );
