@@ -106,11 +106,8 @@ const ListaDeEstudiantesProfesores = () => {
         // Crear un nuevo libro de trabajo vacío
         let combinedWorkbook = XLSX.utils.book_new();
     
-        // Iterar sobre cada opción seleccionada del menú
+        // Iterar sobre cada archivo
         archivosExcel.forEach((archivo) => {
-            // Obtener el archivo correspondiente al nombre de la opción
-            
-    
             if (archivo) {
                 // Leer el contenido del archivo
                 const reader = new FileReader();
@@ -118,10 +115,20 @@ const ListaDeEstudiantesProfesores = () => {
                     const data = event.target.result;
                     const workbook = XLSX.read(data, { type: 'binary' });
     
+                    // Obtener el nombre del archivo sin la extensión y sin caracteres no permitidos
+                    const fileName2 = archivo.name.replace(/[\\/:*?"<>|]/g, '');
+                    const fileName = fileName2.substring(0, fileName2.lastIndexOf('.'));
+    
                     // Agregar cada hoja del archivo al libro de trabajo combinado
                     workbook.SheetNames.forEach((sheetName) => {
-                        const sheet = workbook.Sheets[sheetName];
-                        XLSX.utils.book_append_sheet(combinedWorkbook, sheet, sheetName);
+                        // Usar el nombre del archivo sin extensión como nombre de la hoja
+                        let newSheetName = `${fileName} - ${sheetName}`;
+                        let i = 1;
+                        while (combinedWorkbook.SheetNames.includes(newSheetName)) {
+                            newSheetName = `${fileName} - ${sheetName} (${i})`;
+                            i++;
+                        }
+                        XLSX.utils.book_append_sheet(combinedWorkbook, workbook.Sheets[sheetName], newSheetName);
                     });
     
                     // Si has procesado todos los archivos, descarga el archivo combinado
@@ -133,6 +140,9 @@ const ListaDeEstudiantesProfesores = () => {
             }
         });
     };
+    
+    
+    
     const download = () => {
         if (ultimoArchivoSeleccionado) {
             const archivo = ultimoArchivoSeleccionado;
