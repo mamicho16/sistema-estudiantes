@@ -11,9 +11,11 @@ import { useAuth } from "../../contexts/auth";
 import { db } from "../../firebase/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { Modal , Button } from "react-bootstrap";
-import EditActivityModal from "../../components/EditActivity/EditActivity";
 import {guardarComentario, obtenerComentariosPorActividad} from "../../contexts/comentario";
 import UploadActivityImagesModal from "../../components/RegisterActivity/RegisterActivity";
+import EditActivityModal from "../../components/EditActivity/EditActivity";
+import { doc, updateDoc } from "firebase/firestore";
+
 
 const PlanTrabajoGuia = () => {
     const { user } = useAuth();
@@ -22,7 +24,9 @@ const PlanTrabajoGuia = () => {
     const [IndexActivity, setIndexActivity] = useState(0); 
     const navigate = useNavigate();
     const [editingActivity, setEditingActivity] = useState(null);
+    const [editeActivity, setEditActivity] = useState(null);
     const [showUploadModal, setShowUploadModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
 
     const handleOnClick = () => {
         window.history.back();
@@ -102,6 +106,24 @@ const PlanTrabajoGuia = () => {
         setShowUploadModal(false);
     };
 
+    const handleEditAct = (activity) => {
+        console.log("Editing activity:", activity);
+        setEditActivity(activity);
+        setShowEditModal(true);
+    };
+
+    const handleSaveChanges = async (activityId, formData) => {
+        const activityRef = doc(db, "activities", activityId);
+        try {
+            await updateDoc(activityRef, formData);
+            console.log("Activity updated successfully!");
+            setShowEditModal(false); // Cerrar modal después de guardar
+        } catch (error) {
+            console.error("Error updating activity:", error);
+            alert("Failed to update activity.");
+        }
+    };
+
 
     return (
         <>
@@ -125,7 +147,7 @@ const PlanTrabajoGuia = () => {
                             <>
                                 <button type="button" onClick={() => handleEdit(activity)}>Registrar Evidencia</button>
                                 
-                                <button type="button">Editar Actividad</button>
+                                <button type="button" onClick={() => handleEditAct(activity)}>Editar Actividad</button>
                             </>
                             )}
                             <button type="button" onClick={() => {handleShowModal(); setIndexActivity(index);}}>Comentarios</button>
@@ -160,7 +182,13 @@ const PlanTrabajoGuia = () => {
             {showUploadModal && (
                 <UploadActivityImagesModal activity={editingActivity} onClose={handleCloseUploadModal}/>
             )}                
-
+            {showEditModal && (
+                <EditActivityModal
+                    activity={editeActivity}
+                    onClose={() => setShowEditModal(false)}
+                    onSave={handleSaveChanges}
+                />
+            )}
 
                 
             <div className="page-buttons">

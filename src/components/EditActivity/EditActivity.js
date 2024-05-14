@@ -54,181 +54,182 @@ function EditActivityModal({ activity, onClose, onSave }) {
 
     return (
         <div className="modal">
-            <Form id="form" onSubmit={handleSubmit}>
-                <Form.Group className="input-control">
-                    <Form.Label>Nombre de la actividad</Form.Label>
-                    <InputGroup>
-                        <FormControl
-                            type="text"
-                            name="activityName"
-                            placeholder="Enter the name of the activity"
-                            value={formData.activityName}
-                            onChange={handleChange}
-                        />
-                    </InputGroup>
-                </Form.Group>
+            <div className="modal-content">
+                <Form id="form" onSubmit={handleSubmit}>
+                    <Form.Group className="input-control">
+                        <Form.Label>Nombre de la actividad</Form.Label>
+                        <InputGroup>
+                            <FormControl
+                                type="text"
+                                name="activityName"
+                                placeholder="Enter the name of the activity"
+                                value={formData.activityName}
+                                onChange={handleChange}
+                            />
+                        </InputGroup>
+                    </Form.Group>
+                    <Form.Group className="input-control">
+                        <Form.Label>Tipo de actividad</Form.Label>
+                        <InputGroup>
+                            <FormControl
+                                as="select"
+                                name="activityType"
+                                value={formData.activityType}
+                                onChange={handleChange}
+                            >
+                                <option value="">Selecciona un tipo de actividad</option>
+                                <option value="Orientadora">Orientadora</option>
+                                <option value="Motivacional">Motivacional</option>
+                                <option value="Apoyo a la vida estudiantil">Apoyo a la vida estudiantil</option>
+                                <option value="Orden tecnico">Orden tecnico</option>
+                                <option value="Recreacion">Recreacion</option>
+                            </FormControl>
+                        </InputGroup>
+                    </Form.Group>
 
-                <Form.Group className="input-control">
-                    <Form.Label>Tipo de actividad</Form.Label>
-                    <InputGroup>
-                        <FormControl
-                            as="select"
-                            name="activityType"
-                            value={formData.activityType}
-                            onChange={handleChange}
-                        >
-                            <option value="">Selecciona un tipo de actividad</option>
-                            <option value="Orientadora">Orientadora</option>
-                            <option value="Motivacional">Motivacional</option>
-                            <option value="Apoyo a la vida estudiantil">Apoyo a la vida estudiantil</option>
-                            <option value="Orden tecnico">Orden tecnico</option>
-                            <option value="Recreacion">Recreacion</option>
-                        </FormControl>
-                    </InputGroup>
-                </Form.Group>
+                    <Form.Group className="input-control">
+                        <Form.Label>Fecha y hora</Form.Label>
+                        <InputGroup>
+                            <FormControl
+                                type="datetime-local"
+                                name="dateTime"
+                                value={formData.dateTime}
+                                onChange={handleChange}
+                            />
+                        </InputGroup>
+                    </Form.Group>
 
-                <Form.Group className="input-control">
-                    <Form.Label>Fecha y hora</Form.Label>
-                    <InputGroup>
-                        <FormControl
-                            type="datetime-local"
-                            name="dateTime"
-                            value={formData.dateTime}
-                            onChange={handleChange}
-                        />
-                    </InputGroup>
-                </Form.Group>
+                    <Form.Group className="input-control">
+                        <Form.Label>Semana</Form.Label>
+                        <InputGroup>
+                            <FormControl
+                                type="number"
+                                name="week"
+                                min="1"
+                                max="16"
+                                placeholder="Semana del semestre"
+                                value={formData.week}
+                                onChange={handleChange}
+                            />
+                        </InputGroup>
+                        <Form.Text className="text-muted">
+                            Semana del semestre en la que se realizará la actividad.
+                        </Form.Text>
+                    </Form.Group>
 
-                <Form.Group className="input-control">
-                    <Form.Label>Semana</Form.Label>
-                    <InputGroup>
-                        <FormControl
-                            type="number"
-                            name="week"
-                            min="1"
-                            max="16"
-                            placeholder="Semana del semestre"
-                            value={formData.week}
-                            onChange={handleChange}
-                        />
-                    </InputGroup>
-                    <Form.Text className="text-muted">
-                        Semana del semestre en la que se realizará la actividad.
-                    </Form.Text>
-                </Form.Group>
+                    <Form.Group className="input-control">
+                        <Form.Label>Responsables</Form.Label>
+                        <InputGroup>
+                            <FormControl
+                                type="text"
+                                name="responsibles"
+                                placeholder="Responsables"
+                                value={formData.responsibles}
+                                onChange={handleChange}
+                            />
+                        </InputGroup>
+                        <Form.Text className="text-muted">
+                            Ingrese los nombres de los responsables separados por comas.
+                        </Form.Text>
+                    </Form.Group>
 
-                <Form.Group className="input-control">
-                    <Form.Label>Responsables</Form.Label>
-                    <InputGroup>
-                        <FormControl
-                            type="text"
-                            name="responsibles"
-                            placeholder="Responsables"
-                            value={formData.responsibles}
-                            onChange={handleChange}
-                        />
-                    </InputGroup>
-                    <Form.Text className="text-muted">
-                        Ingrese los nombres de los responsables separados por comas.
-                    </Form.Text>
-                </Form.Group>
+                    <Form.Group className="input-control">
+                        <Form.Label>Días antes de anunciar</Form.Label>
+                        <InputGroup>
+                            <FormControl
+                                type="number"
+                                name="daysBeforeAnnounce"
+                                placeholder="Días antes de anunciar"
+                                value={formData.daysBeforeAnnounce}
+                                onChange={handleChange}
+                            />
+                        </InputGroup>
+                    </Form.Group>
 
-                <Form.Group className="input-control">
-                    <Form.Label>Días antes de anunciar</Form.Label>
-                    <InputGroup>
-                        <FormControl
-                            type="number"
-                            name="daysBeforeAnnounce"
-                            placeholder="Días antes de anunciar"
-                            value={formData.daysBeforeAnnounce}
-                            onChange={handleChange}
-                        />
-                    </InputGroup>
-                </Form.Group>
+                    <Form.Group className="input-control">
+                        <Form.Label>Días de recordatorio</Form.Label>
+                        <InputGroup>
+                            <FormControl
+                                type="number"
+                                name="reminderDays"
+                                placeholder="Días de recordatorio"
+                                value={formData.reminderDays}
+                                onChange={handleChange}
+                            />
+                        </InputGroup>
+                    </Form.Group>
 
-                <Form.Group className="input-control">
-                    <Form.Label>Días de recordatorio</Form.Label>
-                    <InputGroup>
-                        <FormControl
-                            type="number"
-                            name="reminderDays"
-                            placeholder="Días de recordatorio"
-                            value={formData.reminderDays}
-                            onChange={handleChange}
-                        />
-                    </InputGroup>
-                </Form.Group>
+                    <Form.Group className="input-control">
+                        <Form.Label>Modalidad</Form.Label>
+                        <InputGroup>
+                            <FormControl
+                                as="select"
+                                name="modality"
+                                value={formData.modality}
+                                onChange={handleChange}
+                            >
+                                <option value="">Seleccione una modalidad</option>
+                                <option value="Presencial">Presencial</option>
+                                <option value="Remota">Remoto</option>
+                            </FormControl>
+                        </InputGroup>
+                    </Form.Group>
 
-                <Form.Group className="input-control">
-                    <Form.Label>Modalidad</Form.Label>
-                    <InputGroup>
-                        <FormControl
-                            as="select"
-                            name="modality"
-                            value={formData.modality}
-                            onChange={handleChange}
-                        >
-                            <option value="">Seleccione una modalidad</option>
-                            <option value="Presencial">In-person</option>
-                            <option value="Remota">Remote</option>
-                        </FormControl>
-                    </InputGroup>
-                </Form.Group>
+                    <Form.Group className="input-control">
+                        <Form.Label>Link</Form.Label>
+                        <InputGroup>
+                            <FormControl
+                                type="text"
+                                name="link"
+                                placeholder="Enter link if remote"
+                                value={formData.link}
+                                disabled={formData.modality !== 'Remota'}
+                                readOnly={formData.modality !== 'Remota'}
+                                onChange={handleChange}
+                            />
+                        </InputGroup>
+                    </Form.Group>
 
-                <Form.Group className="input-control">
-                    <Form.Label>Link</Form.Label>
-                    <InputGroup>
-                        <FormControl
-                            type="text"
-                            name="link"
-                            placeholder="Enter link if remote"
-                            value={formData.link}
-                            disabled={formData.modality !== 'Remota'}
-                            readOnly={formData.modality !== 'Remota'}
-                            onChange={handleChange}
-                        />
-                    </InputGroup>
-                </Form.Group>
+                    <Form.Group className="input-control">
+                        <Form.Label>Estado</Form.Label>
+                        <InputGroup>
+                            <FormControl
+                                as="select"
+                                name="state"
+                                value={formData.state}
+                                onChange={handleChange}
+                            >
+                                <option value="">Seleccione un estado</option>
+                                <option value="Planeada">Planeada</option>
+                                <option value="Cancelada">Cancelada</option>
+                            </FormControl>
+                        </InputGroup>
+                    </Form.Group>
 
-                <Form.Group className="input-control">
-                    <Form.Label>Estado</Form.Label>
-                    <InputGroup>
-                        <FormControl
-                            as="select"
-                            name="state"
-                            value={formData.state}
-                            onChange={handleChange}
-                        >
-                            <option value="">Seleccione un estado</option>
-                            <option value="Planeada">Planeada</option>
-                            <option value="Cancelada">Cancelada</option>
-                        </FormControl>
-                    </InputGroup>
-                </Form.Group>
+                    <Form.Group className="input-control">
+                        <Form.Label>Justificación por cambio</Form.Label>
+                        <InputGroup>
+                            <FormControl
+                                as="textarea"
+                                name="justification"
+                                placeholder="Justifcacion"
+                                value={formData.justification}
+                                onChange={handleChange}
+                            />
+                        </InputGroup>
+                        <Form.Text className="text-muted">
+                            Por favor brinde una justificación si el estado de la actividad cambia.
+                        </Form.Text>
+                    </Form.Group>
 
-                <Form.Group className="input-control">
-                    <Form.Label>Justificación por cambio</Form.Label>
-                    <InputGroup>
-                        <FormControl
-                            as="textarea"
-                            name="justification"
-                            placeholder="Justifcacion"
-                            value={formData.justification}
-                            onChange={handleChange}
-                        />
-                    </InputGroup>
-                    <Form.Text className="text-muted">
-                        Por favor brinde una justificación si el estado de la actividad cambia.
-                    </Form.Text>
-                </Form.Group>
-
-                <Button className="Button" variant="primary" type="submit">
-                    Guardar cambios
-                </Button>
-                <Button className="Button" variant="secondary" type="button" onClick={onClose}>
-                    Cancelar
-                </Button>
-            </Form>
+                    <Button className="Button" variant="primary" type="submit">
+                        Guardar cambios
+                    </Button>
+                    <Button className="Button" variant="secondary" type="button" onClick={onClose}>
+                        Cancelar
+                    </Button>
+                </Form>
+            </div>
         </div>
     );
 }
