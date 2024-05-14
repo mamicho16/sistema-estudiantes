@@ -43,6 +43,7 @@ function EditActivityModal({ activity, onClose, onSave }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            // cambiar el id, no existe en la base de datos
             console.log('Saving changes for activity:', activity.id, formData);
             await onSave(activity.id, formData); // Pass the activity ID and new data
             onClose(); // Close modal after saving
@@ -200,7 +201,6 @@ function EditActivityModal({ activity, onClose, onSave }) {
                         >
                             <option value="">Seleccione un estado</option>
                             <option value="Planeada">Planeada</option>
-                            <option value="Notificada">Notificada</option>
                             <option value="Cancelada">Cancelada</option>
                         </FormControl>
                     </InputGroup>
