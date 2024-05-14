@@ -17,7 +17,7 @@ export const guardarComentario = async (emailUsuario, texto, actividad) => {
             fecha: serverTimestamp()
         });
 
-        console.log("Comentario guardado exitosamente:", docRef.id);
+        console.log("Comentario guardado exitosamente:", docRef);
         return docRef.id;
     } catch (error) {
         console.error("Error al guardar el comentario:", error);
