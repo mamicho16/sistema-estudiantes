@@ -68,20 +68,21 @@ const PlanTrabajoGuia = () => {
 
 
     useEffect(() => {
-         const fetchActivities = async () => {
-             try { 
-                 const snapshot = await getDocs(collection(db, "activities"));
-                 const activitiesData = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data()}));
-                 setActivities(activitiesData);
-                 console.log(activitiesData);
-             } catch (error) {
-                 console.error("Error fetching activities:", error);
-             }
-         };
+         
 
          fetchActivities();
     }, []);
 
+    const fetchActivities = async () => {
+        try { 
+            const snapshot = await getDocs(collection(db, "activities"));
+            const activitiesData = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data()}));
+            setActivities(activitiesData);
+            console.log(activitiesData);
+        } catch (error) {
+            console.error("Error fetching activities:", error);
+        }
+    };
     //const comentarios = ["Comentario 1", "Comentario 2", "Comentario 3"];
 
     const [comentarioNuevo, setComentarioNuevo] = useState("");
