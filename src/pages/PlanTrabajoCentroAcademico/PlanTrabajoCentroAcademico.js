@@ -11,8 +11,9 @@ import { collection, getDocs } from "firebase/firestore";
 
 
 const PlanTrabajoCentroAcademico = () => {
-    const [activities, setActivities] = useState([]);  // Almacena todas las actividades
-    const [displayedActivity, setDisplayedActivity] = useState(null);  // Almacena la actividad a mostrar
+    const [activities, setActivities] = useState([]);
+    const [displayedActivity, setDisplayedActivity] = useState([]);
+    const [showClosest, setShowClosest] = useState(false);  // Estado para controlar qué botón se muestra
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -32,23 +33,28 @@ const PlanTrabajoCentroAcademico = () => {
 
     const handleFindClosestActivity = () => {
         const now = new Date();
-        // Filtra las actividades que aún no han pasado y cuyo estado sea 'PLANEADA' o 'NOTIFICADA'
         const futureActivities = activities.filter(activity => {
             const activityDate = new Date(activity.dateTime);
             return activityDate > now && (activity.state === "PLANEADA" || activity.state === "NOTIFICADA");
         });
-    
+
         if (futureActivities.length > 0) {
             const closest = futureActivities.reduce((closest, current) => {
                 const closestDate = new Date(closest.dateTime);
                 const currentDate = new Date(current.dateTime);
                 return (closestDate - now < currentDate - now) ? closest : current;
             });
-    
-            setDisplayedActivity([closest]);  // Mostrar solo la actividad más cercana
+
+            setDisplayedActivity([closest]);
         } else {
-            setDisplayedActivity([]);  // Si no hay actividades futuras que cumplan las condiciones, mostrar un arreglo vacío
+            setDisplayedActivity([]);
         }
+        setShowClosest(true);  // Cambiar a mostrar el botón de devolverse
+    };
+
+    const handleReturn = () => {
+        setDisplayedActivity(activities);  // Mostrar todas las actividades de nuevo
+        setShowClosest(false);  // Cambiar a mostrar el botón de consultar último proyecto
     };
 
     return (
@@ -74,7 +80,11 @@ const PlanTrabajoCentroAcademico = () => {
             </div>
 
             <div className="page-buttons">
-                <button type="button" onClick={handleFindClosestActivity}>Consultar Último Proyecto</button>
+                {showClosest ? (
+                    <button type="button" onClick={handleReturn}>Devolverse</button>
+                ) : (
+                    <button type="button" onClick={handleFindClosestActivity}>Consultar Último Proyecto</button>
+                )}
             </div>
         </>
     );
