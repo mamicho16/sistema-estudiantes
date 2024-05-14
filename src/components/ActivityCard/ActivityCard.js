@@ -1,5 +1,6 @@
 import React from 'react';
 import './ActivityCard.css';
+import { useNavigate } from 'react-router-dom';
 
 
 const ActivityCard = ({ activity }) => {
@@ -7,11 +8,17 @@ const ActivityCard = ({ activity }) => {
     const displayResponsibles = (responsibles) => {
         return responsibles.join(", ");
     };
+    
+    const navigate = useNavigate();
+
+    const handleVerEvi = (activityId) => {
+        navigate(`/verEvidencia/${activityId}`);
+    }
 
     return (
         <div className="activity-card">
             <div className="activity-info">
-                <img src={activity.poster} alt="activity" className="activity-image"/>
+                <img src={activity.poster} alt="activity" className="activity-image" onClick={()=>handleVerEvi(activity.id)}/>
                 <div className="activity-name">{activity.activityName}</div>
                 <div className="activity-type">{activity.activityType}</div>
             </div>

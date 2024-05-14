@@ -102,10 +102,6 @@ const PlanTrabajoGuia = () => {
         setShowUploadModal(false);
     };
 
-    const handleVerEvi = (activityId) => {
-        navigate(`/verEvidencia/${activityId}`);
-    }
-
 
     return (
         <>
@@ -122,7 +118,7 @@ const PlanTrabajoGuia = () => {
                 
             <div className="PlanTrabajoGuia">
                 {activities.map((activity, index) => (
-                    <div key={index} className="activity-full-container" onClick={()=>handleVerEvi(activity.id)}>
+                    <div key={index} className="activity-full-container">
                         <ActivityCard activity={activity} />
                         <div className="activity-buttons">
                             {user.coordinador &&(
