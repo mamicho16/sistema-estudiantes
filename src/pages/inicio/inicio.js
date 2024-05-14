@@ -40,6 +40,10 @@ const Inicio = () => {
         navigate("/historial");
     }
 
+    const handleEquipoGuia = () => {
+        navigate("/equipoGuia");
+    }
+
     return (
         <>
         <Helmet>
@@ -66,13 +70,18 @@ const Inicio = () => {
                     <button className="menu-button">Detalle Actividades</button>
                     <button className="menu-button" onClick={handleListaDeEstudiantes}>Lista Estudiantes</button> 
                 </>)}
+                {coordinador &&(
+                    <>
+                        <button className="menu-button" onClick={handleListaDeEstudiantesProfesores}>Lista Estudiantes</button> 
+                    </>
+                )}
                 {!coordinador && !admin &&(
                     <>
-                        <button className="menu-button">Equipo Guia</button>
                         <button className="menu-button" onClick={handleListaDeEstudiantesProfesores}>Lista Estudiantes</button> 
 
                     </>
                 )}
+                <button className="menu-button" onClick={handleEquipoGuia}>Equipo Guia</button>
                 <button className="menu-button" onClick={handlePlanTrabajo}>Plan de Trabajo</button>
             </div>
         </div>
