@@ -17,7 +17,8 @@ const ListaDeEstudiantes = () => {
     const boton3Ref = useRef(null);
     const boton4Ref = useRef(null);
     const [isButton2Active, setIsButton2Active] = useState(false);
-    
+    const [showSuccessModal, setShowSuccessModal] = useState(false); // Estado para controlar la visibilidad del modal
+
     useEffect(() => {
         obtenerExcel(user.sede)
             .then(archivos => {
@@ -68,20 +69,8 @@ const ListaDeEstudiantes = () => {
             console.log(user.sede);
             await uploadFileAndSaveReference(file, user.sede);
 
-            // Mostrar mensaje de éxito
-            const successMessage = document.createElement('div');
-            successMessage.innerHTML = `
-                <div class="alert alert-success" role="alert">
-                    El archivo se ha cargado correctamente.
-                </div>
-            `;
-
-            // Insertar el mensaje de éxito como primer hijo del cuerpo
-            if (document.body.firstChild) {
-                document.body.insertBefore(successMessage, document.body.firstChild);
-            } else {
-                document.body.appendChild(successMessage);
-            }
+            // Mostrar modal de éxito
+            setShowSuccessModal(true);
 
             toggleButton2();
         } catch (error) {
@@ -90,7 +79,6 @@ const ListaDeEstudiantes = () => {
             setMensaje({ tipo: 'error', mensaje: 'No se pudo iniciar sesión' });
         }
     }
-
 
     const toggleButton2 = () => {
         setIsButtonDisabled(!isButtonDisabled);
@@ -105,7 +93,6 @@ const ListaDeEstudiantes = () => {
             boton4Ref.current.disabled = false;
             setExcelButton2Text('Cancelar');
         }
-        console.log("holaaaaaa");
         setIsButton2Active(!isButton2Active);
     };
 
@@ -155,6 +142,18 @@ const ListaDeEstudiantes = () => {
             </div>
             <button ref={boton2Ref} className="excel-button" onClick={upload} disabled={isButtonDisabled}>Guardar Excel</button>
             <button className="excel-button2" onClick={toggleButton2}>{excelButton2Text}</button>
+
+            {/* Modal de éxito */}
+            {showSuccessModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <span className="close" onClick={() => setShowSuccessModal(false)}>&times;</span>
+                        <div className="alert alert-success" role="alert">
+                            El archivo se ha cargado correctamente.
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 };

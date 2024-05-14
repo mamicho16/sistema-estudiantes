@@ -19,6 +19,7 @@ const PlanTrabajoGuia = () => {
     const { user } = useAuth();
     const [showModal, setShowModal] = useState(false);
     const [activities, setActivities] = useState([]); 
+    const [IndexActivity, setIndexActivity] = useState(0); 
     const navigate = useNavigate();
     const [editingActivity, setEditingActivity] = useState(null);
     const [showUploadModal, setShowUploadModal] = useState(false);
@@ -28,7 +29,8 @@ const PlanTrabajoGuia = () => {
     };
 
     const handleShowModal = () => {
-        obtenerComentariosPorActividad(1)
+        console.log(activities[IndexActivity].id);
+        obtenerComentariosPorActividad(activities[IndexActivity].id)
             .then(comentarios => {
                 setComentarios(comentarios);
                 setShowModal(true);
@@ -54,6 +56,7 @@ const PlanTrabajoGuia = () => {
                  const snapshot = await getDocs(collection(db, "activities"));
                  const activitiesData = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data()}));
                  setActivities(activitiesData);
+                 console.log(activitiesData);
              } catch (error) {
                  console.error("Error fetching activities:", error);
              }
@@ -76,7 +79,7 @@ const PlanTrabajoGuia = () => {
             const userMail = user.email;
             //console.log("Valor de idUsuario:", userMail);
 
-            await guardarComentario(userMail, comentarioNuevo, 1);
+            await guardarComentario(userMail, comentarioNuevo, activities[IndexActivity].id);
 
             //setComentarios([...comentarios, comentario]);
 
@@ -129,7 +132,7 @@ const PlanTrabajoGuia = () => {
                                 <button type="button">Editar Actividad</button>
                             </>
                             )}
-                            <button type="button" onClick={handleShowModal}>Comentarios</button>
+                            <button type="button" onClick={() => {handleShowModal(); setIndexActivity(index);}}>Comentarios</button>
                         </div>
                     </div>
                 ))}
