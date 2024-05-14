@@ -135,6 +135,7 @@ const PlanTrabajoGuia = () => {
             console.error("Error updating activity:", error);
             alert("Failed to update activity.");
         }
+        fetchActivities();
     };
 
 
