@@ -8,6 +8,7 @@ import Alerta  from "../../components/Alerta";
 import { v4 as uuidv4 } from 'uuid';
 import { db, storage } from "../../firebase/firebase";
 import { uploadBytes, ref, getDownloadURL} from "firebase/storage";
+import { doc, setDoc } from "firebase/firestore";
 
 
 
@@ -63,6 +64,8 @@ const AgregarActividad = () => {
         setAlertState(false);
         setAlertMessage("");
 
+        console.log(responsibles);
+
         if (activityName === "" || activityType === "" || date === "" || time === "" || week === "" || responsibles === "" || daysBeforeAnnounce === "" || reminderDays === "" || modality === "" || poster === null) {
             setAlertState(true);
             setAlertMessage({tipo: "error", mensaje: "Todos los campos son obligatorios"});
@@ -78,16 +81,16 @@ const AgregarActividad = () => {
             const dateTime = new Date(`${date}T${time}:00`);
             const isoDateTime = dateTime.toISOString();
             // Separate the responsibles into an array, splitting by commas
-            const responsibles = responsibles.split(",").map((responsible) => responsible.trim());
+            const responsiblesArray = responsibles.split(",").map((responsible) => responsible.trim());
 
 
-
-            await db.collection("activities").add({
+            const docRef = doc(db, `activities/${activityName}`);
+            setDoc(docRef, {
                 activityName,
                 activityType,
                 dateTime: isoDateTime,
                 week,
-                responsibles,
+                responsibles: responsiblesArray,
                 daysBeforeAnnounce,
                 reminderDays,
                 modality,

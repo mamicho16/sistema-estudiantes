@@ -9,7 +9,7 @@ import userP from "../../images/userPhoto.jpg";
 import { useAuth } from "../../contexts/auth";
 //import { Modal } from "react-bootstrap";
 import { db } from "../../firebase/firebase";
-import { getDocs } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { Modal , Button } from "react-bootstrap";
 import EditActivityModal from "../../components/EditActivity/EditActivity";
 import {guardarComentario, obtenerComentariosPorActividad} from "../../contexts/comentario";
@@ -17,7 +17,7 @@ import {guardarComentario, obtenerComentariosPorActividad} from "../../contexts/
 const PlanTrabajoGuia = () => {
     const { user } = useAuth();
     const [showModal, setShowModal] = useState(false);
-    const [activity, setActivities] = useState([]); 
+    const [activities, setActivities] = useState([]); 
     const navigate = useNavigate();
 
     const handleOnClick = () => {
@@ -52,7 +52,7 @@ const PlanTrabajoGuia = () => {
     useEffect(() => {
          const fetchActivities = async () => {
              try { 
-                 const snapshot = await getDocs(db.collection("activities"));
+                 const snapshot = await getDocs(collection(db, "activities"));
                  const activitiesData = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data()}));
                  setActivities(activitiesData);
              } catch (error) {
@@ -91,65 +91,6 @@ const PlanTrabajoGuia = () => {
     };
 
 
-
-    const activities = [
-        {
-            week: 3,
-            activityType: "Charla",
-            activityName: "Introducción a la programación",
-            dateTime: "2024-03-05T10:00:00",
-            responsibles: ["Ericka Solano", "Juan Pérez"],
-            daysBeforeAnnounce: 7,
-            reminderDays: 5,
-            modality: "Presencial",
-            link: "",
-            poster: userP,
-            state: "PLANEADA"
-        },
-        {
-            week: 8,
-            activityType: "Taller",
-            activityName: "Uso de GitHub",
-            dateTime: "2024-04-20T14:00:00",
-            responsibles: ["Carlos Quesada"],
-            daysBeforeAnnounce: 14,
-            reminderDays: 10,
-            modality: "Remota",
-            link: "https://meet.google.com/unique-link",
-            poster: userP,
-            state: "NOTIFICADA",
-            evidence: "https://some-link-to-recording.com"
-        },
-        {
-            week: 12,
-            activityType: "Seminario",
-            activityName: "Seguridad Informática",
-            dateTime: "2024-05-15T09:00:00",
-            responsibles: ["Ana María Vargas", "Luis Méndez"],
-            daysBeforeAnnounce: 10,
-            reminderDays: 7,
-            modality: "Presencial",
-            link: "",
-            poster: userP,
-            state: "REALIZADA",
-            evidence: ["list-of-images.jpg", "screenshot-01.jpg"]
-        },
-        {
-            week: 15,
-            activityType: "Conferencia",
-            activityName: "Innovaciones en AI",
-            dateTime: "2024-06-10T16:00:00",
-            responsibles: ["María González"],
-            daysBeforeAnnounce: 15,
-            reminderDays: 12,
-            modality: "Remota",
-            link: "https://zoom.us/unique-session",
-            poster: userP,
-            state: "CANCELADA",
-            cancellationNote: "Debido a un imprevisto con el expositor principal, la actividad ha sido cancelada.",
-            cancellationDate: "2024-06-05"
-        }
-    ];
 
     return (
         <>
@@ -205,7 +146,7 @@ const PlanTrabajoGuia = () => {
                 </div>
             )}
 
-            
+
                 
             <div className="page-buttons">
                 <button type="button" onClick={handleOnClick}>Regresar</button>
