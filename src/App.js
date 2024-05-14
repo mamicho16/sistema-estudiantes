@@ -16,6 +16,7 @@ import AgregarActividad from './pages/AgregarActividad/AgregarActividad';
 import AgregarProfesor from './pages/AgregarProfesor/AgregarProfesor';
 import ListaDeEstudiantesProfesores from './pages/ListaEstudiantesProfesores/ListaEstudiantesProfesores';
 import VerEvidencia from './pages/VerEvidencia/VerEvidencia';
+import PlanTrabajoCentroAcademico from './pages/PlanTrabajoCentroAcademico/PlanTrabajoCentroAcademico';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             <Route path="/ListaDeEstudiantes" element={<ListaDeEstudiantes/>} />
             <Route path="/ListaDeEstudiantesProfesores" element={<ListaDeEstudiantesProfesores/>} />
             <Route path="/agregarProfesor" element={<AgregarProfesor/>} />
+            <Route path="/planTrabajoCentroAcademico" element={<PlanTrabajoCentroAcademico/>} />
             <Route path="/verEvidencia/:activityId" element={<VerEvidencia />} />
             <Route  element={<ProtectedRoute/>}>
               <Route path="/" element={<Inicio/>} />

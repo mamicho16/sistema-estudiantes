@@ -32,7 +32,20 @@ const PlanTrabajoGuia = () => {
         window.history.back();
     };
 
-    const handleShowModal = () => {
+    const handleShowModal = (index) => {
+        console.log(activities[index].id);
+        obtenerComentariosPorActividad(activities[index].id)
+            .then(comentarios => {
+                setComentarios(comentarios);
+                setShowModal(true);
+            })
+            .catch (error => {
+                setShowModal(true);
+                console.error("No hay comentarios");
+            });
+    };
+
+    const handleShowModal2 = () => {
         console.log(activities[IndexActivity].id);
         obtenerComentariosPorActividad(activities[IndexActivity].id)
             .then(comentarios => {
@@ -89,7 +102,7 @@ const PlanTrabajoGuia = () => {
 
             setComentarioNuevo("");
             
-            handleShowModal();
+            handleShowModal2();
             //setShowModal(false);
         } catch (error) {
             console.error("Error al publicar comentario:", error);
@@ -150,7 +163,7 @@ const PlanTrabajoGuia = () => {
                                 <button type="button" onClick={() => handleEditAct(activity)}>Editar Actividad</button>
                             </>
                             )}
-                            <button type="button" onClick={() => {handleShowModal(); setIndexActivity(index);}}>Comentarios</button>
+                            <button type="button" onClick={() => {handleShowModal(index); setIndexActivity(index);}}>Comentarios</button>
                         </div>
                     </div>
                 ))}
