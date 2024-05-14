@@ -15,6 +15,7 @@ import ListaDeEstudiantes from './pages/ListaDeEstudiantes/ListaDeEstudiantes';
 import AgregarActividad from './pages/AgregarActividad/AgregarActividad';
 import AgregarProfesor from './pages/AgregarProfesor/AgregarProfesor';
 import ListaDeEstudiantesProfesores from './pages/ListaEstudiantesProfesores/ListaEstudiantesProfesores';
+import PlanTrabajoCentroAcademico from './pages/PlanTrabajoCentroAcademico/PlanTrabajoCentroAcademico';
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
             <Route path="/ListaDeEstudiantes" element={<ListaDeEstudiantes/>} />
             <Route path="/ListaDeEstudiantesProfesores" element={<ListaDeEstudiantesProfesores/>} />
             <Route path="/agregarProfesor" element={<AgregarProfesor/>} />
+            <Route path="/planTrabajoCentroAcademico" element={<PlanTrabajoCentroAcademico/>} />
             <Route  element={<ProtectedRoute/>}>
               <Route path="/" element={<Inicio/>} />
             </Route>
