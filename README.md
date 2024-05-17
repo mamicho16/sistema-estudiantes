@@ -1,5 +1,9 @@
-# DOCUMENTACION SAD
-El link al documento drive con el SAD más Actualizado es el siguiente [Link a Drive](https://docs.google.com/document/d/1uBX1tTR5pXHllqv6_WpKhZA7tV5cfL43GINV3QAQLMY/edit?usp=sharing).
+# DOCUMENTACION 
+El link al documento drive con el SAD más Actualizado es el siguiente [Link a SAD](https://docs.google.com/document/d/1uBX1tTR5pXHllqv6_WpKhZA7tV5cfL43GINV3QAQLMY/edit?usp=sharing).
+El link al documento drive con la Bitacora más Actualizada es el siguiente [Link a Bitacora](https://docs.google.com/document/d/151n7LnAKrI4l7OY7u3GXX-zUjPYbStBEfWpH_kkFdb8/edit?usp=sharing).
+El link al documento drive con las instrucciones más Actualizadas es el siguiente [Link a Instrucciones Para Correr el Codigo](https://docs.google.com/document/d/1i-zdU3qN7-uCblnmY6QNDkxvvASM2i5FOdvzdOdPGHk/edit?usp=sharing).
+El link a la pagina web es la siguiente [Link Pagina Web](https://sistema-estudiantes-92461.web.app).
+El link al Figma mas actualizado es el siguiente [Link a Figma](https://www.figma.com/design/n7ac6Dw0KCVSmWwpEL0SM5/Figma-basics?node-id=612%3A195&t=80BqFoN07xuubGuR-1).
 
 # Getting Started with Create React App
 
