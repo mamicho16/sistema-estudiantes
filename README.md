@@ -1,5 +1,5 @@
 # DOCUMENTACION SAD
-El link al documento drive con el SAD más Actualizado es el siguiente [Link a Drive](https://docs.google.com/document/d/1uBX1tTR5pXHllqv6_WpKhZA7tV5cfL43GINV3QAQLMY/edit?usp=sharing\).
+El link al documento drive con el SAD más Actualizado es el siguiente [Link a Drive](https://docs.google.com/document/d/1uBX1tTR5pXHllqv6_WpKhZA7tV5cfL43GINV3QAQLMY/edit?usp=sharing).
 
 # Getting Started with Create React App
 
