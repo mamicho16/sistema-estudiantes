@@ -16,6 +16,7 @@ import AgregarActividad from './pages/AgregarActividad/AgregarActividad';
 import AgregarProfesor from './pages/AgregarProfesor/AgregarProfesor';
 import ListaDeEstudiantesProfesores from './pages/ListaEstudiantesProfesores/ListaEstudiantesProfesores';
 import VerEvidencia from './pages/VerEvidencia/VerEvidencia';
+import BuzonEntrada from './pages/BuzonEntrada/BuzonEntrada';
 import PlanTrabajoCentroAcademico from './pages/PlanTrabajoCentroAcademico/PlanTrabajoCentroAcademico';
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
             <Route path="/ListaDeEstudiantesProfesores" element={<ListaDeEstudiantesProfesores/>} />
             <Route path="/agregarProfesor" element={<AgregarProfesor/>} />
             <Route path="/planTrabajoCentroAcademico" element={<PlanTrabajoCentroAcademico/>} />
+            <Route path="/buzonEntrada" element={<BuzonEntrada/>} />
             <Route path="/verEvidencia/:activityId" element={<VerEvidencia />} />
             <Route  element={<ProtectedRoute/>}>
               <Route path="/" element={<Inicio/>} />
