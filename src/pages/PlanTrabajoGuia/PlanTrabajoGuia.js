@@ -58,6 +58,24 @@ const PlanTrabajoGuia = () => {
             });
     };
 
+    const handleResponder = (emailUsuario) => {
+        setComentarioNuevo(`@${emailUsuario} `);
+        setShowModal(true);
+    };
+
+    const highlightEmails = (text) => {
+        const emailRegex = /@[\w.-]+/g;
+        const matches = text.match(emailRegex);
+        if (!matches) return text;
+    
+        return text.split(emailRegex).map((part, index) => (
+            <React.Fragment key={index}>
+                {part}
+                {index < matches.length && <span className="email-highlight">{matches[index]}</span>}
+            </React.Fragment>
+        ));
+    };
+
     const handleCloseModal = () => {
         setShowModal(false);
     };
@@ -179,8 +197,9 @@ const PlanTrabajoGuia = () => {
                         <div className="comentarios-lista">
                             {comentarios.map((comentario, index) => (
                                 <div key={index} className="comentario">
-                                    <p>Usuario: {comentario.emailUsuario}</p>
-                                    <p>Comentario: {comentario.texto}</p>
+                                    <p>Usuario: <span className="email-highlight">{comentario.emailUsuario}</span></p>
+                                    <p>Comentario: {highlightEmails(comentario.texto)}</p>
+                                    <button className="responder" onClick={() => handleResponder(comentario.emailUsuario)}>Responder</button>
                                 </div>
                             ))}
                         </div>

@@ -161,3 +161,21 @@
 .comentario-nuevo button:hover {
     background-color: #45a049;
 }
+
+.responder {
+    background-color: #616161;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+}
+  
+.responder:hover {
+    background-color: #45a049;
+}
+
+.email-highlight {
+    color: #1E90FF;
+    font-weight: bold;
+}
