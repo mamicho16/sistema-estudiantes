@@ -25,7 +25,8 @@ const EquipoGuia = () => {
                     code: professor.codigo,
                     email: professor.email,
                     officeNumber: professor.numOficina,
-                    cellNumber: professor.celular
+                    cellNumber: professor.celular,
+                    coordinador: professor.coordinador // no se si esto tiene sentido o no hace nada
                 }));
                 setUsers(usersData);
             } catch (error) {

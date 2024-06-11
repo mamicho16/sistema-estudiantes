@@ -176,7 +176,6 @@ const PlanTrabajoGuia = () => {
                     <div className="modal-content">
                         <span className="close" onClick={handleCloseModal}>&times;</span>
                         <h2>Comentarios</h2>
-                        {/* Lista de comentarios */}
                         <div className="comentarios-lista">
                             {comentarios.map((comentario, index) => (
                                 <div key={index} className="comentario">
@@ -185,7 +184,6 @@ const PlanTrabajoGuia = () => {
                                 </div>
                             ))}
                         </div>
-                        {/* Formulario para añadir comentario */}
                         <div className="comentario-nuevo">
                             <textarea value={comentarioNuevo} onChange={handleOnChangeComentario} placeholder="Escribe tu comentario aquí..." />
                             <button onClick={handlePublicarComentario}>Publicar</button>

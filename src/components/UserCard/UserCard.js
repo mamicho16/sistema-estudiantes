@@ -14,6 +14,7 @@ const UserCard = ({ user }) => {
                 <div><strong>Correo Electronico:</strong> {user.email}</div>
                 <div><strong>Número Oficina:</strong> {user.officeNumber}</div>
                 <div><strong>Telefono Celular:</strong> {user.cellNumber}</div>
+                <div><strong>Coordinador:</strong> {user.coordinador ? 'Sí' : 'No'}</div>
             </div>
         </div>
     );
