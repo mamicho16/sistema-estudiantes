@@ -76,6 +76,10 @@ export const AuthProvider = ({children}) => {
         }
 
         if (!docuSnap) {
+            docuSnap = await loginEstudiante(userinfo.uid);  // Si no es profesor, intenta como administrador
+        }
+
+        if (!docuSnap) {
             throw new Error("No se pudieron obtener los datos del usuario");
         }
 
@@ -141,6 +145,18 @@ export const AuthProvider = ({children}) => {
             return docuSnap.data();
         } else {
             console.log("No se encontró el documento del administrador");
+            return null;
+        }
+    }
+
+    const loginEstudiante = async (uid) => {
+        const docuRef = doc(db, `Estudiantes/${uid}`);
+        const docuSnap = await getDoc(docuRef);
+        if (docuSnap.exists()) {
+            console.log("Datos del estudiante:", docuSnap.data());
+            return docuSnap.data();
+        } else {
+            console.log("No se encontró el documento del estudiante");
             return null;
         }
     }

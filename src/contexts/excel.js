@@ -1,8 +1,9 @@
 import React, { useState, useContext, useEffect, createContext } from "react";
+import { auth, db } from "../firebase/firebase";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { db } from "../firebase/firebase";
 import { collection, addDoc, query, where, getDocs, getFirestore, updateDoc} from "firebase/firestore";
-
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 
 
@@ -46,6 +47,60 @@ export const uploadFileAndSaveReference = async (file, nameSede) => {
         throw error; // Propagar el error para que sea manejado por el código que llama a esta función
     }
 };
+export const uploadEstudiantesSede = async (columns, nameSede) => { 
+    try {
+        // Obtener una referencia a la colección en Firestore
+        
+
+        // Iterar sobre los datos de las columnas para subir cada estudiante
+        for (let i = 0; i < columns[0].length; i++) {
+            const nombre = columns[0][i];
+            const apellido1 = columns[1][i];
+            const apellido2 = columns[2][i];
+            const correo = columns[3][i]; // Asumiendo que hay un tercer dato
+            const celular = columns[4][i];
+            const password = columns[5][i];
+
+
+            // Verificar si el correo ya existe en la base de datos
+            //const querySnapshot = await getDocs(query(estudiantesCollection, where('correo', '==', correo)));
+
+            /*
+            if (!querySnapshot.empty) {
+                console.log(`El correo ${correo} ya existe en la base de datos. No se subirá este estudiante.`);
+                continue; // Saltar al siguiente estudiante
+            }
+            */
+
+            const infouser = await createUserWithEmailAndPassword(auth, correo, password).then((userCredential) => {
+                return userCredential;
+            });
+            const user = infouser.user;
+
+            const docuRef = doc(db, `Estudiantes/${user.uid}`);
+
+            // Agregar el nuevo estudiante si el correo no existe
+            setDoc(docuRef, {
+                nombre: nombre,
+                apellido1: apellido1,
+                apellido2: apellido2,
+                email: correo,
+                password: password,
+                celular: celular,
+                sede: nameSede,
+                foto : ""
+            });
+
+            console.log("Documento agregado con ID: ", docuRef);
+        }
+
+        return true;
+    } catch (error) {
+        console.error("Error al subir el archivo:", error);
+        throw error; // Propagar el error para que sea manejado por el código que llama a esta función
+    }
+}
+
 
 
 export const obtenerExcel = async (nameSede) => {

@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import NavBar from "../../components/navBar/navBar";
 import './ListaDeEstudiantes.css';
 import * as XLSX from 'xlsx';
-import { uploadFileAndSaveReference, obtenerExcel, obtenerTodosLosExcels } from "../../contexts/excel";
+import { uploadEstudiantesSede, obtenerExcel, obtenerTodosLosExcels } from "../../contexts/excel";
 import { useAuth } from "../../contexts/auth";
 
 const ListaDeEstudiantes = () => {
@@ -67,12 +67,39 @@ const ListaDeEstudiantes = () => {
             }
             const file = fileInput.files[0]; // Obtener el primer archivo seleccionado
             console.log(user.sede);
-            await uploadFileAndSaveReference(file, user.sede);
+            // Leer el archivo Excel
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                
+                // Asumir que queremos leer la primera hoja del libro
+                const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+                
+                // Convertir la hoja a un array de objetos JSON
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-            // Mostrar modal de éxito
-            setShowSuccessModal(true);
+                // Guardar los datos de cada columna en arrays separados
+                const columns = [[], [], [], [], [], []]; // Asumimos que hay 5 columnas
+                jsonData.forEach(row => {
+                    for (let i = 0; i < columns.length; i++) {
+                        if (row[i] !== undefined) {
+                            columns[i].push(row[i]);
+                        }
+                    }
+                });
 
-            toggleButton2();
+                console.log(columns); // Verificar que los datos de las columnas están correctos
+                
+                // Llamar a la función asíncrona con los datos de las columnas
+                await uploadEstudiantesSede(columns, user.sede);
+
+                // Mostrar modal de éxito
+                setShowSuccessModal(true);
+
+                toggleButton2();
+            };
+            reader.readAsArrayBuffer(file);
         } catch (error) {
             console.error("Error en subir archivo:", error);
             setEstadoAlerta(true);
