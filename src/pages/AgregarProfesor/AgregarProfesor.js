@@ -15,7 +15,7 @@ const AgregarProfesor = () => {
     const [nombre2, setNombre2] = useState("");
     const [apellido1, setApellido1] = useState("");
     const [apellido2, setApellido2] = useState("");
-    const [sede, setSede] = useState("");
+    const [sede, setSede] = useState(user.sede);
     const [email, setEmail] = useState("");
     const [numOficina, setNumOficina] = useState("");
     const [celular, setCelular] = useState("");
@@ -124,23 +124,6 @@ const AgregarProfesor = () => {
                             value={apellido2}
                             onChange={(e) => setApellido2(e.target.value)}
                             />
-                        </InputGroup>
-                    </Form.Group>
-                    <Form.Group className="input-control">
-                        <Form.Label>Sede</Form.Label>
-                        <InputGroup>
-                            <Form.Select
-                                value={sede}
-                                onChange={(e) => setSede(e.target.value)}
-                                aria-label="Selecciona una sede"
-                            >
-                                <option value="">Selecciona una sede</option>
-                                <option value="Cartago">Cartago</option>
-                                <option value="San Jose">San Jose</option>
-                                <option value="Alajuela">Alajuela</option>
-                                <option value="San Carlos">San Carlos</option>
-                                <option value="Limon">Limón</option>
-                            </Form.Select>
                         </InputGroup>
                     </Form.Group>
                     <Form.Group className="input-control">

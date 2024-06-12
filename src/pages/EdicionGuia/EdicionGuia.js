@@ -33,7 +33,8 @@ const EdicionGuia = () => {
                 email: professor.email,
                 officeNumber: professor.numOficina,
                 cellNumber: professor.celular,
-                estado: professor.estado
+                estado: professor.estado,
+                coordinador: professor.coordinador
             }));
             setUsers(usersData);
         } catch (error) {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "./EditProfesor.css";
+import { useAuth } from "../../contexts/auth";
 
 function EditProfessorModal({ professor, onClose, onSave }) {
     const [formData, setFormData] = useState({
@@ -7,12 +8,16 @@ function EditProfessorModal({ professor, onClose, onSave }) {
         email: professor.email,
         location: professor.location,
         officeNumber: professor.officeNumber,
-        cellNumber: professor.cellNumber
+        cellNumber: professor.cellNumber,
+        coordinador: professor.coordinador
     });
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        const { name, value, type, checked } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: type === 'checkbox' ? checked : value
+        }));
     };
 
     useEffect(() => {
@@ -21,10 +26,10 @@ function EditProfessorModal({ professor, onClose, onSave }) {
             email: professor.email,
             location: professor.location,
             officeNumber: professor.officeNumber,
-            cellNumber: professor.cellNumber
+            cellNumber: professor.cellNumber,
+            coordinador: professor.coordinador
         });
     }, [professor]);
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -37,6 +42,10 @@ function EditProfessorModal({ professor, onClose, onSave }) {
         }
     };
 
+    const { user } = useAuth();
+    const admin = user.coordinador === undefined;
+    const cartago = user.sede === "Cartago";
+
     return (
         <div className="modal">
             <form onSubmit={handleSubmit}>
@@ -48,6 +57,17 @@ function EditProfessorModal({ professor, onClose, onSave }) {
                 <input type="text" name="officeNumber" value={formData.officeNumber} onChange={handleChange} />
                 <label>Cell Number:</label>
                 <input type="text" name="cellNumber" value={formData.cellNumber} onChange={handleChange} />
+                {admin && cartago && (
+                    <>
+                        <label>Coordinador:</label>
+                        <input
+                            type="checkbox"
+                            name="coordinador"
+                            checked={formData.coordinador}
+                            onChange={handleChange}
+                        />
+                    </>
+                )}
                 <button type="submit">Save Changes</button>
                 <button type="button" onClick={onClose}>Cancel</button>
             </form>
