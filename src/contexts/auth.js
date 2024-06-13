@@ -102,7 +102,24 @@ export const AuthProvider = ({children}) => {
                 estado: docuSnap.estado,
                 sede: docuSnap.sede                
             };
-        } else {
+        } else if (docuSnap.hasOwnProperty("estudiante")) {
+            usuariofirebase = {
+                uid: userinfo.uid,
+                email: userinfo.email,
+                nombre: docuSnap.nombre,
+                nombre2: docuSnap.nombre2,
+                apellido1: docuSnap.apellido1,
+                apellido2: docuSnap.apellido2,
+                codigo: docuSnap.codigo,
+                celular: docuSnap.celular,
+                numOficina: docuSnap.numOficina,
+                foto: docuSnap.foto,
+                estudiante: docuSnap.estudiante,
+                estado: docuSnap.estado,
+                sede: docuSnap.sede                
+            };
+        }
+        else{
             usuariofirebase = {
                 uid: userinfo.uid,
                 email: userinfo.email,

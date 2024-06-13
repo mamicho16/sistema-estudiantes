@@ -21,9 +21,15 @@ const Inicio = () => {
     }
     let admin = false;
     let coordinador = false;
+    let estudiante = false;
 
     if (user.coordinador === undefined) {
-        admin = true;
+        if (user.estudiante === undefined) {
+            admin = true;
+        }
+        else if (user.estudiante) {
+            estudiante = true;
+        }
     }
    else if (user.coordinador) {
         coordinador = true;
@@ -68,9 +74,17 @@ const Inicio = () => {
                     <button className="menu-button" onClick={handleHistoProfes}>Historial Profesores</button>
                     <button className="menu-button" onClick={handleListaDeEstudiantes}>Lista Estudiantes</button> 
                 </>)}
-                <button className="menu-button" onClick={handleEquipoGuia}>Equipo Guia</button>
-                <button className="menu-button" onClick={handlePlanTrabajo}>Plan de Trabajo</button>
-                { !admin &&(
+                { estudiante &&(
+                <>
+
+                </>)}
+                { !estudiante &&(
+                <>
+                    <button className="menu-button" onClick={handleEquipoGuia}>Equipo Guia</button>
+                    <button className="menu-button" onClick={handlePlanTrabajo}>Plan de Trabajo</button>
+                </>)}
+                
+                { !admin && !estudiante &&(
                     <button className="menu-button" onClick={handleListaDeEstudiantesProfesores}>Lista Estudiantes</button> 
                 )}
             </div>
