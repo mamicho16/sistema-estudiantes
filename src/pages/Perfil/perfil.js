@@ -10,16 +10,14 @@ import { collection, getDocs, query, where, updateDoc, doc } from "firebase/fire
 const Perfil = () => {
   const { user } = useAuth();
   const [profileData, setProfileData] = useState({
-    nombre: user.nombre,
-    apellido1: user.apellido1,
-    apellido2: user.apellido2,
-    celular: user.celular,
-    email: user.email,
-    nombre2: user.nombre2,
-    sede: user.sede
+    nombre: "",
+    apellido1: "",
+    apellido2: "",
+    celular: "",
+    email: "",
+    nombre2: "",
+    sede: ""
   });
-
-  //console.log(user);
 
   useEffect(() => {
     if (user) {
@@ -35,46 +33,27 @@ const Perfil = () => {
     }
   }, [user]);
 
+  const updateUserDataInFirestore = async () => {
+    //updateUserData(profileData);
+  };
+
+  const handleSave = async () => {
+    // Aquí puedes realizar alguna validación si es necesario antes de guardar
+    try{
+      await updateUserDataInFirestore();
+    } catch(error){
+
+    }
+
+    
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProfileData((prevState) => ({
       ...prevState,
       [name]: value
     }));
-  };
-
-  const handleSave = async () => {
-    console.log(user);
-
-    if (!user) {
-      console.error('No user is logged in');
-      return;
-    }
-
-    const collections = ['Admins', 'Profesores', 'Estudiantes'];
-    let userDocRef = null;
-
-    for (const collectionName of collections) {
-      const currentCollection = collection(db, collectionName);
-      const q = query(currentCollection, where("email", "==", user.email));
-      const querySnapshot = await getDocs(q);
-
-      if (!querySnapshot.empty) {
-        userDocRef = querySnapshot.docs[0].ref;
-        break;
-      }
-    }
-
-    if (userDocRef) {
-      try {
-        await updateDoc(userDocRef, profileData);
-        console.log('User data updated successfully');
-      } catch (error) {
-        console.error('Error updating user data:', error);
-      }
-    } else {
-      console.log("No se encontró el documento del usuario en ninguna colección");
-    }
   };
 
   return (

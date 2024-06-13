@@ -47,6 +47,85 @@ export const uploadFileAndSaveReference = async (file, nameSede) => {
         throw error; // Propagar el error para que sea manejado por el código que llama a esta función
     }
 };
+
+export const obtenerEstudiantes = async () => {
+    try {
+        // Obtener una referencia a la colección de estudiantes en Firestore
+        const estudiantesCollection = collection(db, 'Estudiantes');
+
+        // Consultar los documentos de la colección
+        const querySnapshot = await getDocs(query(estudiantesCollection));
+
+        // Crear un array para almacenar los estudiantes
+        const estudiantes = [];
+
+        // Iterar sobre los documentos y agregar los datos de cada estudiante al array
+        querySnapshot.forEach((doc) => {
+            estudiantes.push({
+                nombre: doc.data().nombre,
+                apellido1: doc.data().apellido1,
+                apellido2: doc.data().apellido2,
+                email: doc.data().email,
+                celular: doc.data().celular,
+                sede: doc.data().sede // Asegúrate de que este campo exista en tus documentos
+                // Agrega más campos si es necesario
+            });
+        });
+
+        // Ordenar los estudiantes por la sede
+        estudiantes.sort((a, b) => {
+            if (a.sede < b.sede) return -1;
+            if (a.sede > b.sede) return 1;
+            return 0;
+        });
+
+        console.log("Estudiantes obtenidos y ordenados exitosamente:", estudiantes);
+        return estudiantes;
+    } catch (error) {
+        console.error("Error al obtener y ordenar los estudiantes:", error);
+        throw error; // Propagar el error para que sea manejado por el código que llama a esta función
+    }
+};
+
+export const obtenerEstudiantesPorSede = async (namesede) => {
+    try {
+        // Obtener una referencia a la colección de estudiantes en Firestore
+        const estudiantesCollection = collection(db, 'Estudiantes');
+
+        // Consultar los documentos de la colección
+        const querySnapshot = await getDocs(query(estudiantesCollection, where("sede", "==", namesede)));
+
+        // Crear un array para almacenar los estudiantes
+        const estudiantes = [];
+
+        // Iterar sobre los documentos y agregar los datos de cada estudiante al array
+        querySnapshot.forEach((doc) => {
+            estudiantes.push({
+                nombre: doc.data().nombre,
+                apellido1: doc.data().apellido1,
+                apellido2: doc.data().apellido2,
+                email: doc.data().email,
+                celular: doc.data().celular,
+                sede: doc.data().sede // Asegúrate de que este campo exista en tus documentos
+                // Agrega más campos si es necesario
+            });
+        });
+
+        // Ordenar los estudiantes por la sede
+        estudiantes.sort((a, b) => {
+            if (a.sede < b.sede) return -1;
+            if (a.sede > b.sede) return 1;
+            return 0;
+        });
+
+        console.log("Estudiantes obtenidos y ordenados exitosamente:", estudiantes);
+        return estudiantes;
+    } catch (error) {
+        console.error("Error al obtener y ordenar los estudiantes:", error);
+        throw error; // Propagar el error para que sea manejado por el código que llama a esta función
+    }
+};
+
 export const uploadEstudiantesSede = async (columns, nameSede) => { 
     try {
         // Obtener una referencia a la colección en Firestore
@@ -179,4 +258,36 @@ export const obtenerTodosLosExcels = async () => {
 };
 
 
+export const updateUserData = async (profileData) => {
+    const collections = ['Admins', 'Profesores', 'Estudiantes'];
+    let userDocRef = null;
 
+    for (const collectionName of collections) {
+    const currentCollection = collection(db, collectionName);
+    const q = query(currentCollection, where("email", "==", profileData.email));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+        userDocRef = querySnapshot.docs[0].ref;
+        break;
+    }
+    }
+
+    if (userDocRef) {
+    try {
+        await updateDoc(userDocRef, {
+        nombre: profileData.nombre,
+        apellido1: profileData.apellido1,
+        apellido2: profileData.apellido2,
+        celular: profileData.celular,
+        nombre2: profileData.nombre2,
+        sede: profileData.sede
+        });
+        console.log('User data updated successfully');
+    } catch (error) {
+        console.error('Error updating user data:', error);
+    }
+    } else {
+    console.log("No se encontró el documento del usuario en ninguna colección");
+    }
+};
