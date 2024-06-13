@@ -13,6 +13,10 @@ const NavBar = ({titulo}) => {
         navigate("/iniciarsesion");
     }
 
+    const verPerfil = async () => {
+        navigate("/perfil");
+    }
+
     const handleInicio = () => {
         navigate("/inicio");
     }
@@ -21,6 +25,7 @@ const NavBar = ({titulo}) => {
         <Navbar bg="light" variant="light" className="navbar">
             <Navbar.Brand className="brand" onClick={handleInicio}>{titulo}</Navbar.Brand >
             <Nav className="nav">
+                <Nav.Link onClick={verPerfil} style={{color: '#2A67C3'}}> Ver perfil</Nav.Link>
                 <Nav.Link onClick={cerrarSesion} style={{color: '#2A67C3'}}> Cerrar sesión</Nav.Link>
             </Nav>
         </Navbar>

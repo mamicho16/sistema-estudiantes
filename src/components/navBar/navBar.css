@@ -12,9 +12,16 @@
     color: white;
     font-weight: bold;
     font-size: 2em;
-    
 }
 
 .navbar {
     background-color: #EDF2F4;
+}
+
+.navbar .nav .nav-link {
+    margin-right: 100px;
+}
+
+.navbar .nav .nav-link:last-child {
+    margin-right: 0;
 }

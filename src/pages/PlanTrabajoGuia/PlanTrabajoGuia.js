@@ -10,11 +10,12 @@ import { useAuth } from "../../contexts/auth";
 //import { Modal } from "react-bootstrap";
 import { db } from "../../firebase/firebase";
 import { collection, getDocs } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { Modal , Button } from "react-bootstrap";
 import {guardarComentario, obtenerComentariosPorActividad} from "../../contexts/comentario";
 import UploadActivityImagesModal from "../../components/RegisterActivity/RegisterActivity";
 import EditActivityModal from "../../components/EditActivity/EditActivity";
-import { doc, updateDoc } from "firebase/firestore";
+
 
 
 const PlanTrabajoGuia = () => {

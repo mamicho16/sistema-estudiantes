@@ -8,7 +8,7 @@ import './Inicio.css';
 import { useNavigate } from "react-router-dom";
 
 const Inicio = () => {
-    const { user } = useAuth();
+    const { user, updateUser} = useAuth();
     const navigate = useNavigate();
     const handlePlanTrabajo = () => {
         navigate("/planTrabajoGuia");

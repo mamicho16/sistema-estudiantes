@@ -18,35 +18,37 @@ import ListaDeEstudiantesProfesores from './pages/ListaEstudiantesProfesores/Lis
 import VerEvidencia from './pages/VerEvidencia/VerEvidencia';
 import BuzonEntrada from './pages/BuzonEntrada/BuzonEntrada';
 import PlanTrabajoCentroAcademico from './pages/PlanTrabajoCentroAcademico/PlanTrabajoCentroAcademico';
+import Perfil from './pages/Perfil/perfil';
 
 function App() {
   return (
     <>
       <Helmet>
-        <link rel = "shortcut icon" href = {favicon} type = "image/x-ico"/>
+        <link rel="shortcut icon" href={favicon} type="image/x-ico" />
       </Helmet>
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/iniciarsesion" element={<IniciarSesion/>} />
-            <Route path="/historial" element={<Historial/>} />
-            <Route path="/inicio" element={<Inicio/>} /> 
-            <Route path="/equipoGuia" element={<EquipoGuia/>} /> 
-            <Route path="/edicionGuia" element={<EdicionGuia/>} />
-            <Route path="/planTrabajoGuia" element={<PlanTrabajoGuia/>} />
-            <Route path="/agregarActividad" element={<AgregarActividad/>} />
-            <Route path="/ListaDeEstudiantes" element={<ListaDeEstudiantes/>} />
-            <Route path="/ListaDeEstudiantesProfesores" element={<ListaDeEstudiantesProfesores/>} />
-            <Route path="/agregarProfesor" element={<AgregarProfesor/>} />
-            <Route path="/planTrabajoCentroAcademico" element={<PlanTrabajoCentroAcademico/>} />
-            <Route path="/buzonEntrada" element={<BuzonEntrada/>} />
+            <Route path="/iniciarsesion" element={<IniciarSesion />} />
+            <Route path="/historial" element={<Historial />} />
+            <Route path="/inicio" element={<Inicio />} />
+            <Route path="/equipoGuia" element={<EquipoGuia />} />
+            <Route path="/edicionGuia" element={<EdicionGuia />} />
+            <Route path="/planTrabajoGuia" element={<PlanTrabajoGuia />} />
+            <Route path="/agregarActividad" element={<AgregarActividad />} />
+            <Route path="/ListaDeEstudiantes" element={<ListaDeEstudiantes />} />
+            <Route path="/ListaDeEstudiantesProfesores" element={<ListaDeEstudiantesProfesores />} />
+            <Route path="/agregarProfesor" element={<AgregarProfesor />} />
+            <Route path="/planTrabajoCentroAcademico" element={<PlanTrabajoCentroAcademico />} />
+            <Route path="/buzonEntrada" element={<BuzonEntrada />} />
             <Route path="/verEvidencia/:activityId" element={<VerEvidencia />} />
-            <Route  element={<ProtectedRoute/>}>
-              <Route path="/" element={<Inicio/>} />
+            <Route path="/perfil" element={<Perfil />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/" element={<Inicio />} />
             </Route>
           </Routes>
         </BrowserRouter>
-        <Fondo/>
+        <Fondo />
       </AuthProvider>
     </>
   );
