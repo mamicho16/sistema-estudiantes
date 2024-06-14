@@ -46,6 +46,9 @@ export const AuthProvider = ({children}) => {
             if (!docSnap) {
                 docSnap = await loginAdmins(uid);
             }
+            if (!docSnap) {
+                docSnap = await loginEstudiante(uid);
+            }
             // Si se encontró el documento, almacenarlo en la caché
             if (docSnap) {
                 localStorage.setItem("userDetails", JSON.stringify(docSnap));
@@ -244,7 +247,8 @@ export const AuthProvider = ({children}) => {
             register,
             logout,
             registerAdmin,
-
+            fetchUserDetails,
+            setUser
         }}>
             {!loading && children}
         </AuthContext.Provider>

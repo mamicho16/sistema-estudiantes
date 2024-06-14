@@ -9,7 +9,7 @@ import { db } from "../../firebase/firebase";
 import { collection, getDocs, query, where, updateDoc, doc } from "firebase/firestore";
 
 const Perfil = () => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const [showSuccessModal, setShowSuccessModal] = useState(false); // Estado para controlar la visibilidad del modal
   const [profileData, setProfileData] = useState({
     nombre: "",
@@ -23,6 +23,7 @@ const Perfil = () => {
   });
 
   useEffect(() => {
+    
     console.log(user);  
     if (user) {
       setProfileData({
@@ -33,7 +34,10 @@ const Perfil = () => {
         email: user.email || "",
         nombre2: user.nombre2 || "",
         sede: user.sede || "",
-        foto: user.foto || ""
+        foto: user.foto || "",
+        uid: user.uid,
+        passsword: user.password,
+        estudiante: user.estudiante
       });
     }
   }, [user]);
@@ -42,10 +46,10 @@ const Perfil = () => {
     // Aquí puedes realizar alguna validación si es necesario antes de guardar
     try {
       await updateUserData(profileData);
+      console.log("Datos del usuario actualizados:", profileData);
+      setUser(profileData);
       setShowSuccessModal(true);
-      setTimeout(() => {
-        window.location.reload(); // Refrescar la página después de 2 segundos
-      }, 2000);
+      console.log(user);
     } catch (error) {
       console.error("Error al actualizar los datos del usuario:", error);
     }

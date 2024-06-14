@@ -282,7 +282,8 @@ export const updateUserData = async (profileData) => {
                     email: profileData.email,
                     celular: profileData.celular,
                     sede: profileData.sede,
-                    foto: profileData.foto
+                    foto: profileData.foto,
+                    uid: profileData.uid
                 }, { merge: true });
 
                 console.log(`User data updated successfully in collection: ${collectionName}`);
