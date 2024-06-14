@@ -259,35 +259,42 @@ export const obtenerTodosLosExcels = async () => {
 
 
 export const updateUserData = async (profileData) => {
-    const collections = ['Admins', 'Profesores', 'Estudiantes'];
-    let userDocRef = null;
-
-    for (const collectionName of collections) {
-    const currentCollection = collection(db, collectionName);
-    const q = query(currentCollection, where("email", "==", profileData.email));
-    const querySnapshot = await getDocs(q);
-
-    if (!querySnapshot.empty) {
-        userDocRef = querySnapshot.docs[0].ref;
-        break;
-    }
-    }
-
-    if (userDocRef) {
     try {
-        await updateDoc(userDocRef, {
-        nombre: profileData.nombre,
-        apellido1: profileData.apellido1,
-        apellido2: profileData.apellido2,
-        celular: profileData.celular,
-        nombre2: profileData.nombre2,
-        sede: profileData.sede
-        });
-        console.log('User data updated successfully');
+        console.log(profileData);
+        const collections = ['Admins', 'Profesores', 'Estudiantes'];
+        let updated = false;
+
+        for (const collectionName of collections) {
+            const currentCollection = collection(db, collectionName);
+            const q = query(currentCollection, where("email", "==", profileData.email));
+            const querySnapshot = await getDocs(q);
+            
+            if (!querySnapshot.empty) {
+                const userDoc = querySnapshot.docs[0];
+                const userDocRef = userDoc.ref;
+                const userData = userDoc.data();
+                console.log(`Found user in collection ${collectionName}:`, userData); // Log the user data
+
+                setDoc(userDocRef, {
+                    nombre: profileData.nombre,
+                    apellido1: profileData.apellido1,
+                    apellido2: profileData.apellido2,
+                    email: profileData.email,
+                    celular: profileData.celular,
+                    sede: profileData.sede,
+                    foto: profileData.foto
+                }, { merge: true });
+
+                console.log(`User data updated successfully in collection: ${collectionName}`);
+                updated = true;
+                break;
+            }
+        }
+
+        if (!updated) {
+            console.log("No se encontró el documento del usuario en ninguna colección");
+        }
     } catch (error) {
         console.error('Error updating user data:', error);
-    }
-    } else {
-    console.log("No se encontró el documento del usuario en ninguna colección");
     }
 };

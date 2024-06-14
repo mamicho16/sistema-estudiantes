@@ -243,7 +243,8 @@ export const AuthProvider = ({children}) => {
             login,
             register,
             logout,
-            registerAdmin
+            registerAdmin,
+
         }}>
             {!loading && children}
         </AuthContext.Provider>

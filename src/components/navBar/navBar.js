@@ -13,7 +13,7 @@ const NavBar = ({titulo}) => {
         navigate("/iniciarsesion");
     }
 
-    const verPerfil = async () => {
+    const verPerfil = () => {
         navigate("/perfil");
     }
 
