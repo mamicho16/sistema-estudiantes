@@ -5,10 +5,11 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
 import { PublicationVisitor, ReminderVisitor } from '../Visitor';
 
+// activityInfo recibe los datos de la actividad para el componente
+const ActivityCard = ({ activityInfo }) => {
 
-const ActivityCard = ({ activity }) => {
-
-    const [activity, setActivity] = useState(activity);
+    // activity es el estado que guarda la información de la actividad
+    const [activity, setActivity] = useState(activityInfo);
 
     // Función para manejar múltiples responsables
     const displayResponsibles = (responsibles) => {
@@ -22,9 +23,10 @@ const ActivityCard = ({ activity }) => {
     }
 
     useEffect(() => {
-        const activityRef = doc(db, 'activities', activity.id);
+        const activityRef = doc(db, 'activities', activityInfo.id);
         const unsuscribe = onSnapshot(activityRef, (doc) => {
             if (doc.exists()) {
+                // activityData guarda los datos de la actividad actualizados
                 const activityData = doc.data();
                 setActivity(activityData);
 
