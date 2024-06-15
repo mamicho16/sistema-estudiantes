@@ -2,7 +2,7 @@ import { doc, updateDoc,  } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
 
 export class Visitor {
-    visit(activity, currentDate) {
+    async visit(activity, currentDate) {
         throw new Error('Este metodo debe implementarse');
     }
 }
