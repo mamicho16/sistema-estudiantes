@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './ActivityCard.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,6 +14,25 @@ const ActivityCard = ({ activity }) => {
     const handleVerEvi = (activityId) => {
         navigate(`/verEvidencia/${activityId}`);
     }
+
+    useEffect(() => {
+        const activityRef = doc(db, 'activities', activity.id);
+        const unsuscribe = onSnapshot(activityRef, (doc) => {
+            if (doc.exists()) {
+                const activityData = doc.data();
+                setActivity(activityData);
+
+                const currentDate = new Date();
+                const publicationVisitor = new PublicationVisitor();
+                const reminderVisitor = new ReminderVisitor();
+
+                publicationVisitor.visit(activityData, currentDate);
+                reminderVisitor.visit(activityData, currentDate);
+            }
+        });
+
+        return () => unsuscribe();
+    }, [activity.id]);
 
     return (
         <div className="activity-card">
