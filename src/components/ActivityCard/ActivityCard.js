@@ -1,9 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './ActivityCard.css';
 import { useNavigate } from 'react-router-dom';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { db } from '../../firebase/firebase';
+import { PublicationVisitor, ReminderVisitor } from '../Visitor';
 
 
 const ActivityCard = ({ activity }) => {
+
+    const [activity, setActivity] = useState(activity);
+
     // Función para manejar múltiples responsables
     const displayResponsibles = (responsibles) => {
         return responsibles.join(", ");
