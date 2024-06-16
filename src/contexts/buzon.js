@@ -31,12 +31,24 @@ export const getMessagesFromFirestore = async () => {
         const messagesSnapshot = await getDocs(messagesCollection);
         const messagesList = messagesSnapshot.docs.map(doc => ({
             id: doc.id,
+            ref: doc.ref,  // Agregar la referencia al documento
             ...doc.data()
         }));
 
         return messagesList;
     } catch (error) {
         console.error("Error getting documents: ", error);
-        throw error;  // Re-lanzar el error para manejarlo en el llamado de la función
+        throw error;
+    }
+};
+
+export const updateMessageInFirestore = async (messageId, newMessage) => {
+    try {
+        const messageRef = doc(db, 'message', messageId);
+        const updatedMessage = { ...newMessage, estado: 'visto' }; // Actualizar el estado del mensaje a 'visto'
+        await updateDoc(messageRef, updatedMessage);
+        console.log("Message updated successfully");
+    } catch (error) {
+        console.error("Error updating document: ", error);
     }
 };
