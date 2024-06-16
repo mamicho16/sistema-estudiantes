@@ -7,11 +7,12 @@ const Message = ({ message }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleToggle = async () => {
-        if (!message.isRead) {
+        if (message.state != 'visto') {
             try {
                 // Actualizar el estado del mensaje a 'visto' en Firestore
                 //console.log(message.id);
                 await updateMessageInFirestore(message.id, { state: 'visto' });
+                message.state = 'visto';
             } catch (error) {
                 console.error('Error updating document:', error);
             }
@@ -23,7 +24,7 @@ const Message = ({ message }) => {
         <div className={`message ${isOpen ? 'open' : 'closed'}`} onClick={handleToggle}>
             <div className="message-header">
                 <span>{message.sender}</span>
-                <span className="toggle-icon">{message.isRead ? '👁️‍🗨️' : '👁'}</span>
+                <span className="toggle-icon">{message.state === 'visto' ? '👁️‍🗨️' : '👁'}</span>
             </div>
             {isOpen && (
                 <div className="message-body">

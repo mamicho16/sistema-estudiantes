@@ -37,6 +37,7 @@ const BuzonEntrada = () => {
                                 key={message.id}
                                 message={{
                                     id: message.id,
+                                    state: message.state,
                                     sender: message.emisor,
                                     text: message.contenido,
                                     date: `${message.fecha} - ${message.hora}`
