@@ -233,7 +233,7 @@ export const getProfessors = async () => {
         }
 };
 
-async function getContador(name) {
+export async function getContador(name) {
     try {
         const snapshot = await getDocs(collection(db, 'Contador'));
         const doc = snapshot.docs.find(doc => doc.data().Name === name);
@@ -244,7 +244,7 @@ async function getContador(name) {
     }
 }
 
-async function editContador(id, newField){
+export async function editContador(id, newField){
     try{
         updateDoc(doc(db, 'Contador', id),newField);
     }

@@ -19,6 +19,7 @@ import VerEvidencia from './pages/VerEvidencia/VerEvidencia';
 import BuzonEntrada from './pages/BuzonEntrada/BuzonEntrada';
 import PlanTrabajoCentroAcademico from './pages/PlanTrabajoCentroAcademico/PlanTrabajoCentroAcademico';
 import Perfil from './pages/Perfil/perfil';
+import Calendario from './pages/CalendarioEstudiantes/calendarioEstudiantes';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
             <Route path="/buzonEntrada" element={<BuzonEntrada />} />
             <Route path="/verEvidencia/:activityId" element={<VerEvidencia />} />
             <Route path="/perfil" element={<Perfil />} />
+            <Route path="/calendarioEstudiantes" element={< Calendario/>} />
             <Route element={<ProtectedRoute />}>
               <Route path="/" element={<Inicio />} />
             </Route>
