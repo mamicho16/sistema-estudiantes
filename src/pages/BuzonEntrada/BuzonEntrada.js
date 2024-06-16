@@ -5,17 +5,19 @@ import NavBar from "../../components/navBar/navBar";
 import Message from './Message';
 import { addMessageToFirestore, getMessagesFromFirestore, getMessagesByEmail, deleteReadMessages } from "../../contexts/buzon";
 import { crearContador, getContador, editContador } from "../../contexts/profesor";
+import { useAuth } from "../../contexts/auth";
 
 import './BuzonEntrada.css'; 
 
 const BuzonEntrada = () => {
+    const { user } = useAuth();
     const [messages, setMessages] = useState([]);
     const [filter, setFilter] = useState('todo'); // Estado para el filtro
 
     useEffect(() => {
         const fetchMessages = async () => {
             try {
-                const messages = await getMessagesByEmail('aaraya@estudiantec.cr');
+                const messages = await getMessagesByEmail(user.email);
                 setMessages(messages);
             } catch (error) {
                 console.error('Error getting messages:', error);
@@ -30,8 +32,8 @@ const BuzonEntrada = () => {
 
     const handleDeleteReadMessages = async () => {
         try {
-            await deleteReadMessages('aaraya@estudiantec.cr');
-            const messages = await getMessagesByEmail('aaraya@estudiantec.cr');
+            await deleteReadMessages(user.email);
+            const messages = await getMessagesByEmail(user.email);
             setMessages(messages);
         } catch (error) {
             console.error('Error deleting read messages:', error);
@@ -72,7 +74,7 @@ const BuzonEntrada = () => {
                         <Message
                             key={message.id}
                             message={{
-                                email: 'aaraya@estudiantec.cr',
+                                email: user.email,
                                 id: message.id,
                                 state: message.estado,
                                 sender: message.emisor,
