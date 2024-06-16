@@ -15,7 +15,7 @@ const BuzonEntrada = () => {
     useEffect(() => {
         const fetchMessages = async () => {
             try {
-                const messages = await getMessagesByEmail('avega@estudiantec.cr');
+                const messages = await getMessagesByEmail('aaraya@estudiantec.cr');
                 setMessages(messages);
             } catch (error) {
                 console.error('Error getting messages:', error);
@@ -30,8 +30,8 @@ const BuzonEntrada = () => {
 
     const handleDeleteReadMessages = async () => {
         try {
-            await deleteReadMessages('avega@estudiantec.cr');
-            const messages = await getMessagesByEmail('avega@estudiantec.cr');
+            await deleteReadMessages('aaraya@estudiantec.cr');
+            const messages = await getMessagesByEmail('aaraya@estudiantec.cr');
             setMessages(messages);
         } catch (error) {
             console.error('Error deleting read messages:', error);
@@ -43,6 +43,12 @@ const BuzonEntrada = () => {
         if (filter === 'leido') return message.estado === 'visto';
         if (filter === 'noLeido') return message.estado === 'sent';
         return true;
+    });
+
+    const sortedMessages = filteredMessages.sort((a, b) => {
+        const dateA = new Date(`${a.fecha} ${a.hora}`);
+        const dateB = new Date(`${b.fecha} ${b.hora}`);
+        return dateB - dateA;
     });
 
     return (
@@ -66,7 +72,7 @@ const BuzonEntrada = () => {
                         <Message
                             key={message.id}
                             message={{
-                                email: 'avega@estudiantec.cr',
+                                email: 'aaraya@estudiantec.cr',
                                 id: message.id,
                                 state: message.estado,
                                 sender: message.emisor,
@@ -242,7 +248,7 @@ const BuzonEntrada = () => {
 //                 </div>
 //             </div>
 //         </>
-//     );
+// //     );
 // };
 
 

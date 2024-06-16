@@ -169,6 +169,7 @@ export const updateMessageInFirestore = async (email, messageId) => {
 
         // Actualizar el estado del mensaje específico en la lista
         listaMensajes = listaMensajes.map((msg) =>
+            
             msg.id === messageId ? { ...msg, estado: 'visto' } : msg
         );
 
