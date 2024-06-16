@@ -11,7 +11,7 @@ const Message = ({ message }) => {
             try {
                 // Actualizar el estado del mensaje a 'visto' en Firestore
                 //console.log(message.id);
-                await updateMessageInFirestore(message.id, { state: 'visto' });
+                await updateMessageInFirestore(message.email,message.id);
                 message.state = 'visto';
             } catch (error) {
                 console.error('Error updating document:', error);
