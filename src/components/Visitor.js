@@ -1,5 +1,6 @@
 import { doc, updateDoc,  } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
+import { addCanceledActivity, isActivityCanceled } from '../contexts/canceledActivities';
 
 export class Visitor {
     visit(activity, currentDate) {
@@ -20,6 +21,22 @@ export class PublicationVisitor extends Visitor {
             updateDoc(activityRef, {
                 state: 'NOTIFICADA'
             });
+            // Aqui genera el mensaje de publicacion y se lo pasa al obsever
+            // notifyObserver(mensaje generado)
+        }
+    }
+}
+
+export class CancelationVisitor extends Visitor {
+    async visit(activity, currentDate) {
+        if (activity.state === 'CANCELADA') {
+            const isNotified= await isActivityCanceled(activity.id);
+            if (!isNotified) {
+                // Aqui genera el mensaje de cancelacion y se lo pasa al obsever
+                // notifyObserver(mensaje generado)
+                await addCanceledActivity(activity.id);
+                console.log(`Actividad ${activity.id} cancelada`);
+            }
         }
     }
 }
@@ -62,7 +79,8 @@ export class ReminderVisitor extends Visitor {
                 if (currentDate.toDateString() === reminderDate.toDateString()) {
                     console.log(`Recordatorio generado para la actividad ${activity.id}`);
                     console.log(`Fecha del recordatorio: ${reminderDate}`);
-                    // Recordatorio generado aquí, pero no se muestra
+                    // Aqui genera el mensaje de recordatorio y se lo pasa al obsever
+                    // notifyObserver(mensaje generado)
                 }
             }
         }

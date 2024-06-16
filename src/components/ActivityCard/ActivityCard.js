@@ -3,7 +3,7 @@ import './ActivityCard.css';
 import { useNavigate } from 'react-router-dom';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
-import { PublicationVisitor, ReminderVisitor } from '../Visitor';
+import { PublicationVisitor, ReminderVisitor, CancelationVisitor } from '../Visitor';
 
 // activityInfo recibe los datos de la actividad para el componente
 const ActivityCard = ({ activity }) => {
@@ -14,6 +14,7 @@ const ActivityCard = ({ activity }) => {
     const navigate = useNavigate();
     const publicationVisitor = new PublicationVisitor();
     const reminderVisitor = new ReminderVisitor();
+    const cancelationVisitor = new CancelationVisitor();
     const visitorsCalled = false;
 
 
@@ -36,9 +37,11 @@ const ActivityCard = ({ activity }) => {
             if (doc.exists()) {
                 const newData = doc.data();
                 setActivityData(newData);
+                // Llamar a los visitantes
                 publicationVisitor.visit(newData, FECHA_SISTEMA);
                 reminderVisitor.visit(newData, FECHA_SISTEMA);
-                    
+                cancelationVisitor.visit(newData, FECHA_SISTEMA);
+
             } else {
                 console.log("No such document!");
             }
