@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import NavBar from "../../components/navBar/navBar";
 import Message from './Message';
-import { addMessageToFirestore, getMessagesFromFirestore, getMessagesByEmail } from "../../contexts/buzon";
+import { addMessageToFirestore, getMessagesFromFirestore, getMessagesByEmail, deleteReadMessages } from "../../contexts/buzon";
 import { crearContador, getContador, editContador } from "../../contexts/profesor";
 
 import './BuzonEntrada.css'; 
@@ -28,6 +28,16 @@ const BuzonEntrada = () => {
         setFilter(e.target.value);
     };
 
+    const handleDeleteReadMessages = async () => {
+        try {
+            await deleteReadMessages('avega@estudiantec.cr');
+            const messages = await getMessagesByEmail('avega@estudiantec.cr');
+            setMessages(messages);
+        } catch (error) {
+            console.error('Error deleting read messages:', error);
+        }
+    };
+
     const filteredMessages = messages.filter((message) => {
         if (filter === 'todo') return true;
         if (filter === 'leido') return message.estado === 'visto';
@@ -50,6 +60,7 @@ const BuzonEntrada = () => {
                         <option value="noLeido">No leído</option>
                     </select>
                 </div>
+                <button onClick={handleDeleteReadMessages}>Eliminar todos los mensajes vistos</button>
                 <div className="buzon-container">
                     {filteredMessages.map((message) => (
                         <Message
@@ -69,7 +80,6 @@ const BuzonEntrada = () => {
         </>
     );
 };
-
 
 
 // const BuzonEntrada = () => {

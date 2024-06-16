@@ -1,28 +1,12 @@
 
  import { db } from "../firebase/firebase";
- import { addDoc, setDoc, getDoc,collection, getDocs, updateDoc, doc, deleteDoc, query, where } from "firebase/firestore";
+ import { setDoc, getDoc,collection, getDocs, doc, deleteDoc, query, where } from "firebase/firestore";
  import { auth } from "../firebase/firebase";
  import { crearContador, getContador, editContador } from "./profesor.js";
 
 
 
-//  export const addMessageToFirestore = async (nombre, nombre2, apellido1, apellido2, date, hour, content, state) => {
-//     try {
-//         const formatomsg = {
-//             emisor: `${nombre} ${nombre2} ${apellido1} ${apellido2}`,
-//             fecha: date,
-//             hora: hour,
-//             contenido: content,
-//             estado: state
-//         };
 
-//         await addDoc(collection(db, 'message'), formatomsg);
-//         console.log("Message added successfully");
-    
-//     } catch (error) {
-//         console.error("Error adding document: ", error);
-//     }
-// };
 
 export const addMessageToFirestore = async (nombre, nombre2, apellido1, apellido2, date, hour, content, state) => {
     try {
@@ -40,10 +24,6 @@ export const addMessageToFirestore = async (nombre, nombre2, apellido1, apellido
 
         const newCount = contador.count + 1;
         await editContador(contador.id, { cont: newCount });
-
-        // Agregar el mensaje a la colección 'message'
-        //const messageDocRef = await addDoc(collection(db, 'message'), formatomsg);
-        //console.log("Message added successfully");
 
         // Obtener correos de los estudiantes
         const emailEstudiantes = await getEstudiantes();
@@ -75,6 +55,34 @@ export const addMessageToFirestore = async (nombre, nombre2, apellido1, apellido
     }
 };
 
+export const deleteReadMessages = async (email) => {
+    try {
+        const messageStudentRef = collection(db, 'messageStudent');
+        const q = query(messageStudentRef, where('correo', '==', email));
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach(async (doc) => {
+            const messageStudent = doc.data();
+            const { listamensajes } = messageStudent;
+
+            // Filtrar los mensajes leídos
+            const readMessages = listamensajes.filter(message => message.estado === 'visto');
+
+            // Eliminar cada mensaje leído
+            for (const message of readMessages) {
+                await deleteDoc(doc.ref);
+            }
+
+            // Actualizar el documento messageStudent sin los mensajes eliminados
+            const updatedMessages = listamensajes.filter(message => message.estado !== 'visto');
+            await setDoc(doc.ref, { correo: email, listamensajes: updatedMessages });
+        });
+
+        console.log("Read messages deleted successfully");
+    } catch (error) {
+        console.error("Error deleting read messages: ", error);
+    }
+};
 
 export const getMessagesByEmail = async (email) => {
     try {
