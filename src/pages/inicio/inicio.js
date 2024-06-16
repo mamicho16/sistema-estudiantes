@@ -19,6 +19,10 @@ const Inicio = () => {
     const handleListaDeEstudiantes = () => {
         navigate("/ListaDeEstudiantes");
     }
+
+    const handleBuzon = () => {
+        navigate("/BuzonEntrada");
+    }
     const handleListaDeEstudiantesProfesores = () => {
         navigate("/ListaDeEstudiantesProfesores");
     }
@@ -79,6 +83,7 @@ const Inicio = () => {
                 </>)}
                 { estudiante &&(
                 <>
+                    <button className="menu-button" onClick={handleBuzon}>Buzon de Entrada</button>
                     <button className="menu-button" onClick={handleCalendario}>Calendario</button>
                 </>)}
                 { !estudiante &&(
