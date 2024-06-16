@@ -10,18 +10,30 @@ import './BuzonEntrada.css';
 
 const BuzonEntrada = () => {
     const [messages, setMessages] = useState([]);
+    const [filter, setFilter] = useState('todo'); // Estado para el filtro
 
     useEffect(() => {
         const fetchMessages = async () => {
             try {
-                const messages = await getMessagesByEmail('gnunez@estudiantec.cr');
+                const messages = await getMessagesByEmail('avega@estudiantec.cr');
                 setMessages(messages);
             } catch (error) {
                 console.error('Error getting messages:', error);
             }
         };
         fetchMessages();
-    }, []);
+    }, [filter]); // Dependencia en el estado del filtro
+
+    const handleFilterChange = (e) => {
+        setFilter(e.target.value);
+    };
+
+    const filteredMessages = messages.filter((message) => {
+        if (filter === 'todo') return true;
+        if (filter === 'leido') return message.estado === 'visto';
+        if (filter === 'noLeido') return message.estado === 'sent';
+        return true;
+    });
 
     return (
         <>
@@ -30,28 +42,80 @@ const BuzonEntrada = () => {
             </Helmet>
             <div>
                 <NavBar titulo="BuzonEntrada" />
+                <div className="filter-container">
+                    <label htmlFor="filter">Filtrar por estado: </label>
+                    <select id="filter" value={filter} onChange={handleFilterChange}>
+                        <option value="todo">Todo</option>
+                        <option value="leido">Leído</option>
+                        <option value="noLeido">No leído</option>
+                    </select>
+                </div>
                 <div className="buzon-container">
-                    {messages.map((message) => {
-                        console.log(message);
-                        return (
-                            <Message
-                                key={message.id}
-                                message={{
-                                    email: 'gnunez@estudiantec.cr',
-                                    id: message.id,
-                                    state: message.estado,
-                                    sender: message.emisor,
-                                    text: message.contenido,
-                                    date: `${message.fecha} - ${message.hora}`
-                                }}
-                            />
-                        );
-                    })}
+                    {filteredMessages.map((message) => (
+                        <Message
+                            key={message.id}
+                            message={{
+                                email: 'avega@estudiantec.cr',
+                                id: message.id,
+                                state: message.estado,
+                                sender: message.emisor,
+                                text: message.contenido,
+                                date: `${message.fecha} - ${message.hora}`
+                            }}
+                        />
+                    ))}
                 </div>
             </div>
         </>
     );
 };
+
+
+
+// const BuzonEntrada = () => {
+//     const [messages, setMessages] = useState([]);
+
+//     useEffect(() => {
+//         const fetchMessages = async () => {
+//             try {
+//                 const messages = await getMessagesByEmail('gnunez@estudiantec.cr');
+//                 setMessages(messages);
+//             } catch (error) {
+//                 console.error('Error getting messages:', error);
+//             }
+//         };
+//         fetchMessages();
+//     }, []);
+
+//     return (
+//         <>
+//             <Helmet>
+//                 <title>BuzonEntrada</title>
+//             </Helmet>
+//             <div>
+//                 <NavBar titulo="BuzonEntrada" />
+//                 <div className="buzon-container">
+//                     {messages.map((message) => {
+//                         console.log(message);
+//                         return (
+//                             <Message
+//                                 key={message.id}
+//                                 message={{
+//                                     email: 'gnunez@estudiantec.cr',
+//                                     id: message.id,
+//                                     state: message.estado,
+//                                     sender: message.emisor,
+//                                     text: message.contenido,
+//                                     date: `${message.fecha} - ${message.hora}`
+//                                 }}
+//                             />
+//                         );
+//                     })}
+//                 </div>
+//             </div>
+//         </>
+//     );
+// };
 
 // 0
 // : 
