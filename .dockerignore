@@ -19,5 +19,3 @@ data
 # Editor directories and files
 .vscode
 
-# Environment files
-.env

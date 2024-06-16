@@ -1,4 +1,4 @@
-# Use the official Node.js 14 LTS image from Docker Hub
+# Use the official Node.js 16 image from Docker Hub
 FROM node:16
 
 # Set the working directory inside the container
@@ -15,6 +15,3 @@ COPY . .
 
 # Expose the port the app runs on
 EXPOSE 3000
-
-# Command to run when starting the container
-CMD ["npm", "run", "start"]

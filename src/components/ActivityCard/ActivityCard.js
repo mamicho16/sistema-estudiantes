@@ -6,59 +6,66 @@ import { db } from '../../firebase/firebase';
 import { PublicationVisitor, ReminderVisitor } from '../Visitor';
 
 // activityInfo recibe los datos de la actividad para el componente
-const ActivityCard = ({ activityInfo }) => {
+const ActivityCard = ({ activity }) => {
 
-    // activity es el estado que guarda la información de la actividad
-    const [activity, setActivity] = useState(activityInfo);
+    // activityData guarda los datos de la actividad
+    const [activityData, setActivityData] = useState(activity);
+    const FECHA_SISTEMA = new Date();
+    const navigate = useNavigate();
+    const publicationVisitor = new PublicationVisitor();
+    const reminderVisitor = new ReminderVisitor();
+    const visitorsCalled = false;
+
 
     // Función para manejar múltiples responsables
     const displayResponsibles = (responsibles) => {
         return responsibles.join(", ");
     };
     
-    const navigate = useNavigate();
+ 
 
     const handleVerEvi = (activityId) => {
         navigate(`/verEvidencia/${activityId}`);
     }
 
+
     useEffect(() => {
-        const activityRef = doc(db, 'activities', activityInfo.id);
+        console.log("Activity updated", activity);
+        const activityRef = doc(db, 'activities', activity.id);
         const unsuscribe = onSnapshot(activityRef, (doc) => {
             if (doc.exists()) {
-                // activityData guarda los datos de la actividad actualizados
-                const activityData = doc.data();
-                setActivity(activityData);
-
-                const currentDate = new Date();
-                const publicationVisitor = new PublicationVisitor();
-                const reminderVisitor = new ReminderVisitor();
-
-                publicationVisitor.visit(activityData, currentDate);
-                reminderVisitor.visit(activityData, currentDate);
+                const newData = doc.data();
+                setActivityData(newData);
+                publicationVisitor.visit(newData, FECHA_SISTEMA);
+                reminderVisitor.visit(newData, FECHA_SISTEMA);
+                    
+            } else {
+                console.log("No such document!");
             }
+        }, (error) => {
+            console.error("Error fetching document: ", error);
         });
-
+    
         return () => unsuscribe();
     }, [activity.id]);
 
     return (
         <div className="activity-card">
             <div className="activity-info">
-                <img src={activity.poster} alt="activity" className="activity-image" onClick={()=>handleVerEvi(activity.id)}/>
-                <div className="activity-name">{activity.activityName}</div>
-                <div className="activity-type">{activity.activityType}</div>
+                <img src={activityData.poster} alt="activity" className="activity-image" onClick={()=>handleVerEvi(activity.id)}/>
+                <div className="activity-name">{activityData.activityName}</div>
+                <div className="activity-type">{activityData.activityType}</div>
             </div>
             <div className="activity-details">
-                <div><strong>Fecha:</strong> {new Date(activity.dateTime).toLocaleDateString()}</div>
-                <div><strong>Hora:</strong> {new Date(activity.dateTime).toLocaleTimeString()}</div>
-                <div><strong>Semana:</strong> {activity.week}</div>
-                <div><strong>Docente responsable:</strong> {displayResponsibles(activity.responsibles)}</div>
-                <div><strong>Dias antes de anunciar:</strong> {activity.daysBeforeAnnounce}</div>
-                <div><strong>Dias recordatorio:</strong> {activity.reminderDays}</div>
-                <div><strong>Modalidad:</strong> {activity.modality}</div>
-                <div><strong>Enlace:</strong> {activity.modality === "Remota" ? <a href={activity.link} target="_blank">Link</a> : "N/A"}</div>
-                <div><strong>Estado:</strong> {activity.state}</div>
+                <div><strong>Fecha:</strong> {new Date(activityData.dateTime).toLocaleDateString()}</div>
+                <div><strong>Hora:</strong> {new Date(activityData.dateTime).toLocaleTimeString()}</div>
+                <div><strong>Semana:</strong> {activityData.week}</div>
+                <div><strong>Docente responsable:</strong> {displayResponsibles(activityData.responsibles)}</div>
+                <div><strong>Dias antes de anunciar:</strong> {activityData.daysBeforeAnnounce}</div>
+                <div><strong>Dias recordatorio:</strong> {activityData.reminderDays}</div>
+                <div><strong>Modalidad:</strong> {activityData.modality}</div>
+                <div><strong>Enlace:</strong> {activityData.modality === "Remota" ? <a href={activityData.link} target="_blank">Link</a> : "N/A"}</div>
+                <div><strong>Estado:</strong> {activityData.state}</div>
             </div>
         </div>
     );

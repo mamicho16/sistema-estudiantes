@@ -175,7 +175,7 @@ const PlanTrabajoGuia = () => {
             <div className="PlanTrabajoGuia">
                 {activities.map((activity, index) => (
                     <div key={index} className="activity-full-container">
-                        <ActivityCard activity={activity.id} />
+                        <ActivityCard activity={activity} />
                         <div className="activity-buttons">
                             {user.coordinador &&(
                             <>
