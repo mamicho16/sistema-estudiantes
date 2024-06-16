@@ -6,12 +6,12 @@ import { useAuth } from "../../contexts/auth";
 import './perfil.css';
 import { updateUserData } from "../../contexts/excel";
 import { db, storage } from "../../firebase/firebase";
-import { collection, getDocs, query, where, updateDoc, doc } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const Perfil = () => {
   const { user, actualizarUser } = useAuth();
-  const [showSuccessModal, setShowSuccessModal] = useState(false); // Estado para controlar la visibilidad del modal
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [profileData, setProfileData] = useState({
     nombre: "",
     apellido1: "",
@@ -20,7 +20,9 @@ const Perfil = () => {
     email: "",
     nombre2: "",
     sede: "",
-    foto: ""
+    foto: "",
+    fotoFile: null,
+    uid: ""
   });
 
   useEffect(() => {
@@ -34,20 +36,17 @@ const Perfil = () => {
         nombre2: user.nombre2 || "",
         sede: user.sede || "",
         foto: user.foto || "",
-        uid: user.uid,
-        password: user.password,
+        uid: user.uid || "",
         estudiante: user.estudiante
       });
     }
   }, [user]);
 
   const handleSave = async () => {
-    // Aquí puedes realizar alguna validación si es necesario antes de guardar
     try {
       let updatedProfileData = { ...profileData };
 
-      // Si hay una nueva foto, primero subimos la foto a Firebase Storage
-      if (profileData.foto && profileData.fotoFile) {
+      if (profileData.fotoFile) {
         const photoRef = ref(storage, `profilePhotos/${user.uid}`);
         await uploadBytes(photoRef, profileData.fotoFile);
         const photoURL = await getDownloadURL(photoRef);
@@ -56,9 +55,8 @@ const Perfil = () => {
 
       await updateUserData(updatedProfileData);
       console.log("Datos del usuario actualizados:", updatedProfileData);
-      actualizarUser(updatedProfileData.uid);
+      actualizarUser(updatedProfileData.email);
       setShowSuccessModal(true);
-      console.log(user);
     } catch (error) {
       console.error("Error al actualizar los datos del usuario:", error);
     }
@@ -80,7 +78,7 @@ const Perfil = () => {
         setProfileData((prevState) => ({
           ...prevState,
           foto: reader.result,
-          fotoFile: file // Guardamos el archivo para subirlo después
+          fotoFile: file
         }));
       };
       reader.readAsDataURL(file);
@@ -99,6 +97,8 @@ const Perfil = () => {
           {profileData.foto && <img src={profileData.foto} alt="Foto de perfil" className="profile-photo" />}
         </div>
         <div className="profile-info">
+          <label>Foto:</label>
+          <input type="file" name="foto" onChange={handleFileChange} />
           <label>Nombre:</label>
           <span>{profileData.nombre}</span>
           <label>Primer Apellido:</label>
@@ -106,22 +106,11 @@ const Perfil = () => {
           <label>Segundo Apellido:</label>
           <span>{profileData.apellido2}</span>
           <label>Número de teléfono:</label>
-          <input
-            type="text"
-            name="celular"
-            value={profileData.celular}
-            onChange={handleChange}
-          />
+          <input type="text" name="celular" value={profileData.celular} onChange={handleChange} />
           <label>Email:</label>
           <span>{profileData.email}</span>
           <label>Sede:</label>
           <span>{profileData.sede}</span>
-          <label>Foto:</label>
-          <input
-            type="file"
-            name="foto"
-            onChange={handleFileChange}
-          />
         </div>
         <div className="profile-actions">
           <button onClick={handleSave}>Guardar Cambios</button>

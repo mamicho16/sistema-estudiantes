@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, createContext } from "react";
-import { auth, db } from "../firebase/firebase";
+import { auth, db, storage } from "../firebase/firebase";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, query, where, getDocs, getFirestore, updateDoc} from "firebase/firestore";
@@ -257,12 +257,22 @@ export const obtenerTodosLosExcels = async () => {
     }
 };
 
-
 export const updateUserData = async (profileData) => {
     try {
         console.log(profileData);
         const collections = ['Admins', 'Profesores', 'Estudiantes'];
         let updated = false;
+
+        const filteredProfileData = { ...profileData }; // Copia para modificarla sin afectar la original
+
+        // Si hay una nueva foto, subimos la foto a Firebase Storage y guardamos la URL de descarga en Firestore
+        if (profileData.fotoFile) {
+            const photoRef = ref(storage, `profilePhotos/${profileData.uid}`);
+            await uploadBytes(photoRef, profileData.fotoFile);
+            const photoURL = await getDownloadURL(photoRef);
+            filteredProfileData.foto = photoURL;
+            delete filteredProfileData.fotoFile; // Eliminamos el campo fotoFile para evitar problemas
+        }
 
         for (const collectionName of collections) {
             const currentCollection = collection(db, collectionName);
@@ -273,18 +283,9 @@ export const updateUserData = async (profileData) => {
                 const userDoc = querySnapshot.docs[0];
                 const userDocRef = userDoc.ref;
                 const userData = userDoc.data();
-                console.log(`Found user in collection ${collectionName}:`, userData); // Log the user data
+                console.log(`Found user in collection ${collectionName}:`, userData);
 
-                setDoc(userDocRef, {
-                    nombre: profileData.nombre,
-                    apellido1: profileData.apellido1,
-                    apellido2: profileData.apellido2,
-                    email: profileData.email,
-                    celular: profileData.celular,
-                    sede: profileData.sede,
-                    foto: profileData.foto,
-                    uid: profileData.uid
-                }, { merge: true });
+                await setDoc(userDocRef, filteredProfileData, { merge: true });
 
                 console.log(`User data updated successfully in collection: ${collectionName}`);
                 updated = true;

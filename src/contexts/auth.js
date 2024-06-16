@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, createContext } from "react";
 import { auth, db } from "../firebase/firebase";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, collection, getDocs, query, where} from "firebase/firestore";
 
 const AuthContext = createContext();
 
@@ -240,17 +240,21 @@ export const AuthProvider = ({children}) => {
         }
     };
 
-    const actualizarUser = (uid) => {
+    const actualizarUser = async (email) => {
         const collections = ["Profesores", "Admins", "Estudiantes"];
-        collections.forEach(async (collection) => {
-            const docuRef = doc(db, `${collection}/${uid}`);
-            const docuSnap = await getDoc(docuRef);
-            if (docuSnap.exists()) {
-                const data = docuSnap.data();
-                setUser(data);
-                localStorage.setItem("userDetails", JSON.stringify(data));
+    
+        for (const collectionName of collections) {
+            const q = query(collection(db, collectionName), where("email", "==", email));
+            const querySnapshot = await getDocs(q);
+    
+            if (!querySnapshot.empty) {
+                const userDoc = querySnapshot.docs[0];
+                const userData = userDoc.data();
+                setUser(userData);
+                localStorage.setItem("userDetails", JSON.stringify(userData));
+                break;
             }
-        });
+        }
     }; 
 
     return (
