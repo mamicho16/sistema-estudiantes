@@ -45,7 +45,7 @@ export const getMessagesFromFirestore = async () => {
 export const updateMessageInFirestore = async (messageId, newMessage) => {
     try {
         const messageRef = doc(db, 'message', messageId);
-        const updatedMessage = { ...newMessage, estado: 'visto' }; // Actualizar el estado del mensaje a 'visto'
+        const updatedMessage = { ...newMessage, state: 'visto' }; // Actualizar el estado del mensaje a 'visto'
         await updateDoc(messageRef, updatedMessage);
         console.log("Message updated successfully");
     } catch (error) {
