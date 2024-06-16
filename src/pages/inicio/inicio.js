@@ -13,6 +13,9 @@ const Inicio = () => {
     const handlePlanTrabajo = () => {
         navigate("/planTrabajoGuia");
     }
+    const handleCalendario = () => {
+        navigate("/calendarioEstudiantes");
+    }
     const handleListaDeEstudiantes = () => {
         navigate("/ListaDeEstudiantes");
     }
@@ -76,7 +79,7 @@ const Inicio = () => {
                 </>)}
                 { estudiante &&(
                 <>
-
+                    <button className="menu-button" onClick={handleCalendario}>Calendario</button>
                 </>)}
                 { !estudiante &&(
                 <>

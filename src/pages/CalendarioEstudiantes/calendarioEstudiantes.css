@@ -1,0 +1,38 @@
+/* Estilos para el contenedor del calendario */
+.calendar-container {
+    height: 100vh;
+    display: flex;
+    padding: 20px;
+    padding-bottom: 50px;
+    justify-content: center;
+}
+
+/* Estilos para el calendario */
+.calendar {
+    width: 50%;
+    margin: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #ccc;
+    border: 1px solid #0056b3;
+    border-radius: 5px;
+    text-align: left;
+}
+
+/* Estilos para el contenedor del botón */
+.button-container1 {
+    margin-top: 20px;
+}
+
+/* Estilos para el botón */
+.button1 {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button1:hover {
+    background-color: #0056b3;
+}
