@@ -2,7 +2,7 @@
  import { db } from "../firebase/firebase";
  import { addDoc, setDoc, getDoc,collection, getDocs, updateDoc, doc, deleteDoc, query, where } from "firebase/firestore";
  import { auth } from "../firebase/firebase";
-
+ import { crearContador, getContador, editContador } from "./profesor.js";
 
 
 
@@ -26,7 +26,11 @@
 
 export const addMessageToFirestore = async (nombre, nombre2, apellido1, apellido2, date, hour, content, state) => {
     try {
+        const contador = await getContador('mensajeId'); // Adjusted to always fetch 'SJ' for demonstration
+
+
         const formatomsg = {
+            id: contador.count,
             emisor: `${nombre} ${nombre2} ${apellido1} ${apellido2}`,
             fecha: date,
             hora: hour,
@@ -34,9 +38,12 @@ export const addMessageToFirestore = async (nombre, nombre2, apellido1, apellido
             estado: state
         };
 
+        const newCount = contador.count + 1;
+        await editContador(contador.id, { cont: newCount });
+
         // Agregar el mensaje a la colección 'message'
-        const messageDocRef = await addDoc(collection(db, 'message'), formatomsg);
-        console.log("Message added successfully");
+        //const messageDocRef = await addDoc(collection(db, 'message'), formatomsg);
+        //console.log("Message added successfully");
 
         // Obtener correos de los estudiantes
         const emailEstudiantes = await getEstudiantes();
@@ -57,7 +64,7 @@ export const addMessageToFirestore = async (nombre, nombre2, apellido1, apellido
             }
 
             // Agregar el ID del nuevo mensaje a la lista de mensajes del estudiante
-            listaMensajes.push(messageDocRef.id);
+            listaMensajes.push(formatomsg);
 
             // Actualizar el documento 'messageStudent' con la nueva lista de mensajes
             await setDoc(messageStudentRef, { correo: emailEstudiante, listamensajes: listaMensajes });
@@ -67,6 +74,32 @@ export const addMessageToFirestore = async (nombre, nombre2, apellido1, apellido
         console.error("Error adding document: ", error);
     }
 };
+
+
+export const getMessagesByEmail = async (email) => {
+    try {
+        // Obtener una referencia al documento de 'messageStudent' correspondiente al correo electrónico
+        const messageStudentRef = doc(collection(db, 'messageStudent'), email);
+
+        // Obtener el documento de 'messageStudent'
+        const messageStudentDoc = await getDoc(messageStudentRef);
+
+        if (!messageStudentDoc.exists()) {
+            console.log("No messages found for this email");
+            return [];
+        }
+
+        // Obtener la lista de mensajes del estudiante
+        const listaMensajes = messageStudentDoc.data().listamensajes || [];
+
+        // Retornar la lista de mensajes
+        return listaMensajes;
+    } catch (error) {
+        console.error("Error getting messages by email: ", error);
+        throw error; // Propagar el error para que sea manejado por el código que llama a esta función
+    }
+};
+
 
 export const getEstudiantes = async () => {
     try {
@@ -94,41 +127,6 @@ export const getEstudiantes = async () => {
     }
 };
 
-export const getMessagesByEmail = async (emailEstudiante) => {
-    try {
-        // Obtener la referencia al documento en 'messageStudent' correspondiente al correo del estudiante
-        const messageStudentRef = doc(db, 'messageStudent', emailEstudiante);
-        
-        // Obtener el documento
-        const messageStudentDoc = await getDoc(messageStudentRef);
-
-        // Verificar si el documento existe
-        if (!messageStudentDoc.exists()) {
-            console.log("No messages found for this email");
-            return [];
-        }
-
-        // Obtener la lista de IDs de mensajes
-        const { listamensajes } = messageStudentDoc.data();
-
-        // Obtener los detalles de cada mensaje en la colección 'message'
-        const messages = [];
-        for (const messageId of listamensajes) {
-            const messageDoc = await getDoc(doc(db, 'message', messageId));
-            if (messageDoc.exists()) {
-                messages.push({ id: messageDoc.id, ...messageDoc.data() });
-            } else {
-                console.log(`Message with ID ${messageId} does not exist`);
-            }
-        }
-
-        return messages;
-    } catch (error) {
-        console.error("Error getting messages: ", error);
-        throw error; // Propagar el error para manejarlo en el llamado de la función
-    }
-};
-
 export const getMessagesFromFirestore = async () => {
     try {
         const messagesCollection = collection(db, 'message');
@@ -145,15 +143,32 @@ export const getMessagesFromFirestore = async () => {
     }
 };
 
-export const updateMessageInFirestore = async (messageId, newMessage) => {
+export const updateMessageInFirestore = async (email, messageId) => {
     try {
-        const messageRef = doc(db, 'message', messageId);
-        const updatedMessage = { ...newMessage, state: 'visto' }; // Actualizar el estado del mensaje a 'visto'
-        await updateDoc(messageRef, updatedMessage);
+        // Obtener una referencia al documento de 'messageStudent' correspondiente al correo electrónico
+        const messageStudentRef = doc(collection(db, 'messageStudent'), email);
+
+        // Obtener el documento de 'messageStudent'
+        const messageStudentDoc = await getDoc(messageStudentRef);
+
+        if (!messageStudentDoc.exists()) {
+            console.log("No messages found for this email");
+            return;
+        }
+
+        // Obtener la lista de mensajes del estudiante
+        let listaMensajes = messageStudentDoc.data().listamensajes || [];
+
+        // Actualizar el estado del mensaje específico en la lista
+        listaMensajes = listaMensajes.map((msg) =>
+            msg.id === messageId ? { ...msg, estado: 'visto' } : msg
+        );
+
+        // Actualizar el documento 'messageStudent' con la nueva lista de mensajes
+        await setDoc(messageStudentRef, { ...messageStudentDoc.data(), listamensajes: listaMensajes });
         console.log("Message updated successfully");
     } catch (error) {
         console.error("Error updating document: ", error);
     }
 };
-
 

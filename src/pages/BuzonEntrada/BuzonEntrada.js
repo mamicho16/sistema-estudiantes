@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 import NavBar from "../../components/navBar/navBar";
 import Message from './Message';
 import { addMessageToFirestore, getMessagesFromFirestore, getMessagesByEmail } from "../../contexts/buzon";
+import { crearContador, getContador, editContador } from "../../contexts/profesor";
 
 import './BuzonEntrada.css'; 
 
@@ -13,7 +14,7 @@ const BuzonEntrada = () => {
     useEffect(() => {
         const fetchMessages = async () => {
             try {
-                const messages = await await getMessagesByEmail('gnunez@estudiantec.cr');
+                const messages = await getMessagesByEmail('mnavarro@estudiantec.cr');
                 setMessages(messages);
             } catch (error) {
                 console.error('Error getting messages:', error);
@@ -36,6 +37,7 @@ const BuzonEntrada = () => {
                             <Message
                                 key={message.id}
                                 message={{
+                                    email: 'mnavarro@estudiantec.cr',
                                     id: message.id,
                                     state: message.state,
                                     sender: message.emisor,
@@ -75,6 +77,28 @@ const BuzonEntrada = () => {
 // 7
 // : 
 // {email: 'aaraya@estudiantec.cr'}
+
+
+// {hora: '0:42:13', emisor: 'John Doe Smith Johnson', contenido: 'This is a new test message.', estado: 'sent', fecha: '2024-06-16'}
+// contenido
+// : 
+// "This is a new test message."
+// emisor
+// : 
+// "John Doe Smith Johnson"
+// estado
+// : 
+// "sent"
+// fecha
+// : 
+// "2024-06-16"
+// hora
+// : 
+// "0:42:13"
+// [[Prototype]]
+// : 
+// Object
+
 // const BuzonEntrada = () => {
 //     const [messages, setMessages] = useState([
 //         { id: 1, sender: 'Place Holder Name', text: 'Example open text Example open text Example open text Example open textExample open textv Example open text Example open text Example open text Example open text Example open text Example open text Example open text Example open text Example open text Example open text Example open text', date: 'Date - time', isRead: false },
@@ -86,6 +110,7 @@ const BuzonEntrada = () => {
 //         try {
 //             const fetchedMessages = await getMessagesByEmail('mnavarro@estudiantec.cr');
 //             console.log(fetchedMessages);
+//             //await crearContador("mensajeId"); //AE6b1TXG3AGKovYRcHwH
 //         } catch (error) {
 //             console.error('Error fetching messages:', error);
 //         }
