@@ -14,7 +14,7 @@ const BuzonEntrada = () => {
     useEffect(() => {
         const fetchMessages = async () => {
             try {
-                const messages = await getMessagesByEmail('mnavarro@estudiantec.cr');
+                const messages = await getMessagesByEmail('gnunez@estudiantec.cr');
                 setMessages(messages);
             } catch (error) {
                 console.error('Error getting messages:', error);
@@ -37,9 +37,9 @@ const BuzonEntrada = () => {
                             <Message
                                 key={message.id}
                                 message={{
-                                    email: 'mnavarro@estudiantec.cr',
+                                    email: 'gnunez@estudiantec.cr',
                                     id: message.id,
-                                    state: message.state,
+                                    state: message.estado,
                                     sender: message.emisor,
                                     text: message.contenido,
                                     date: `${message.fecha} - ${message.hora}`
