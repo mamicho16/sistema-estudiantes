@@ -240,6 +240,19 @@ export const AuthProvider = ({children}) => {
         }
     };
 
+    const actualizarUser = (uid) => {
+        const collections = ["Profesores", "Admins", "Estudiantes"];
+        collections.forEach(async (collection) => {
+            const docuRef = doc(db, `${collection}/${uid}`);
+            const docuSnap = await getDoc(docuRef);
+            if (docuSnap.exists()) {
+                const data = docuSnap.data();
+                setUser(data);
+                localStorage.setItem("userDetails", JSON.stringify(data));
+            }
+        });
+    }; 
+
     return (
         <AuthContext.Provider value={{
             user,
@@ -248,7 +261,7 @@ export const AuthProvider = ({children}) => {
             logout,
             registerAdmin,
             fetchUserDetails,
-            setUser
+            actualizarUser
         }}>
             {!loading && children}
         </AuthContext.Provider>
