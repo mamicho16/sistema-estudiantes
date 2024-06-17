@@ -16,7 +16,7 @@ import {guardarComentario, obtenerComentariosPorActividad} from "../../contexts/
 import UploadActivityImagesModal from "../../components/RegisterActivity/RegisterActivity";
 import EditActivityModal from "../../components/EditActivity/EditActivity";
 import notificationCenter from '../../components/notificationCenter';
-import activityObserver from '../../components/activityObserver';
+import activityObserver from '../../components/Observer';
 
 
 

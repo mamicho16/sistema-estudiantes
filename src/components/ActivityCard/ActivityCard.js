@@ -5,7 +5,7 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
 import { PublicationVisitor, ReminderVisitor, CancelationVisitor } from '../Visitor';
 import notificationCenter from '../notificationCenter';
-import activityObserver from '../activityObserver';
+import activityObserver from '../Observer';
 
 // activityInfo recibe los datos de la actividad para el componente
 const ActivityCard = ({ activity }) => {

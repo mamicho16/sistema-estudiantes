@@ -1,6 +1,13 @@
 import { addMessageToFirestore} from '../contexts/buzon';
 
-class ActivityObserver {
+class Observer {
+    update(message) {
+        throw new Error('Este metodo debe implementarse');
+    }
+}
+
+
+class ActivityObserver extends Observer {
     async update(message) {
 
 
