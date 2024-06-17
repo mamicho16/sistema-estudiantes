@@ -144,16 +144,9 @@ const PlanTrabajoGuia = () => {
     const handleEditAct = (activity) => {
         console.log("Editing activity:", activity);
 
-        notificationCenter.addObserver(activityObserver);
-
-        console.log("OBSERVER OBSERVER OBSERVER OBSERVER OBSERVER");
-
         setEditActivity(activity);
         setShowEditModal(true);
 
-        return () => {
-            notificationCenter.removeObserver(activityObserver);
-        };
     };
 
     const handleSaveChanges = async (activityId, formData) => {

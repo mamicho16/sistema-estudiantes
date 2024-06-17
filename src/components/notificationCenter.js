@@ -11,10 +11,14 @@ class NotificationCenter {
         this.observers = this.observers.filter(obs => obs !== observer);
     }
 
-    notify(activity) {
-        this.observers.forEach(observer => observer.update(activity));
+    notify(message) {
+        this.observers.forEach(observer => observer.update(message));
     }
 }
 
 const notificationCenter = new NotificationCenter();
 export default notificationCenter;
+
+
+
+

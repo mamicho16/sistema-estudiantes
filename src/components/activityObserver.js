@@ -1,18 +1,18 @@
-import { addMessageToFirestore } from '../contexts/buzon';
+import { addMessageToFirestore} from '../contexts/buzon';
 
 class ActivityObserver {
-    update(activity) {
-        const date = new Date();
-        const formattedDate = date.toISOString().split('T')[0];
-        const formattedHour = date.toLocaleTimeString();
-        
-        const messageContent = `La actividad '${activity.activityName}' ha cambiado de estado a '${activity.state}'`;
+    async update(message) {
 
-        console.log(messageContent);
-        
-        addMessageToFirestore('Sistema', '', 'Notificaciones', '', formattedDate, formattedHour, messageContent, 'sent');
+
+        console.log(`Se ha realizado la siguiente notificacion ${message}`);
+        const { emisor, fecha, hora, contenido } = message;
+        await addMessageToFirestore(emisor, fecha, hora, contenido);
+
+
     }
 }
 
 const activityObserver = new ActivityObserver();
 export default activityObserver;
+
+

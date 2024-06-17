@@ -8,18 +8,18 @@
 
 
 
-export const addMessageToFirestore = async (nombre, nombre2, apellido1, apellido2, date, hour, content, state) => {
+export const addMessageToFirestore = async (emisor, date, hour, content) => {
     try {
         const contador = await getContador('mensajeId'); // Adjusted to always fetch 'SJ' for demonstration
 
 
         const formatomsg = {
             id: contador.count,
-            emisor: `${nombre} ${nombre2} ${apellido1} ${apellido2}`,
+            emisor: emisor,
             fecha: date,
             hora: hour,
             contenido: content,
-            estado: state
+            estado: "sent"
         };
 
         const newCount = contador.count + 1;
@@ -37,6 +37,7 @@ export const addMessageToFirestore = async (nombre, nombre2, apellido1, apellido
             if (messageStudentDoc.exists()) {
                 listaMensajes = messageStudentDoc.data().listamensajes || [];
             }
+            listaMensajes = listaMensajes.filter(msg => contador.count !== msg.id);
 
             listaMensajes.push(formatomsg);
 

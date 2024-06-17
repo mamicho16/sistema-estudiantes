@@ -22,7 +22,6 @@ const BuzonEntrada = () => {
         };
         fetchMessages();
 
-        
     }, [filter, user.email]);
 
     const handleFilterChange = (e) => {
