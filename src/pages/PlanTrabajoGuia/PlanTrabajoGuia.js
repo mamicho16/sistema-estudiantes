@@ -15,6 +15,8 @@ import { Modal , Button } from "react-bootstrap";
 import {guardarComentario, obtenerComentariosPorActividad} from "../../contexts/comentario";
 import UploadActivityImagesModal from "../../components/RegisterActivity/RegisterActivity";
 import EditActivityModal from "../../components/EditActivity/EditActivity";
+import notificationCenter from '../../components/notificationCenter';
+import activityObserver from '../../components/activityObserver';
 
 
 
@@ -141,8 +143,17 @@ const PlanTrabajoGuia = () => {
 
     const handleEditAct = (activity) => {
         console.log("Editing activity:", activity);
+
+        notificationCenter.addObserver(activityObserver);
+
+        console.log("OBSERVER OBSERVER OBSERVER OBSERVER OBSERVER");
+
         setEditActivity(activity);
         setShowEditModal(true);
+
+        return () => {
+            notificationCenter.removeObserver(activityObserver);
+        };
     };
 
     const handleSaveChanges = async (activityId, formData) => {
@@ -150,7 +161,7 @@ const PlanTrabajoGuia = () => {
         try {
             await updateDoc(activityRef, formData);
             console.log("Activity updated successfully!");
-            setShowEditModal(false); // Cerrar modal después de guardar
+            setShowEditModal(false); 
         } catch (error) {
             console.error("Error updating activity:", error);
             alert("Failed to update activity.");

@@ -25,28 +25,21 @@ export const addMessageToFirestore = async (nombre, nombre2, apellido1, apellido
         const newCount = contador.count + 1;
         await editContador(contador.id, { cont: newCount });
 
-        // Obtener correos de los estudiantes
         const emailEstudiantes = await getEstudiantes();
 
-        // Para cada correo electrónico de estudiante proporcionado
         for (const estudiante of emailEstudiantes) {
             const emailEstudiante = estudiante.email;
-            // Obtener una referencia a la colección 'messageStudent' del estudiante
             const messageStudentRef = doc(collection(db, 'messageStudent'), emailEstudiante);
 
-            // Obtener el documento de 'messageStudent'
             const messageStudentDoc = await getDoc(messageStudentRef);
 
-            // Obtener la lista de mensajes del estudiante o inicializarla si es la primera vez
             let listaMensajes = [];
             if (messageStudentDoc.exists()) {
                 listaMensajes = messageStudentDoc.data().listamensajes || [];
             }
 
-            // Agregar el ID del nuevo mensaje a la lista de mensajes del estudiante
             listaMensajes.push(formatomsg);
 
-            // Actualizar el documento 'messageStudent' con la nueva lista de mensajes
             await setDoc(messageStudentRef, { correo: emailEstudiante, listamensajes: listaMensajes });
             console.log("MessageStudent updated successfully with new message");
         }
@@ -65,15 +58,12 @@ export const deleteReadMessages = async (email) => {
             const messageStudent = doc.data();
             const { listamensajes } = messageStudent;
 
-            // Filtrar los mensajes leídos
             const readMessages = listamensajes.filter(message => message.estado === 'visto');
 
-            // Eliminar cada mensaje leído
             for (const message of readMessages) {
                 await deleteDoc(doc.ref);
             }
 
-            // Actualizar el documento messageStudent sin los mensajes eliminados
             const updatedMessages = listamensajes.filter(message => message.estado !== 'visto');
             await setDoc(doc.ref, { correo: email, listamensajes: updatedMessages });
         });
@@ -86,10 +76,8 @@ export const deleteReadMessages = async (email) => {
 
 export const getMessagesByEmail = async (email) => {
     try {
-        // Obtener una referencia al documento de 'messageStudent' correspondiente al correo electrónico
         const messageStudentRef = doc(collection(db, 'messageStudent'), email);
 
-        // Obtener el documento de 'messageStudent'
         const messageStudentDoc = await getDoc(messageStudentRef);
 
         if (!messageStudentDoc.exists()) {
@@ -97,30 +85,24 @@ export const getMessagesByEmail = async (email) => {
             return [];
         }
 
-        // Obtener la lista de mensajes del estudiante
         const listaMensajes = messageStudentDoc.data().listamensajes || [];
 
-        // Retornar la lista de mensajes
         return listaMensajes;
     } catch (error) {
         console.error("Error getting messages by email: ", error);
-        throw error; // Propagar el error para que sea manejado por el código que llama a esta función
+        throw error; 
     }
 };
 
 
 export const getEstudiantes = async () => {
     try {
-        // Obtener una referencia a la colección de estudiantes en Firestore
         const estudiantesCollection = collection(db, 'Estudiantes');
 
-        // Consultar los documentos de la colección
         const querySnapshot = await getDocs(query(estudiantesCollection));
 
-        // Crear un array para almacenar los estudiantes
         const estudiantes = [];
 
-        // Iterar sobre los documentos y agregar los datos de cada estudiante al array
         querySnapshot.forEach((doc) => {
             estudiantes.push({
                 email: doc.data().email
@@ -131,7 +113,7 @@ export const getEstudiantes = async () => {
         return estudiantes;
     } catch (error) {
         console.error("Error al obtener y ordenar los estudiantes:", error);
-        throw error; // Propagar el error para que sea manejado por el código que llama a esta función
+        throw error; 
     }
 };
 
@@ -141,7 +123,7 @@ export const getMessagesFromFirestore = async () => {
         const messagesSnapshot = await getDocs(messagesCollection);
         const messagesList = messagesSnapshot.docs.map(doc => ({
             id: doc.id,
-            ref: doc.ref,  // Agregar la referencia al documento
+            ref: doc.ref,  
             ...doc.data()
         }));
         return messagesList;
@@ -153,10 +135,8 @@ export const getMessagesFromFirestore = async () => {
 
 export const updateMessageInFirestore = async (email, messageId) => {
     try {
-        // Obtener una referencia al documento de 'messageStudent' correspondiente al correo electrónico
         const messageStudentRef = doc(collection(db, 'messageStudent'), email);
 
-        // Obtener el documento de 'messageStudent'
         const messageStudentDoc = await getDoc(messageStudentRef);
 
         if (!messageStudentDoc.exists()) {
@@ -164,16 +144,13 @@ export const updateMessageInFirestore = async (email, messageId) => {
             return;
         }
 
-        // Obtener la lista de mensajes del estudiante
         let listaMensajes = messageStudentDoc.data().listamensajes || [];
 
-        // Actualizar el estado del mensaje específico en la lista
         listaMensajes = listaMensajes.map((msg) =>
             
             msg.id === messageId ? { ...msg, estado: 'visto' } : msg
         );
 
-        // Actualizar el documento 'messageStudent' con la nueva lista de mensajes
         await setDoc(messageStudentRef, { ...messageStudentDoc.data(), listamensajes: listaMensajes });
         console.log("Message updated successfully");
     } catch (error) {
