@@ -5,6 +5,7 @@ import './ListaDeEstudiantes.css';
 import * as XLSX from 'xlsx';
 import { uploadEstudiantesSede, obtenerExcel, obtenerTodosLosExcels } from "../../contexts/excel";
 import { useAuth } from "../../contexts/auth";
+import { PerfilEstudiante } from '../../components/modelPerfiles/perfilEstudiante.js';
 
 const ListaDeEstudiantes = () => {
     const { user } = useAuth();
@@ -79,20 +80,13 @@ const ListaDeEstudiantes = () => {
                 // Convertir la hoja a un array de objetos JSON
                 const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-                // Guardar los datos de cada columna en arrays separados
-                const columns = [[], [], [], [], [], []]; // Asumimos que hay 5 columnas
-                jsonData.forEach(row => {
-                    for (let i = 0; i < columns.length; i++) {
-                        if (row[i] !== undefined) {
-                            columns[i].push(row[i]);
-                        }
-                    }
-                });
+                // Crear una lista de instancias de PerfilEstudiante
+                const estudiantes = jsonData.map(row => new PerfilEstudiante(row[0], row[1], row[2], row[3]));
 
-                console.log(columns); // Verificar que los datos de las columnas están correctos
+                console.log(estudiantes); // Verificar que las instancias de PerfilEstudiante están correctas
                 
-                // Llamar a la función asíncrona con los datos de las columnas
-                await uploadEstudiantesSede(columns, user.sede);
+                // Llamar a la función asíncrona con los datos de los estudiantes
+                await uploadEstudiantesSede(estudiantes, user.sede);
 
                 // Mostrar modal de éxito
                 setShowSuccessModal(true);
@@ -103,7 +97,7 @@ const ListaDeEstudiantes = () => {
         } catch (error) {
             console.error("Error en subir archivo:", error);
             setEstadoAlerta(true);
-            setMensaje({ tipo: 'error', mensaje: 'No se pudo iniciar sesión' });
+            setMensaje({ tipo: 'error', mensaje: 'No se pudo subir los estudiantes' });
         }
     }
 
