@@ -4,6 +4,35 @@ import { addCanceledActivity, isActivityCanceled } from '../contexts/canceledAct
 import { addSentReminder, isReminderSent } from '../contexts/reminderActivities';
 import notificationCenter from './notificationCenter';
 
+
+class Element {
+    accept(visitor, currentDate) {
+        throw new Error('Este metodo debe implementarse');
+    }
+}
+class Activity extends Element{
+    
+    constructor(id, poster, activityName, activityType, dateTime, week, responsibles, daysBeforeAnnounce, reminderDays, modality, link, state) {
+        this.id = id;
+        this.poster = poster;
+        this.activityName = activityName;
+        this.activityType = activityType;
+        this.dateTime = dateTime;
+        this.week = week;
+        this.responsibles = responsibles;
+        this.daysBeforeAnnounce = daysBeforeAnnounce;
+        this.reminderDays = reminderDays;
+        this.modality = modality;
+        this.link = link;
+        this.state = state;
+    }
+
+    accept(visitor, currentDate) {
+        visitor.visit(this, currentDate);
+    }
+
+}
+
 export class Visitor {
     visit(activity, currentDate) {
         throw new Error('Este metodo debe implementarse');
