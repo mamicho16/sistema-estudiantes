@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
 import { PublicationVisitor, ReminderVisitor, CancelationVisitor } from '../Visitor';
+import notificationCenter from '../notificationCenter';
+import activityObserver from '../activityObserver';
 
 // activityInfo recibe los datos de la actividad para el componente
 const ActivityCard = ({ activity }) => {
@@ -15,7 +17,6 @@ const ActivityCard = ({ activity }) => {
     const publicationVisitor = new PublicationVisitor();
     const reminderVisitor = new ReminderVisitor();
     const cancelationVisitor = new CancelationVisitor();
-    const visitorsCalled = false;
 
 
     // Función para manejar múltiples responsables
@@ -31,11 +32,11 @@ const ActivityCard = ({ activity }) => {
 
 
     useEffect(() => {
-        console.log("Activity updated", activity);
         const activityRef = doc(db, 'activities', activity.id);
         const unsuscribe = onSnapshot(activityRef, (doc) => {
             if (doc.exists()) {
-                const newData = doc.data();
+                let id = activity.id;
+                const newData = {id, ...doc.data()};
                 setActivityData(newData);
                 // Llamar a los visitantes
                 publicationVisitor.visit(newData, FECHA_SISTEMA);
@@ -48,8 +49,14 @@ const ActivityCard = ({ activity }) => {
         }, (error) => {
             console.error("Error fetching document: ", error);
         });
+
+         // Suscribirse al observer
+         notificationCenter.addObserver(activityObserver);
     
-        return () => unsuscribe();
+        return () => { 
+            notificationCenter.removeObserver(activityObserver);
+            unsuscribe();
+        }
     }, [activity.id]);
 
     return (

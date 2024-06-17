@@ -1,22 +1,30 @@
 {
   "files": {
-    "main.css": "/static/css/main.444f7d87.chunk.css",
-    "main.js": "/static/js/main.5857c55c.chunk.js",
-    "main.js.map": "/static/js/main.5857c55c.chunk.js.map",
-    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
-    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
-    "static/css/2.98036eff.chunk.css": "/static/css/2.98036eff.chunk.css",
-    "static/js/2.6f91d811.chunk.js": "/static/js/2.6f91d811.chunk.js",
-    "static/js/2.6f91d811.chunk.js.map": "/static/js/2.6f91d811.chunk.js.map",
+    "main.css": "/static/css/main.a4400d8b.chunk.css",
+    "main.js": "/static/js/main.3362d35c.chunk.js",
+    "main.js.map": "/static/js/main.3362d35c.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.1ebb16a0.js",
+    "runtime-main.js.map": "/static/js/runtime-main.1ebb16a0.js.map",
+    "static/css/2.e12600a8.chunk.css": "/static/css/2.e12600a8.chunk.css",
+    "static/js/2.bf8f3ea7.chunk.js": "/static/js/2.bf8f3ea7.chunk.js",
+    "static/js/2.bf8f3ea7.chunk.js.map": "/static/js/2.bf8f3ea7.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.c34ce6e9990619682650b4d9fa32c6f6.js": "/precache-manifest.c34ce6e9990619682650b4d9fa32c6f6.js",
+    "precache-manifest.8cdf34e193a1d831eea4f852d05b010e.js": "/precache-manifest.8cdf34e193a1d831eea4f852d05b010e.js",
     "service-worker.js": "/service-worker.js",
-    "static/css/2.98036eff.chunk.css.map": "/static/css/2.98036eff.chunk.css.map",
-    "static/css/main.444f7d87.chunk.css.map": "/static/css/main.444f7d87.chunk.css.map",
+    "static/css/2.e12600a8.chunk.css.map": "/static/css/2.e12600a8.chunk.css.map",
+    "static/css/main.a4400d8b.chunk.css.map": "/static/css/main.a4400d8b.chunk.css.map",
+    "static/js/2.bf8f3ea7.chunk.js.LICENSE.txt": "/static/js/2.bf8f3ea7.chunk.js.LICENSE.txt",
     "static/media/faviconTD.ico": "/static/media/faviconTD.19086bdd.ico",
     "static/media/fotoP.png": "/static/media/fotoP.e647a224.png",
     "static/media/logotec.png": "/static/media/logotec.c3695aa9.png",
     "static/media/tec.png": "/static/media/tec.421bf85a.png",
     "static/media/userPhoto.jpg": "/static/media/userPhoto.453b4547.jpg"
-  }
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1ebb16a0.js",
+    "static/css/2.e12600a8.chunk.css",
+    "static/js/2.bf8f3ea7.chunk.js",
+    "static/css/main.a4400d8b.chunk.css",
+    "static/js/main.3362d35c.chunk.js"
+  ]
 }

@@ -6,7 +6,7 @@ const actividadesCanceladas = collection(db, 'canceledActivities');
 export const addCanceledActivity = async (activityId) => {
 
     try {
-        await setDoc(doc(actividadesCanceladas, activityId), activityId);
+        await setDoc(doc(actividadesCanceladas, activityId), {id: activityId});
         console.log(`Actividad ${activityId} cancelada`);
     } catch (error) {
         console.error("Error adding canceled activity: ", error);

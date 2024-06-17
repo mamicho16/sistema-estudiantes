@@ -1,6 +1,7 @@
 import { doc, updateDoc,  } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
 import { addCanceledActivity, isActivityCanceled } from '../contexts/canceledActivities';
+import { addSentReminder, isReminderSent } from '../contexts/reminderActivities';
 import notificationCenter from './notificationCenter';
 
 export class Visitor {
@@ -13,13 +14,24 @@ export class PublicationVisitor extends Visitor {
     async visit(activity, currentDate) {
         const activityDate = new Date(activity.dateTime);
         activityDate.setDate(activityDate.getDate() - activity.daysBeforeAnnounce);
+        // console.log(`Entra al visitor de publicacion para la actividad ${activity.activityName}`);
+        // console.log(activity);
 
         if (currentDate >= activityDate && activity.state === 'PLANEADA') {
             const activityRef = doc(db, 'activities', activity.id);
             await updateDoc(activityRef, { state: 'NOTIFICADA' });
 
             activity.state = 'NOTIFICADA';
-            notificationCenter.notify(activity);
+
+            const message = 
+            {
+                emisor: activity.responsibles[0],
+                fecha: currentDate.toDateString(),
+                hora: currentDate.toTimeString(),
+                contenido: `Se ha publicado la actividad ${activity.activityName}`,
+            }
+
+            notificationCenter.notify(message);
         }
     }
 }
@@ -29,10 +41,18 @@ export class CancelationVisitor extends Visitor {
         if (activity.state === 'CANCELADA') {
             const isNotified= await isActivityCanceled(activity.id);
             if (!isNotified) {
-                // Aqui genera el mensaje de cancelacion y se lo pasa al obsever
-                // notifyObserver(mensaje generado)
                 await addCanceledActivity(activity.id);
+                const message = 
+                {
+                    emisor: activity.responsibles[0],
+                    fecha: currentDate.toDateString(),
+                    hora: currentDate.toTimeString(),
+                    contenido: `Se ha cancelado la actividad ${activity.activityName}`,
+                }
+                notificationCenter.notify(message);
                 console.log(`Actividad ${activity.id} cancelada`);
+            } else {
+                console.log(`Actividad ${activity.id} ya ha sido avisada de su cancelacion`);
             }
         }
     }
@@ -56,7 +76,27 @@ export class ReminderVisitor extends Visitor {
 
             for (const reminderDate of reminderDates) {
                 if (currentDate.toDateString() === reminderDate.toDateString()) {
-                    // Recordatorio generado aquí, pero no se muestra
+                    const isSent = await isReminderSent(activity.id, reminderDate);
+                    if (!isSent) {
+                        await addSentReminder(activity.id, reminderDate);
+                        console.log(`Recordatorio generado para la actividad ${activity.id}`);
+
+                        const diffDays = Math.abs(activityDate - currentDate);
+                        const diffTime = Math.ceil(diffDays / (1000 * 60 * 60 * 24));
+
+
+                        const message =
+                        {
+                            emisor: activity.responsibles[0],
+                            fecha: currentDate.toDateString(),
+                            hora: currentDate.toTimeString(),
+                            contenido: `Recordatorio para la actividad ${activity.activityName}. Faltan ${diffTime-1} dias`
+                        }
+                        notificationCenter.notify(message); 
+                        
+                    } else {
+                        console.log(`Recordatorio ya enviado para la actividad ${activity.id}`);
+                    }
                 }
             }
         }
