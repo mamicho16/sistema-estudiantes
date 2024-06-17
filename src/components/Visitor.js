@@ -56,8 +56,7 @@ export class ReminderVisitor extends Visitor {
 
             for (const reminderDate of reminderDates) {
                 if (currentDate.toDateString() === reminderDate.toDateString()) {
-                    console.log(`Recordatorio generado para la actividad ${activity.id}`);
-                    notificationCenter.notify(activity); 
+                    // Recordatorio generado aquí, pero no se muestra
                 }
             }
         }
