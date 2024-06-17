@@ -126,51 +126,44 @@ export const obtenerEstudiantesPorSede = async (namesede) => {
     }
 };
 
-export const uploadEstudiantesSede = async (columns, nameSede) => { 
+export const uploadEstudiantesSede = async (estudiantes, nameSede) => {
     try {
-        // Obtener una referencia a la colección en Firestore
-        
-
-        // Iterar sobre los datos de las columnas para subir cada estudiante
-        for (let i = 0; i < columns[0].length; i++) {
-            const nombre = columns[0][i];
-            const apellido1 = columns[1][i];
-            const apellido2 = columns[2][i];
-            const correo = columns[3][i]; // Asumiendo que hay un tercer dato
-            const celular = columns[4][i];
-            const password = columns[5][i];
-
+        // Iterar sobre los datos de los estudiantes para subir cada uno
+        for (let i = 0; i < estudiantes.length; i++) {
+            const estudiante = estudiantes[i];
 
             // Verificar si el correo ya existe en la base de datos
-            //const querySnapshot = await getDocs(query(estudiantesCollection, where('correo', '==', correo)));
+            // const querySnapshot = await getDocs(query(estudiantesCollection, where('correo', '==', estudiante.email)));
 
             /*
             if (!querySnapshot.empty) {
-                console.log(`El correo ${correo} ya existe en la base de datos. No se subirá este estudiante.`);
+                console.log(`El correo ${estudiante.email} ya existe en la base de datos. No se subirá este estudiante.`);
                 continue; // Saltar al siguiente estudiante
             }
             */
 
-            const infouser = await createUserWithEmailAndPassword(auth, correo, password).then((userCredential) => {
-                return userCredential;
-            });
+            const infouser = await createUserWithEmailAndPassword(auth, estudiante.getEmail(), estudiante.getCarne())
+                .then((userCredential) => {
+                    return userCredential;
+                });
+
             const user = infouser.user;
 
             const docuRef = doc(db, `Estudiantes/${user.uid}`);
 
             // Agregar el nuevo estudiante si el correo no existe
-            setDoc(docuRef, {
-                nombre: nombre,
-                apellido1: apellido1,
-                apellido2: apellido2,
-                email: correo,
-                password: password,
-                celular: celular,
+            await setDoc(docuRef, {
+                nombre: estudiante.getNombre(),
+                apellido1: estudiante.getApellido(),
+                apellido2: '', // Asumiendo que el segundo apellido no está disponible
+                email: estudiante.getEmail(),
+                password: estudiante.getCarne(),
+                celular: '', // Asumiendo que el celular no está disponible
                 sede: nameSede,
-                foto : ""
+                foto: ""
             });
 
-            console.log("Documento agregado con ID: ", docuRef);
+            console.log("Documento agregado con ID: ", docuRef.id);
         }
 
         return true;
