@@ -105,7 +105,8 @@ const IniciarSesion = () => {
                                         <div className="error"></div>
                                     </InputGroup>
                                 </Form.Group>
-                                <div className="text-center">
+                                <div className="text-center h-custom">
+                                <a href="/forgot-password" className="forgot-password-link">¿Olvidó su contraseña?</a>
                                 <Button className="boton" type="submit" id="submit">Log In</Button>    
                                 </div>
                         </Form>

@@ -42,3 +42,12 @@ img {
     height: 100%; 
     padding-top: 8%;
 }
+
+.h-custom {
+    font-size: 15px;
+    font-weight: 15;
+    color: #2A67C3;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+}
